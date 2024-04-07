@@ -1,0 +1,9 @@
+server:
+  port: 8090
+
+
+mybatis-plus:
+  config:
+    mapper-locations: classpath:/mybatis/mapper/*.xml
+    config-location: classpath:/mybatis/mybatis-config.xml
+    base-package: supermarket.manage.system.repository.mysql.mapper
