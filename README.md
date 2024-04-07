@@ -11,7 +11,7 @@
 ## 1.模块介绍
 - server:触发器模块（controller）
 - common：公共模块（例如一些工具类，枚举常量）
-- model：实体模块（各种po，domain，vo，dto）
+- model：实体模块（各种po，domain，vo，dto），domain是完整映射数据库数据的实体，entity是根据需求封装的部分数据库数据的实体，vo是返回给前端的视图对象，dto是前端传递给后端的视图对象
 - service：业务模块（service）
 - repository：数据访问模块（包含对数据库和缓存之类的数据操作）
 
