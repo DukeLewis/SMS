@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="SMS-model" />
+        <module name="SMS-common" />
+        <module name="SMS-repository" />
+        <module name="SMS-app-server" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="SMS-app" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SMS" options="" />
+      <module name="SMS-app" options="-parameters" />
+      <module name="SMS-app-server" options="-parameters" />
+      <module name="SMS-common" options="-parameters" />
+      <module name="SMS-model" options="-parameters" />
+      <module name="SMS-repository" options="-parameters" />
+    </option>
+  </component>
+</project>
