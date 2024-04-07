@@ -2,7 +2,9 @@
 
 ## 0. pom文件
 总pom文件中规定了springboot、mybatis、redis、swagger、mybatis-plus、fastjson、log4j2的所有版本号
+
 后续的模块中pom文件直接继承总pom文件，引用依赖只需要引入依赖即可，不用再写版本号。
+
 需要新增的依赖，需要先在总pom文件中规定版本号，然后再在需要使用该依赖的模块中的pom文件中引入。
 
 
