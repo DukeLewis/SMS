@@ -10,6 +10,7 @@
         <module name="SMS-common" />
         <module name="SMS-repository" />
         <module name="SMS-app-server" />
+        <module name="SMS-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -25,6 +26,7 @@
       <module name="SMS-common" options="-parameters" />
       <module name="SMS-model" options="-parameters" />
       <module name="SMS-repository" options="-parameters" />
+      <module name="SMS-service" options="-parameters" />
       <module name="docs" options="-parameters" />
     </option>
   </component>

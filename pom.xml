@@ -13,6 +13,7 @@
         <module>SMS-app-server</module>
         <module>SMS-model</module>
         <module>SMS-repository</module>
+        <module>SMS-service</module>
     </modules>
 
     <properties>
