@@ -69,7 +69,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and()
                 .authorizeRequests()
                 // 指定某些接口不需要通过验证即可访问。登录接口肯定是不需要认证的
-                .antMatchers("/doc.html","/user/login","/user/hello").permitAll()
+                .antMatchers("/doc.html",
+                        "/**/*.css",
+                        "/**/*.js",
+                        "/favicon.ico",
+                        "/swagger-resources",
+                        "/v2/api-docs","/user/login","/user/hello").permitAll()
                 // 静态资源，可匿名访问
 //                .antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/profile/**").permitAll()
 //                .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs", "/druid/**","/doc.html").permitAll()

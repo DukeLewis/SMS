@@ -55,7 +55,7 @@ public class Knife4jConfiguration {
     /**
      * 联系人
      */
-    private String contactName = "";
+    private String contactName = "duke";
     /**
      * 联系网址
      */
@@ -86,8 +86,8 @@ public class Knife4jConfiguration {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(basePackage))
                 .paths(PathSelectors.any())
-                .build()
-                .globalOperationParameters(new ArrayList<>());
+                .build();
+//                .globalOperationParameters(new ArrayList<>());
 //                .extensions(openApiExtensionResolver.buildExtensions(groupName));
         return docket;
     }
@@ -96,7 +96,6 @@ public class Knife4jConfiguration {
         return new ApiInfoBuilder()
                 .title(title)
                 .description(description)
-                .termsOfServiceUrl(termsOfServiceUrl)
                 .contact(new Contact(contactName, contactUrl, contactEmail))
                 .version(version)
                 .build();
