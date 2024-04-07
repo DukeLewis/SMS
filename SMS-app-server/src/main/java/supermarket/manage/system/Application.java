@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Copyright： https://github.com/DukeLewis
  */
 @SpringBootApplication
-@MapperScan("supermarket.manage.system.mapper")
+@MapperScan("supermarket.manage.system.repository.mysql.mapper")
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
