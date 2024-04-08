@@ -12,14 +12,14 @@ import java.util.Collection;
 public class AuthUserEntity extends User {
 
     /** 用户id */
-    private Long id;
+    private Integer id;
 
-    public AuthUserEntity(String username, String password, Collection<? extends GrantedAuthority> authorities, Long id) {
+    public AuthUserEntity(String username, String password, Collection<? extends GrantedAuthority> authorities, Integer id) {
         super(username, password, authorities);
         this.id = id;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 }

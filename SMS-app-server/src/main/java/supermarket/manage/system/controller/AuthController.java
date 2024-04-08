@@ -9,6 +9,7 @@ import supermarket.manage.system.service.auth.IAuthService;
 
 import javax.annotation.Resource;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @description:
@@ -25,16 +26,16 @@ public class AuthController {
     private IAuthService authService;
 
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     @ApiOperation("用户登录")
-    public ResponseEntity login(@NotNull @RequestBody Map<String,String> map){
-        return ResponseEntity.ok(authService.authorize(map.get("username"),map.get("password")));
+    public ResponseEntity login(@NotNull @RequestBody Map map){
+        return ResponseEntity.ok(authService.authorize((String) map.get("username"),(String) map.get("password")));
     }
 
     @PostMapping("/register")
     @ApiOperation("用户注册")
-    public ResponseEntity register(@NotNull @RequestBody Map<String,String> map){
-        return ResponseEntity.ok(authService.register(map.get("username"),map.get("password"))==true?"注册成功":"注册失败");
+    public ResponseEntity register(@NotNull @RequestBody Map map){
+        return ResponseEntity.ok(authService.register((String) map.get("username"),(String) map.get("password"))==true?"注册成功":"注册失败");
     }
 
     @GetMapping("/hello")
