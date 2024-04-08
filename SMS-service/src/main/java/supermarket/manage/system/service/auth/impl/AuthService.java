@@ -11,6 +11,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import supermarket.manage.system.common.commons.Constant;
+import supermarket.manage.system.common.commons.enumeration.AuthStatus;
+import supermarket.manage.system.common.exception.BusinessException;
 import supermarket.manage.system.common.util.JwtUtils;
 import supermarket.manage.system.model.domain.User;
 import supermarket.manage.system.model.entity.AuthUserEntity;
@@ -39,13 +42,13 @@ public class AuthService extends ServiceImpl<UserMapper, User> implements IAuthS
 
 
     @Override
-    public Map<String,String> authorize(String username, String password,String code){
+    public Map<String,String> authorize(String username, String password){
         log.info("开始验证----");
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
         Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         if(Objects.isNull(authenticate)){
-            throw new RuntimeException("用户名或密码错误");
+            throw new BusinessException(AuthStatus.INCORRECT.getMsg());
         }
         //获取验证成功的用户，包含账号以及id
         AuthUserEntity user = (AuthUserEntity) authenticate.getPrincipal();
@@ -57,7 +60,7 @@ public class AuthService extends ServiceImpl<UserMapper, User> implements IAuthS
         chaim.put("id", user.getId());
         Map<String, String> map = new HashMap<>();
         String jwtToken = JwtUtils.encode(username, 30 * 60 * 1000, chaim);
-        map.put("msg", "授权成功");
+        map.put("msg", AuthStatus.SUCESS.getMsg());
         map.put("token", jwtToken);
         return map;
     }
@@ -65,11 +68,10 @@ public class AuthService extends ServiceImpl<UserMapper, User> implements IAuthS
     @Override
     public boolean register(String username, String password) {
         if(StringUtils.isBlank(username)||StringUtils.isBlank(password)){
-            throw new RuntimeException("用户名或密码不能为空");
+            throw new BusinessException(AuthStatus.BLANK.getMsg());
         }
-        //todo 考虑替换常量
-        if(this.getOne(new QueryWrapper<User>().eq("username", username))!=null){
-            throw new RuntimeException("用户名已存在");
+        if(this.getOne(new QueryWrapper<User>().eq(Constant.USERNAME, username))!=null){
+            throw new BusinessException(AuthStatus.DUPLICATE.getMsg());
         }
         return this.save(User.builder()
                 .uName(username)
