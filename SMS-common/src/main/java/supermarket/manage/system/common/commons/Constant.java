@@ -11,7 +11,7 @@ public class Constant {
     /**
      * 账号
      */
-    public static final String USERNAME = "username";
+    public static final String USERNAME = "u_name";
 
     /**
      * 密码

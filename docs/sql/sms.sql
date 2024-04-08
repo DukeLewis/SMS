@@ -107,12 +107,12 @@ create table supplier
 
 create table user
 (
-    u_id         int(10)     not null comment '用户id'
+    u_id         int(10) auto_increment comment '用户id'
         primary key,
-    u_name       varchar(30) not null comment '用户名',
-    password     varchar(30) not null comment '密码',
-    u_permission tinyint(5)  not null comment '用户权限',
-    update_time  datetime    not null comment '更新时间',
-    create_time  datetime    not null comment '创建时间',
-    is_deleted   tinyint(5)  not null comment '逻辑删除字段'
+    u_name       varchar(30)  not null comment '用户名',
+    password     varchar(100) not null comment '密码',
+    u_permission tinyint(5)   not null comment '用户权限',
+    update_time  datetime     not null comment '更新时间',
+    create_time  datetime     not null comment '创建时间',
+    is_deleted   tinyint(5)   not null comment '逻辑删除字段'
 );
