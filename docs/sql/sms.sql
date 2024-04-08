@@ -6,7 +6,7 @@ create schema sms collate utf8_general_ci;
 
 create table employee
 (
-    e_id        int(10)     not null comment '员工唯一标识'
+    e_id        int(10) auto_increment comment '员工唯一标识'
         primary key,
     e_name      varchar(30) not null comment '员工姓名',
     e_sex       varchar(2)  null comment '员工性别',
@@ -22,7 +22,7 @@ create table employee
 
 create table finance
 (
-    f_id        int(10)       not null comment '财务记录唯一标识'
+    f_id        int(10) auto_increment comment '财务记录唯一标识'
         primary key,
     record_time datetime      not null comment '记录日期',
     revenue     double(10, 2) not null comment '收入',
@@ -39,7 +39,7 @@ create table finance
 ---------------
 create table goods
 (
-    g_id           int(10)       not null comment '商品唯一标识'
+    g_id           int(10) auto_increment comment '商品唯一标识'
         primary key,
     g_name         varchar(30)   not null comment '商品名称',
     purchase_price varchar(10)   not null comment '进货价格',
@@ -59,7 +59,7 @@ create table goods
 
 create table restock
 (
-    r_id              int(20)        not null comment '进货单唯一标识'
+    r_id              int(20) auto_increment comment '进货单唯一标识'
         primary key,
     product_list      varchar(10000) not null comment '商品列表，商品编号和数量合为一个十八位数，前八位商品编号，后八位为商品数量，多个商品用逗号进行隔开',
     supplier_list     varchar(5000)  not null comment '对应商品列表中的每个商品是由哪个供应商进行供货，多个用逗号隔开',
@@ -74,7 +74,7 @@ create table restock
 
 create table sales
 (
-    g_id        int(10)       not null comment '商品唯一标识'
+    g_id        int(10) auto_increment comment '商品唯一标识'
         primary key,
     g_name      varchar(300)  not null comment '商品名称',
     g_price     double(10, 2) not null comment '商品单价',
@@ -90,7 +90,7 @@ create table sales
 ---------------------
 create table supplier
 (
-    s_id        int(10)      not null comment '供应商唯一标识'
+    s_id        int(10) auto_increment comment '供应商唯一标识'
         primary key,
     s_name      varchar(300) not null comment '供应商名称',
     s_principal varchar(20)  not null comment '负责人姓名',
