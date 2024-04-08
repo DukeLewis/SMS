@@ -3,8 +3,11 @@ package supermarket.manage.system.controller;
 import com.sun.istack.internal.NotNull;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import supermarket.manage.system.service.auth.IAuthService;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -18,17 +21,20 @@ import java.util.Map;
 @RequestMapping("user")
 public class AuthController {
 
+    @Resource
+    private IAuthService authService;
+
 
     @GetMapping("/login")
     @ApiOperation("用户登录")
-    public String login(@NotNull @RequestBody Map<String,String> map){
-        return "login";
+    public ResponseEntity login(@NotNull @RequestBody Map<String,String> map){
+        return ResponseEntity.ok(authService.authorize(map.get("username"),map.get("password")));
     }
 
     @PostMapping("/register")
     @ApiOperation("用户注册")
-    public String register(@NotNull @RequestBody Map<String,String> map){
-        return "register";
+    public ResponseEntity register(@NotNull @RequestBody Map<String,String> map){
+        return ResponseEntity.ok(authService.register(map.get("username"),map.get("password"))==true?"注册成功":"注册失败");
     }
 
     @GetMapping("/hello")
