@@ -1,8 +1,10 @@
 package supermarket.manage.system.model.dto;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+
+import java.io.Serializable;
 
 /**
  * @description: 登录注册DTO
@@ -14,17 +16,17 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "用户登录注册DTO")
-public class AuthDTO {
+public class AuthDTO implements Serializable {
 
     /**
      * 用户名
      */
-    @ApiParam(name = "用户名",required = true)
+    @ApiModelProperty(value = "用户名",required = true)
     private String username;
 
     /**
      * 密码
      */
-    @ApiParam(name = "密码", required = true)
+    @ApiModelProperty(value = "密码", required = true)
     private String password;
 }

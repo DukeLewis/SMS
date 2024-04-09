@@ -1,10 +1,12 @@
 package supermarket.manage.system.model.vo;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * @description:
@@ -16,18 +18,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("用户登录注册返回对象")
-public class AuthVO {
+public class AuthVO implements Serializable {
 
     /**
      * 提示信息
      */
-    @ApiParam(name = "提示信息",required = true)
+    @ApiModelProperty(value = "提示信息",required = true)
     private String msg;
 
     /**
      * token
      */
-    @ApiParam(name = "登录成功返回token",required = false)
+    @ApiModelProperty(value = "登录成功返回token",required = false)
     private String token;
 
     public AuthVO(String msg) {

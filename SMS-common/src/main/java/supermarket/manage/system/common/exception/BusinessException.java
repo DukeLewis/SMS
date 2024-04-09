@@ -6,6 +6,7 @@ package supermarket.manage.system.common.exception;
  * @date: 2024/4/8
  * @Copyright： https://github.com/DukeLewis
  */
+@Deprecated
 public class BusinessException extends RuntimeException{
 
     public BusinessException() {

@@ -16,7 +16,6 @@ import supermarket.manage.system.common.exception.ApplicationException;
 @RestControllerAdvice   //控制器通知类
 public class GlobalExceptionHandler {
 
-    @ResponseBody
     @ExceptionHandler(ApplicationException.class)
     public AppResult applicationException(ApplicationException e){
         // 打印异常信息
@@ -34,9 +33,24 @@ public class GlobalExceptionHandler {
         return AppResult.failed(e.getMessage());
 
     }
-    @ResponseBody
+
+
     @ExceptionHandler(Exception.class)
     public AppResult exceptionHandler (Exception e) {
+        // 打印异常信息
+        e.printStackTrace();
+        // 打印日志
+        log.error(e.getMessage());
+        // 非空校验
+        if (e.getMessage() == null || e.getMessage().equals("")) {
+            return AppResult.failed(ResultCode.ERROR_SERVICES);
+        }
+        // 返回异常信息
+        return AppResult.failed(e.getMessage());
+    }
+
+    @ExceptionHandler(Throwable.class)
+    public AppResult throwableHandler(Throwable e){
         // 打印异常信息
         e.printStackTrace();
         // 打印日志

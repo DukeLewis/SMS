@@ -1,19 +1,24 @@
 package supermarket.manage.system.common.commons;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import supermarket.manage.system.common.commons.enumeration.ResultCode;
-
+@ApiModel(description = "统一返回对象")
 public class AppResult<T> {
     //状态码
+    @ApiModelProperty(value = "状态码",required = true)
 
     @JsonInclude(JsonInclude.Include.ALWAYS)   //无论是否为空都必须序列化
     private int code;
 
     //描述信息
+    @ApiModelProperty(value = "描述信息",required = true)
     @JsonInclude(JsonInclude.Include.ALWAYS)
     private String message;
 
     //具体数据
+    @ApiModelProperty(value = "具体数据")
     @JsonInclude(JsonInclude.Include.ALWAYS)
     private T data;
 

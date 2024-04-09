@@ -4,10 +4,12 @@ import com.sun.istack.internal.NotNull;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.model.dto.EmployeeInfoDTO;
 import supermarket.manage.system.model.dto.EmployeeQueryDTO;
+import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.service.employee.IEmployeeService;
 
 import javax.annotation.Resource;
@@ -31,20 +33,19 @@ public class EmployeeController {
     @PostMapping("/enter")
     @ApiOperation("员工信息录入")
     public AppResult informationEntry(@NotNull @RequestBody EmployeeInfoDTO employeeInfoDTO){
-        return AppResult.success("录入成功");
+        return AppResult.success(employeeService.informationEntry(employeeInfoDTO)==true?"录入成功":"录入失败");
     }
 
     @PostMapping("/modification")
     @ApiOperation("员工信息修改")
-    public AppResult informationModification(@NotNull @RequestBody EmployeeInfoDTO employeeInfoDTO){
-        return AppResult.success("修改成功");
+    public AppResult informationModification(@Validated @NotNull @RequestBody EmployeeInfoDTO employeeInfoDTO){
+        return AppResult.success(employeeService.informationModification(employeeInfoDTO)==true?"修改成功":"修改失败");
     }
 
     @GetMapping("/query")
     @ApiOperation("员工信息查询")
-    //todo 需要封装vo返回，考虑是否做分页
-    public AppResult informationQuery(@NotNull @RequestBody EmployeeQueryDTO employeeQueryDTO){
-        return AppResult.success();
+    public AppResult<PageResult> informationQuery(@NotNull EmployeeQueryDTO employeeQueryDTO){
+        return AppResult.success(employeeService.informationQuery(employeeQueryDTO));
     }
 
 }
