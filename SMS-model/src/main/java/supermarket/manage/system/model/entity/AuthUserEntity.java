@@ -8,6 +8,7 @@ import java.util.Collection;
 
 /**
  *  用户校验实体类对象
+ * @author ASUS
  */
 public class AuthUserEntity extends User {
 
