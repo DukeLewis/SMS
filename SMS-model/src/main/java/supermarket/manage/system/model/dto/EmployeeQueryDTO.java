@@ -1,9 +1,11 @@
 package supermarket.manage.system.model.dto;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -16,11 +18,26 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel("员工信息查询DTO")
-public class EmployeeQueryDTO {
+public class EmployeeQueryDTO implements Serializable {
+
 
     /**
-     * 查询条件
+     * 分页
      */
-    @ApiParam(value = "查询条件",required = true)
-    private Map<String,String> map;
+    @ApiModelProperty(value = "分页")
+    private Integer page=1;
+
+    /**
+     * 分页大小
+     */
+    @ApiModelProperty(value = "分页大小")
+    private Integer pagesize=10;
+
+
+
+    /**
+     * 查询条件（姓名）
+     */
+    @ApiModelProperty(value = "查询条件（姓名）")
+    private String keyword;
 }

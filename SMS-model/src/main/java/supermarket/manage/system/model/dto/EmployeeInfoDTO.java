@@ -1,10 +1,15 @@
 package supermarket.manage.system.model.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiParam;
-import lombok.*;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * @description: 员工信息DTO
@@ -16,29 +21,47 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "员工信息DTO")
-public class EmployeeInfoDTO {
+public class EmployeeInfoDTO implements Serializable {
+
+
+    /**
+     * 员工唯一标识
+     */
+    @ApiModelProperty(value = "员工唯一标识",position = 1)
+    @NotNull
+    private Integer eid;
 
     /**
      * 员工姓名
      */
-    @ApiParam(name = "员工姓名",required = true)
-    private String eName;
+    @ApiModelProperty(value = "员工姓名")
+    private String ename;
 
     /**
      * 员工性别
      */
-    @ApiParam(name = "员工性别")
-    private String eSex;
+    @ApiModelProperty(value = "员工性别")
+    @NotBlank
+    private String esex;
 
     /**
      * 岗位
      */
-    @ApiParam(name = "岗位")
+    @ApiModelProperty(value = "岗位")
+    @NotBlank
     private String position;
 
     /**
      * 联系方式
      */
-    @ApiParam(name = "联系方式")
-    private String ePhone;
+    @ApiModelProperty(value = "联系方式")
+    @NotBlank
+    private String ephone;
+
+    /**
+     * 逻辑删除字段
+     */
+    @ApiModelProperty(value = "逻辑删除字段")
+    @NotNull
+    private Integer isDeleted;
 }

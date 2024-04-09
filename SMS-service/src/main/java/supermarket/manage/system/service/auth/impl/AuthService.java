@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.common.commons.Constant;
+import supermarket.manage.system.common.commons.annotation.ExceptionHandling;
 import supermarket.manage.system.common.commons.enumeration.AuthStatus;
 import supermarket.manage.system.common.commons.enumeration.ResultCode;
 import supermarket.manage.system.common.exception.ApplicationException;
