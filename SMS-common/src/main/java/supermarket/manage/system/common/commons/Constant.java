@@ -24,6 +24,11 @@ public class Constant {
     public static final String EMPLOYEE_NAME = "e_name";
 
     /**
+     * 商品名称
+     */
+    public static final String GOODS_NAME = "g_name";
+
+    /**
      * 是否删除
      */
     public static final String IS_DELETED = "is_deleted";
