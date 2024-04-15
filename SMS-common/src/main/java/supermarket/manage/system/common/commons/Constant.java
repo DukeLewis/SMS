@@ -29,6 +29,11 @@ public class Constant {
     public static final String GOODS_NAME = "g_name";
 
     /**
+     * 商品id
+     */
+    public static final String GOODS_ID="g_id";
+
+    /**
      * 是否删除
      */
     public static final String IS_DELETED = "is_deleted";

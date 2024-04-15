@@ -11,14 +11,14 @@ import javax.validation.constraints.NotNull;
 /**
  * @description:
  * @author：dukelewis
- * @date: 2024/4/10
+ * @date: 2024/4/15
  * @Copyright： https://github.com/DukeLewis
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("商品信息查询DTO")
-public class GoodsQueryDTO {
+@ApiModel("商品库存信息查询DTO")
+public class InventoryQueryDTO {
 
     /**
      * 分页

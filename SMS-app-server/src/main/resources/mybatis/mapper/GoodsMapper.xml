@@ -5,26 +5,33 @@
 <mapper namespace="supermarket.manage.system.repository.mysql.mapper.GoodsMapper">
 
     <resultMap id="BaseResultMap" type="supermarket.manage.system.model.domain.Goods">
-            <id property="gId" column="g_id" jdbcType="INTEGER"/>
-            <result property="gName" column="g_name" jdbcType="VARCHAR"/>
-            <result property="purchasePrice" column="purchase_price" jdbcType="VARCHAR"/>
-            <result property="sellPrice" column="sell_price" jdbcType="VARCHAR"/>
-            <result property="gBrand" column="g_brand" jdbcType="VARCHAR"/>
-            <result property="gCategory" column="g_category" jdbcType="VARCHAR"/>
-            <result property="gType" column="g_type" jdbcType="VARCHAR"/>
-            <result property="gSpecs" column="g_specs" jdbcType="VARCHAR"/>
-            <result property="gOrigin" column="g_origin" jdbcType="VARCHAR"/>
-            <result property="supplierList" column="supplier_list" jdbcType="VARCHAR"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+        <id property="gId" column="g_id" jdbcType="INTEGER"/>
+        <result property="gName" column="g_name" jdbcType="VARCHAR"/>
+        <result property="purchasePrice" column="purchase_price" jdbcType="VARCHAR"/>
+        <result property="inventory" column="inventory" jdbcType="INTEGER"/>
+        <result property="inventoryThreshold" column="inventory_threshold" jdbcType="INTEGER"/>
+        <result property="sellPrice" column="sell_price" jdbcType="VARCHAR"/>
+        <result property="gBrand" column="g_brand" jdbcType="VARCHAR"/>
+        <result property="gCategory" column="g_category" jdbcType="VARCHAR"/>
+        <result property="gType" column="g_type" jdbcType="VARCHAR"/>
+        <result property="gSpecs" column="g_specs" jdbcType="VARCHAR"/>
+        <result property="gOrigin" column="g_origin" jdbcType="VARCHAR"/>
+        <result property="supplierList" column="supplier_list" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         g_id,g_name,purchase_price,
-        sell_price,g_brand,g_category,
-        g_type,g_specs,g_origin,
-        supplier_list,update_time,create_time,
-        is_deleted
+        inventory,inventory_threshold,sell_price,
+        g_brand,g_category,g_type,
+        g_specs,g_origin,supplier_list,
+        update_time,create_time,is_deleted
     </sql>
+    <select id="findInventoryWarn" resultType="supermarket.manage.system.model.entity.InventoryWarnEntity">
+        SELECT g_id,g_name,inventory,inventory_threshold
+        FROM goods
+        WHERE inventory <![CDATA[ < ]]> inventory_threshold AND is_deleted = 0
+    </select>
 </mapper>

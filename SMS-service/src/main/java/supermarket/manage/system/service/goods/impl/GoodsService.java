@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import supermarket.manage.system.common.commons.Constant;
-import supermarket.manage.system.model.domain.Employee;
 import supermarket.manage.system.model.domain.Goods;
 import supermarket.manage.system.model.dto.GoodsInfoDTO;
 import supermarket.manage.system.model.dto.GoodsQueryDTO;
@@ -34,6 +33,8 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
         return save(Goods.builder()
                 .gName(goodsInfoDTO.getGname())
                 .purchasePrice(goodsInfoDTO.getPurchasePrice())
+                .inventory(goodsInfoDTO.getInventory())
+                .inventoryThreshold(goodsInfoDTO.getInventoryThreshold())
                 .sellPrice(goodsInfoDTO.getSellPrice())
                 .gBrand(goodsInfoDTO.getGbrand())
                 .gCategory(goodsInfoDTO.getGcategory())
@@ -52,6 +53,8 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
         return updateById(Goods.builder()
                 .gName(goodsInfoDTO.getGname())
                 .purchasePrice(goodsInfoDTO.getPurchasePrice())
+                .inventory(goodsInfoDTO.getInventory())
+                .inventoryThreshold(goodsInfoDTO.getInventoryThreshold())
                 .sellPrice(goodsInfoDTO.getSellPrice())
                 .gBrand(goodsInfoDTO.getGbrand())
                 .gCategory(goodsInfoDTO.getGcategory())

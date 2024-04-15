@@ -12,16 +12,21 @@ import lombok.Data;
 
 /**
  *
- * @TableName goods
+ * @TableName inventory
  */
-@TableName(value ="goods")
+@TableName(value ="inventory")
 @Data
 @Builder
-public class Goods implements Serializable {
+public class Inventory implements Serializable {
     /**
-     * 商品唯一标识
+     * 唯一标识
      */
     @TableId(type = IdType.AUTO)
+    private Integer id;
+
+    /**
+     * 商品id
+     */
     private Integer gId;
 
     /**
@@ -30,54 +35,39 @@ public class Goods implements Serializable {
     private String gName;
 
     /**
-     * 进货价格
-     */
-    private String purchasePrice;
-
-    /**
-     * 当前商品库存
-     */
-    private Integer inventory;
-
-    /**
-     * 库存阈值
-     */
-    private Integer inventoryThreshold;
-
-    /**
-     * 销售价格
-     */
-    private String sellPrice;
-
-    /**
-     * 商品品牌
-     */
-    private String gBrand;
-
-    /**
      * 商品类别
      */
     private String gCategory;
 
     /**
-     * 商品型号
+     * 入库数量
      */
-    private String gType;
+    private Integer inboundNum;
 
     /**
-     * 商品规格
+     * 入库时间
      */
-    private String gSpecs;
+    private Date inboundTime;
 
     /**
-     * 商品产地
+     * 供应商
      */
-    private String gOrigin;
+    private String supplier;
 
     /**
-     * 能供应该商品的供应商列表
+     * 出库数量
      */
-    private String supplierList;
+    private Integer outboundNum;
+
+    /**
+     * 出库时间
+     */
+    private Date outboundTime;
+
+    /**
+     * 出库用途
+     */
+    private String purpose;
 
     /**
      * 更新时间

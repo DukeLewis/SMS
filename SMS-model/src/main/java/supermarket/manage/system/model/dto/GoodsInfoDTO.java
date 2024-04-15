@@ -46,6 +46,20 @@ public class GoodsInfoDTO implements Serializable {
     private String purchasePrice;
 
     /**
+     * 当前商品库存
+     */
+    @ApiModelProperty(value = "当前商品库存")
+    @NotNull
+    private Integer inventory;
+
+    /**
+     *
+     */
+    @ApiModelProperty(value = "库存阈值")
+    @NotNull
+    private Integer inventoryThreshold;
+
+    /**
      * 销售价格
      */
     @ApiModelProperty(value = "销售价格")
