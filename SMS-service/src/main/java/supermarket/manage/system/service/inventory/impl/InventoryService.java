@@ -5,6 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import supermarket.manage.system.common.commons.Constant;
@@ -13,22 +17,25 @@ import supermarket.manage.system.model.domain.Goods;
 import supermarket.manage.system.model.domain.Inventory;
 import supermarket.manage.system.model.dto.InventoryInfoDTO;
 import supermarket.manage.system.model.dto.InventoryQueryDTO;
+import supermarket.manage.system.model.entity.InventoryEventEntity;
 import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.repository.mysql.mapper.GoodsMapper;
 import supermarket.manage.system.repository.mysql.mapper.InventoryMapper;
 import supermarket.manage.system.service.inventory.IInventoryService;
+import supermarket.manage.system.service.inventory.event.InventoryUpdateEvent;
 
 import javax.annotation.Resource;
 import java.util.Date;
 
 /**
-* @author ASUS
-* @description 针对表【inventory】的数据库操作Service实现
-* @createDate 2024-04-15 19:52:14
-*/
+ * @author ASUS
+ * @description 针对表【inventory】的数据库操作Service实现
+ * @createDate 2024-04-15 19:52:14
+ */
 @Service
+@Slf4j
 public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
-    implements IInventoryService {
+        implements IInventoryService {
 
     @Resource
     private InventoryMapper inventoryMapper;
@@ -36,10 +43,13 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
     @Resource
     private GoodsMapper goodsMapper;
 
+    @Resource
+    private ApplicationContext applicationContext;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean addInventory(InventoryInfoDTO inventoryInfoDTO) {
-        return save(Inventory.builder()
+        boolean flg = save(Inventory.builder()
                 .gId(inventoryInfoDTO.getGid())
                 .gName(inventoryInfoDTO.getGname())
                 .gCategory(inventoryInfoDTO.getGcategory())
@@ -58,13 +68,25 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
                                 .eq(Constant.GOODS_ID, inventoryInfoDTO.getGid())
                                 .eq(Constant.IS_DELETED, 0)
                                 .setSql("inventory = inventory + " + inventoryInfoDTO.getInboundNum())
-                )>0;
+                ) > 0;
+        try {
+            applicationContext.publishEvent(new InventoryUpdateEvent(new InventoryEventEntity(
+                            inventoryInfoDTO.getGid(),
+                            inventoryInfoDTO.getGname(),
+                            InventoryEventEntity.Type.IN.getType(),
+                            inventoryInfoDTO.getInboundNum())
+                    )
+            );
+        } catch (Exception e) {
+            log.info("入库消息推送失败");
+        }
+        return flg;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean delInventory(InventoryInfoDTO inventoryInfoDTO) {
-        return save(Inventory.builder()
+        boolean flg = save(Inventory.builder()
                 .gId(inventoryInfoDTO.getGid())
                 .gName(inventoryInfoDTO.getGname())
                 .gCategory(inventoryInfoDTO.getGcategory())
@@ -84,7 +106,20 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
                                 .ge("inventory", inventoryInfoDTO.getOutboundNum())
                                 .eq(Constant.IS_DELETED, 0)
                                 .setSql("inventory = inventory - " + inventoryInfoDTO.getOutboundNum())
-                )>0;
+                ) > 0;
+        try {
+            applicationContext.publishEvent(new InventoryUpdateEvent(new InventoryEventEntity(
+                            inventoryInfoDTO.getGid(),
+                            inventoryInfoDTO.getGname(),
+                            InventoryEventEntity.Type.OUT.getType(),
+                            inventoryInfoDTO.getOutboundNum()
+                    )
+                    )
+            );
+        } catch (Exception e) {
+            log.info("出库消息推送失败");
+        }
+        return flg;
     }
 
     @Override
@@ -93,13 +128,13 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
         Integer pagesize = inventoryQueryDTO.getPagesize();
 
         Page<Inventory> page = inventoryMapper.selectPage(
-                new Page<Inventory>(pag,pagesize),
+                new Page<Inventory>(pag, pagesize),
                 new QueryWrapper<Inventory>().eq(Constant.GOODS_NAME, inventoryQueryDTO.getKeyword())
                         //0为未删除，1为已删除
-                        .ne(Constant.IS_DELETED,1)
+                        .ne(Constant.IS_DELETED, 1)
         );
         return new PageResult(
-                pag,pagesize,page.getTotal(),page.getRecords()
+                pag, pagesize, page.getTotal(), page.getRecords()
         );
     }
 
@@ -109,13 +144,13 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
         Integer pagesize = inventoryQueryDTO.getPagesize();
 
         Page<Inventory> page = inventoryMapper.selectPage(
-                new Page<Inventory>(pag,pagesize),
+                new Page<Inventory>(pag, pagesize),
                 new QueryWrapper<Inventory>()
                         //0为未删除，1为已删除
-                        .ne(Constant.IS_DELETED,1)
+                        .ne(Constant.IS_DELETED, 1)
         );
         return new PageResult(
-                pag,pagesize,page.getTotal(),page.getRecords()
+                pag, pagesize, page.getTotal(), page.getRecords()
         );
     }
 }

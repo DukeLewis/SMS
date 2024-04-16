@@ -41,4 +41,5 @@ public class AuthApiTest {
         Map<String, String> map = authService.authorize("admin", "123456");
         log.info("登录结果：{}", JSON.toJSONString(map));
     }
+
 }

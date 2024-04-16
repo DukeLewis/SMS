@@ -28,6 +28,7 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
     @Resource
     private GoodsMapper goodsMapper;
 
+    //todo 录入商品信息同时需要新增入库信息
     @Override
     public boolean informationEntry(GoodsInfoDTO goodsInfoDTO) {
         return save(Goods.builder()
@@ -48,12 +49,12 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
                 .build());
     }
 
+    //todo 该处不可更改库存
     @Override
     public boolean informationModification(GoodsInfoDTO goodsInfoDTO) {
         return updateById(Goods.builder()
                 .gName(goodsInfoDTO.getGname())
                 .purchasePrice(goodsInfoDTO.getPurchasePrice())
-                .inventory(goodsInfoDTO.getInventory())
                 .inventoryThreshold(goodsInfoDTO.getInventoryThreshold())
                 .sellPrice(goodsInfoDTO.getSellPrice())
                 .gBrand(goodsInfoDTO.getGbrand())
