@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/SMS-app-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SMS-app/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SMS-autoconfig/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SMS-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SMS-model/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SMS-repository/src/main/java" charset="UTF-8" />

@@ -1,4 +1,4 @@
-package supermarket.manage.system.common.commons.annotation;
+package supermarket.manage.system.common.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

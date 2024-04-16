@@ -12,6 +12,7 @@
         <module name="SMS-repository" />
         <module name="SMS-app-server" />
         <module name="SMS-service" />
+        <module name="SMS-autoconfig" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -24,6 +25,7 @@
       <module name="SMS" options="" />
       <module name="SMS-app" options="-parameters" />
       <module name="SMS-app-server" options="-parameters" />
+      <module name="SMS-autoconfig" options="-parameters" />
       <module name="SMS-common" options="-parameters" />
       <module name="SMS-model" options="-parameters" />
       <module name="SMS-repository" options="-parameters" />

@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=supermarket.manage.system.autoconfig.config.ThreadPoolConfig

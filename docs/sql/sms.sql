@@ -39,20 +39,22 @@ create table finance
 ---------------
 create table goods
 (
-    g_id           int(10) auto_increment comment '商品唯一标识'
+    g_id                int(10) auto_increment comment '商品唯一标识'
         primary key,
-    g_name         varchar(30)   not null comment '商品名称',
-    purchase_price varchar(10)   not null comment '进货价格',
-    sell_price     varchar(10)   not null comment '销售价格',
-    g_brand        varchar(30)   not null comment '商品品牌',
-    g_category     varchar(30)   not null comment '商品类别',
-    g_type         varchar(30)   null comment '商品型号',
-    g_specs        varchar(30)   null comment '商品规格',
-    g_origin       varchar(30)   null comment '商品产地',
-    supplier_list  varchar(5000) null comment '能供应该商品的供应商列表',
-    update_time    datetime      not null comment '更新时间',
-    create_time    datetime      not null comment '创建时间',
-    is_deleted     tinyint(5)    not null comment '逻辑删除字段'
+    g_name              varchar(30)   not null comment '商品名称',
+    purchase_price      varchar(10)   not null comment '进货价格',
+    inventory           int           not null comment '当前商品库存',
+    inventory_threshold int           not null,
+    sell_price          varchar(10)   not null comment '销售价格',
+    g_brand             varchar(30)   not null comment '商品品牌',
+    g_category          varchar(30)   not null comment '商品类别',
+    g_type              varchar(30)   null comment '商品型号',
+    g_specs             varchar(30)   null comment '商品规格',
+    g_origin            varchar(30)   null comment '商品产地',
+    supplier_list       varchar(5000) null comment '能供应该商品的供应商列表',
+    update_time         datetime      not null comment '更新时间',
+    create_time         datetime      not null comment '创建时间',
+    is_deleted          tinyint(5)    not null comment '逻辑删除字段'
 );
 
 -------------------
@@ -115,4 +117,25 @@ create table user
     update_time  datetime     not null comment '更新时间',
     create_time  datetime     not null comment '创建时间',
     is_deleted   tinyint(5)   not null comment '逻辑删除字段'
+);
+
+---------------------------------
+
+
+create table inventory
+(
+    id            int(10) auto_increment comment '唯一标识'
+        primary key,
+    g_id          int         not null comment '商品id',
+    g_name        varchar(30) not null comment '商品名称',
+    g_category    varchar(30) not null comment '商品类别',
+    inbound_num   int(10)     not null comment '入库数量',
+    inbound_time  datetime    not null comment '入库时间',
+    supplier      varchar(30) not null comment '供应商',
+    outbound_num  int(10)     not null comment '出库数量',
+    outbound_time datetime    not null comment '出库时间',
+    purpose       varchar(50) null comment '出库用途',
+    update_time   datetime    not null comment '更新时间',
+    create_time   datetime    not null comment '创建时间',
+    is_deleted    tinyint(5)  not null comment '逻辑删除字段'
 );

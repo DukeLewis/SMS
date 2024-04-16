@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="supermarket.manage.system.repository.mysql.mapper.InventoryMapper">
+
+    <resultMap id="BaseResultMap" type="supermarket.manage.system.model.domain.Inventory">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="gId" column="g_id" jdbcType="INTEGER"/>
+        <result property="gName" column="g_name" jdbcType="VARCHAR"/>
+        <result property="gCategory" column="g_category" jdbcType="VARCHAR"/>
+        <result property="inboundNum" column="inbound_num" jdbcType="INTEGER"/>
+        <result property="inboundTime" column="inbound_time" jdbcType="TIMESTAMP"/>
+        <result property="supplier" column="supplier" jdbcType="VARCHAR"/>
+        <result property="outboundNum" column="outbound_num" jdbcType="INTEGER"/>
+        <result property="outboundTime" column="outbound_time" jdbcType="TIMESTAMP"/>
+        <result property="purpose" column="purpose" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,g_id,g_name,
+        g_category,inbound_num,inbound_time,
+        supplier,outbound_num,outbound_time,
+        purpose,update_time,create_time,
+        is_deleted
+    </sql>
+</mapper>
