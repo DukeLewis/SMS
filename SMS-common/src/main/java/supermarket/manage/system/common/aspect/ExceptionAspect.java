@@ -1,11 +1,11 @@
-package supermarket.manage.system.common.commons.aspect;
+package supermarket.manage.system.common.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import supermarket.manage.system.common.commons.AppResult;
-import supermarket.manage.system.common.commons.annotation.ExceptionHandling;
+import supermarket.manage.system.common.annotation.ExceptionHandling;
 import supermarket.manage.system.common.exception.ApplicationException;
 
 /**

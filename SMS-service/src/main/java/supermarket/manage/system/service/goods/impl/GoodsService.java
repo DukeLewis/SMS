@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import supermarket.manage.system.common.annotation.InfoLog;
 import supermarket.manage.system.common.commons.Constant;
+import supermarket.manage.system.common.commons.enumeration.InfoType;
 import supermarket.manage.system.model.domain.Goods;
 import supermarket.manage.system.model.dto.GoodsInfoDTO;
 import supermarket.manage.system.model.dto.GoodsQueryDTO;
@@ -30,6 +32,7 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
 
     //todo 录入商品信息同时需要新增入库信息
     @Override
+    @InfoLog(infoType = InfoType.ADD,item = "商品",infoItemIdExpression = "#goodsInfoDTO.gid")
     public boolean informationEntry(GoodsInfoDTO goodsInfoDTO) {
         return save(Goods.builder()
                 .gName(goodsInfoDTO.getGname())
