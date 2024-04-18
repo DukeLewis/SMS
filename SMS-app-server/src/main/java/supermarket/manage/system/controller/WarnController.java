@@ -9,6 +9,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -77,6 +78,12 @@ public class WarnController {
         if (webSocketMap.containsKey(uid)) {
             //从map中删除
             webSocketMap.remove(uid);
+            try {
+                //关闭连接
+                sessionPool.get(uid).close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             sessionPool.remove(uid);
         }
 //        log.info("用户退出:"+userId+",当前在线人数为:" + getOnlineCount());
