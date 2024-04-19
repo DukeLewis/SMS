@@ -35,6 +35,9 @@ public class InventoryWarningJob {
     @Scheduled(cron = "0 0/1 * * * ?")
     public void exec(){
         List<InventoryWarnEntity> warnEntityList = goodsMapper.findInventoryWarn();
+        if(warnEntityList.isEmpty()){
+            return;
+        }
         warnController.sendAllMessage(JSON.toJSONString(warnEntityList));
     }
 
