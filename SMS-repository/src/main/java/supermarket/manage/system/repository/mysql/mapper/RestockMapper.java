@@ -3,6 +3,9 @@ package supermarket.manage.system.repository.mysql.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import supermarket.manage.system.model.domain.Restock;
+import supermarket.manage.system.model.entity.RestockWarnEntity;
+
+import java.util.List;
 
 /**
 * @author ASUS
@@ -12,6 +15,7 @@ import supermarket.manage.system.model.domain.Restock;
 */
 public interface RestockMapper extends BaseMapper<Restock> {
 
+    List<RestockWarnEntity> findRestockStatusWarn();
 }
 
 
