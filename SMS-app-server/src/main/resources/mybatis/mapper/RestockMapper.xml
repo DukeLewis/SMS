@@ -22,6 +22,7 @@
         product_pricelist,arrive_time,status,
         create_time,update_time,is_deleted
     </sql>
+<!--    该语句的where使用了函数，将无法走索引,如果需要走索引，那么可以考虑先查询出进货单记录，然后在业务代码中进行超时进货单的筛选进行通知预警-->
     <select id="findRestockStatusWarn" resultType="supermarket.manage.system.model.entity.RestockWarnEntity">
         SELECT r_id,
                arrive_time
