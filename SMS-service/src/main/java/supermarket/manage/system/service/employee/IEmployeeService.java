@@ -4,7 +4,7 @@ package supermarket.manage.system.service.employee;
 import com.baomidou.mybatisplus.extension.service.IService;
 import supermarket.manage.system.model.domain.Employee;
 import supermarket.manage.system.model.dto.EmployeeInfoDTO;
-import supermarket.manage.system.model.dto.EmployeeQueryDTO;
+import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.vo.PageResult;
 
 /**
@@ -31,10 +31,10 @@ public interface IEmployeeService extends IService<Employee> {
 
     /**
      * 员工信息查询,返回信息做分页处理
-     * @param employeeQueryDTO
+     * @param pageQueryDTO
      * @return
      */
-    PageResult informationQuery(EmployeeQueryDTO employeeQueryDTO);
+    PageResult informationQuery(PageQueryDTO pageQueryDTO);
 
 
 }

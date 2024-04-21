@@ -10,7 +10,7 @@ import supermarket.manage.system.common.commons.Constant;
 import supermarket.manage.system.common.commons.enumeration.InfoType;
 import supermarket.manage.system.model.domain.Goods;
 import supermarket.manage.system.model.dto.GoodsInfoDTO;
-import supermarket.manage.system.model.dto.GoodsQueryDTO;
+import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.repository.mysql.mapper.GoodsMapper;
 import supermarket.manage.system.service.goods.IGoodsService;
@@ -56,6 +56,7 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
     @Override
     public boolean informationModification(GoodsInfoDTO goodsInfoDTO) {
         return updateById(Goods.builder()
+                .gId(goodsInfoDTO.getGid())
                 .gName(goodsInfoDTO.getGname())
                 .purchasePrice(goodsInfoDTO.getPurchasePrice())
                 .inventoryThreshold(goodsInfoDTO.getInventoryThreshold())
@@ -70,13 +71,13 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
     }
 
     @Override
-    public PageResult informationQuery(GoodsQueryDTO goodsQueryDTO) {
-        Integer pag = goodsQueryDTO.getPage();
-        Integer pagesize = goodsQueryDTO.getPagesize();
+    public PageResult informationQuery(PageQueryDTO pageQueryDTO) {
+        Integer pag = pageQueryDTO.getPage();
+        Integer pagesize = pageQueryDTO.getPagesize();
 
         Page<Goods> page = goodsMapper.selectPage(
                 new Page<Goods>(pag,pagesize),
-                new QueryWrapper<Goods>().eq(Constant.GOODS_NAME, goodsQueryDTO.getKeyword())
+                new QueryWrapper<Goods>().eq(Constant.GOODS_NAME, pageQueryDTO.getKeyword())
                         //0为未删除，1为已删除
                         .ne(Constant.IS_DELETED,1)
         );

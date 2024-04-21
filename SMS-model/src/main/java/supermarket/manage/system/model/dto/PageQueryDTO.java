@@ -6,19 +6,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
- * @description:
+ * @description: 分页查询DTO
  * @author：dukelewis
- * @date: 2024/4/15
+ * @date: 2024/4/21
  * @Copyright： https://github.com/DukeLewis
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("商品库存信息查询DTO")
-public class InventoryQueryDTO {
+@ApiModel("分页查询DTO")
+public class PageQueryDTO implements Serializable {
 
     /**
      * 分页
@@ -35,9 +35,8 @@ public class InventoryQueryDTO {
 
 
     /**
-     * 查询条件（商品名称）
+     * 查询条件
      */
-    @ApiModelProperty(value = "查询条件（商品名称）")
+    @ApiModelProperty(value = "查询条件")
     private String keyword;
-
 }

@@ -66,6 +66,7 @@ create table restock
     product_list      varchar(10000) not null comment '商品列表，商品编号和数量合为一个十八位数，前八位商品编号，后八位为商品数量，多个商品用逗号进行隔开',
     supplier_list     varchar(5000)  not null comment '对应商品列表中的每个商品是由哪个供应商进行供货，多个用逗号隔开',
     product_pricelist varchar(5000)  not null comment '商品进价列表，对应上面的商品列表中的每个商品中的进价，多个用逗号隔开',
+    arrive_time       datetime       not null comment '到货时间',
     status            tinyint(6)     not null comment '进货单状态位，0-已下单未到货，1-已到货，2-待定，3-延期',
     create_time       datetime       not null comment '创建时间，同时也是下单时间',
     update_time       datetime       not null comment '更新时间',

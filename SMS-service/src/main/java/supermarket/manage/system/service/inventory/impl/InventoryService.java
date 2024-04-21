@@ -13,7 +13,7 @@ import supermarket.manage.system.common.commons.Constant;
 import supermarket.manage.system.model.domain.Goods;
 import supermarket.manage.system.model.domain.Inventory;
 import supermarket.manage.system.model.dto.InventoryInfoDTO;
-import supermarket.manage.system.model.dto.InventoryQueryDTO;
+import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.entity.InventoryEventEntity;
 import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.repository.mysql.mapper.GoodsMapper;
@@ -120,13 +120,13 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
     }
 
     @Override
-    public PageResult queryInventory(InventoryQueryDTO inventoryQueryDTO) {
-        Integer pag = inventoryQueryDTO.getPage();
-        Integer pagesize = inventoryQueryDTO.getPagesize();
+    public PageResult queryInventory(PageQueryDTO pageQueryDTO) {
+        Integer pag = pageQueryDTO.getPage();
+        Integer pagesize = pageQueryDTO.getPagesize();
 
         Page<Inventory> page = inventoryMapper.selectPage(
                 new Page<Inventory>(pag, pagesize),
-                new QueryWrapper<Inventory>().eq(Constant.GOODS_NAME, inventoryQueryDTO.getKeyword())
+                new QueryWrapper<Inventory>().eq(Constant.GOODS_NAME, pageQueryDTO.getKeyword())
                         //0为未删除，1为已删除
                         .ne(Constant.IS_DELETED, 1)
         );
@@ -136,9 +136,9 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
     }
 
     @Override
-    public PageResult queryInventoryAll(InventoryQueryDTO inventoryQueryDTO) {
-        Integer pag = inventoryQueryDTO.getPage();
-        Integer pagesize = inventoryQueryDTO.getPagesize();
+    public PageResult queryInventoryAll(PageQueryDTO pageQueryDTO) {
+        Integer pag = pageQueryDTO.getPage();
+        Integer pagesize = pageQueryDTO.getPagesize();
 
         Page<Inventory> page = inventoryMapper.selectPage(
                 new Page<Inventory>(pag, pagesize),

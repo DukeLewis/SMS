@@ -1,16 +1,13 @@
 package supermarket.manage.system.controller;
 
-import com.google.common.eventbus.Subscribe;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import supermarket.manage.system.common.annotation.RateLimiter;
 import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.model.dto.InventoryInfoDTO;
-import supermarket.manage.system.model.dto.InventoryQueryDTO;
-import supermarket.manage.system.model.entity.InventoryWarnEntity;
+import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.service.inventory.IInventoryService;
 
@@ -48,14 +45,14 @@ public class InventoryController {
 
     @GetMapping("/query")
     @ApiOperation("单个商品库存查询")
-    public AppResult<PageResult> queryInventory(@NotNull InventoryQueryDTO inventoryQueryDTO) {
-        return AppResult.success(inventoryService.queryInventory(inventoryQueryDTO));
+    public AppResult<PageResult> queryInventory(@NotNull PageQueryDTO pageQueryDTO) {
+        return AppResult.success(inventoryService.queryInventory(pageQueryDTO));
     }
 
     @GetMapping("/queryall")
     @ApiOperation("所有商品库存查询")
-    public AppResult<PageResult> queryInventoryAll(@NotNull InventoryQueryDTO inventoryQueryDTO) {
-        return AppResult.success(inventoryService.queryInventoryAll(inventoryQueryDTO));
+    public AppResult<PageResult> queryInventoryAll(@NotNull PageQueryDTO pageQueryDTO) {
+        return AppResult.success(inventoryService.queryInventoryAll(pageQueryDTO));
     }
 
 

@@ -4,7 +4,7 @@ package supermarket.manage.system.service.inventory;
 import com.baomidou.mybatisplus.extension.service.IService;
 import supermarket.manage.system.model.domain.Inventory;
 import supermarket.manage.system.model.dto.InventoryInfoDTO;
-import supermarket.manage.system.model.dto.InventoryQueryDTO;
+import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.vo.PageResult;
 
 /**
@@ -34,12 +34,12 @@ public interface IInventoryService extends IService<Inventory> {
      * @param gid
      * @return
      */
-    PageResult queryInventory(InventoryQueryDTO inventoryQueryDTO);
+    PageResult queryInventory(PageQueryDTO pageQueryDTO);
 
 
     /**
      * 查询所有商品库存信息
      * @return
      */
-    PageResult queryInventoryAll(InventoryQueryDTO inventoryQueryDTO);
+    PageResult queryInventoryAll(PageQueryDTO pageQueryDTO);
 }
