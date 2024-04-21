@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import supermarket.manage.system.common.commons.Constant;
 import supermarket.manage.system.model.domain.Employee;
 import supermarket.manage.system.model.dto.EmployeeInfoDTO;
-import supermarket.manage.system.model.dto.EmployeeQueryDTO;
+import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.repository.mysql.mapper.EmployeeMapper;
 import supermarket.manage.system.service.employee.IEmployeeService;
@@ -52,13 +52,13 @@ public class EmployeeService extends ServiceImpl<EmployeeMapper, Employee>
     }
 
     @Override
-    public PageResult informationQuery(EmployeeQueryDTO employeeQueryDTO) {
-        Integer pag = employeeQueryDTO.getPage();
-        Integer pagesize = employeeQueryDTO.getPagesize();
+    public PageResult informationQuery(PageQueryDTO pageQueryDTO) {
+        Integer pag = pageQueryDTO.getPage();
+        Integer pagesize = pageQueryDTO.getPagesize();
 
         Page<Employee> page = employeeMapper.selectPage(
                 new Page<Employee>(pag,pagesize),
-                new QueryWrapper<Employee>().eq(Constant.EMPLOYEE_NAME, employeeQueryDTO.getKeyword())
+                new QueryWrapper<Employee>().eq(Constant.EMPLOYEE_NAME, pageQueryDTO.getKeyword())
                         //0为未删除，1为已删除
                         .ne(Constant.IS_DELETED,1)
         );

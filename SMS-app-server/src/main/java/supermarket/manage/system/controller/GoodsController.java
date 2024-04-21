@@ -7,10 +7,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.model.dto.GoodsInfoDTO;
-import supermarket.manage.system.model.dto.EmployeeQueryDTO;
-import supermarket.manage.system.model.dto.GoodsQueryDTO;
+import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.vo.PageResult;
-import supermarket.manage.system.service.employee.IEmployeeService;
 import supermarket.manage.system.service.goods.IGoodsService;
 
 import javax.annotation.Resource;
@@ -44,7 +42,7 @@ public class GoodsController {
 
     @GetMapping("/query")
     @ApiOperation("商品信息查询")
-    public AppResult<PageResult> informationQuery(@NotNull GoodsQueryDTO goodsQueryDTO){
-        return AppResult.success(goodsService.informationQuery(goodsQueryDTO));
+    public AppResult<PageResult> informationQuery(@NotNull PageQueryDTO pageQueryDTO){
+        return AppResult.success(goodsService.informationQuery(pageQueryDTO));
     }
 }

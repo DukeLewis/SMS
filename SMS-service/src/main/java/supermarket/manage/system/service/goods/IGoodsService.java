@@ -4,7 +4,7 @@ package supermarket.manage.system.service.goods;
 import com.baomidou.mybatisplus.extension.service.IService;
 import supermarket.manage.system.model.domain.Goods;
 import supermarket.manage.system.model.dto.GoodsInfoDTO;
-import supermarket.manage.system.model.dto.GoodsQueryDTO;
+import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.vo.PageResult;
 
 /**
@@ -32,9 +32,9 @@ public interface IGoodsService extends IService<Goods> {
 
     /**
      * 商品信息查询,返回信息做分页处理
-     * @param employeeQueryDTO
+     * @param pageQueryDTO
      * @return
      */
-    PageResult informationQuery(GoodsQueryDTO employeeQueryDTO);
+    PageResult informationQuery(PageQueryDTO pageQueryDTO);
 
 }

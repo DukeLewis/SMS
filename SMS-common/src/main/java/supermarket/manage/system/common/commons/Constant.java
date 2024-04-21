@@ -38,6 +38,11 @@ public class Constant {
      */
     public static final String IS_DELETED = "is_deleted";
 
+    /**
+     * 进货id
+     */
+    public static final String RESTOCK_ID = "r_id";
+
     public static class ResultCode{
 
         //关于员工模块的错误描述
