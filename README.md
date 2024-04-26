@@ -14,5 +14,9 @@
 - model：实体模块（各种po，domain，vo，dto），domain是完整映射数据库数据的实体，entity是根据需求封装的部分数据库数据的实体，vo是返回给前端的视图对象，dto是前端传递给后端的视图对象
 - service：业务模块（service）
 - repository：数据访问模块（包含对数据库和缓存之类的数据操作）
+- autoconfig: 自动配置模块（如线程池配置）
+
+## 2.模块依赖
+当前项目需要本地安装mysql，redis
 
 

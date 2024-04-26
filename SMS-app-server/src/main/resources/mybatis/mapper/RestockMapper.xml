@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="supermarket.manage.system.repository.mysql.mapper.RestockMapper">
+
+    <resultMap id="BaseResultMap" type="supermarket.manage.system.model.domain.Restock">
+        <id property="rId" column="r_id" jdbcType="INTEGER"/>
+        <result property="productList" column="product_list" jdbcType="VARCHAR"/>
+        <result property="supplierList" column="supplier_list" jdbcType="VARCHAR"/>
+        <result property="productPricelist" column="product_pricelist" jdbcType="VARCHAR"/>
+        <result property="arriveTime" column="arrive_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        r_id
+        ,product_list,supplier_list,
+        product_pricelist,arrive_time,status,
+        create_time,update_time,is_deleted
+    </sql>
+<!--    该语句的where使用了函数，将无法走索引,如果需要走索引，那么可以考虑先查询出进货单记录，然后在业务代码中进行超时进货单的筛选进行通知预警-->
+    <select id="findRestockStatusWarn" resultType="supermarket.manage.system.model.entity.RestockWarnEntity">
+        SELECT r_id,
+               arrive_time
+        FROM restock
+        WHERE status != 0
+          AND is_deleted = 0
+          AND arrive_time <![CDATA[ < ]]> NOW()
+    </select>
+</mapper>

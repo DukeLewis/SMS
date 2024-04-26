@@ -31,6 +31,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         try {
             if (StringUtils.isEmpty(token)) {
                 filterChain.doFilter(request, response);
+                log.info("token为空");
                 return;
             }
             claims = JwtUtils.getClaims(token);
@@ -45,6 +46,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             filterChain.doFilter(request, response);
         } catch (Exception e) {
+            log.info("token验证失败");
             throw new RuntimeException(e);
         }
     }

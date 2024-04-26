@@ -12,6 +12,7 @@ import supermarket.manage.system.common.exception.BusinessException;
  * @Copyright： https://github.com/DukeLewis
  */
 @RestControllerAdvice
+@Deprecated
 public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(BusinessException.class)

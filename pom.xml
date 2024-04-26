@@ -14,6 +14,7 @@
         <module>SMS-model</module>
         <module>SMS-repository</module>
         <module>SMS-service</module>
+        <module>SMS-autoconfig</module>
     </modules>
 
     <properties>

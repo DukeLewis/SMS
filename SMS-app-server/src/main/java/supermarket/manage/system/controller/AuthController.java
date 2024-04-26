@@ -5,6 +5,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import supermarket.manage.system.common.commons.AppResult;
+import supermarket.manage.system.model.dto.AuthDTO;
+import supermarket.manage.system.model.vo.AuthVO;
 import supermarket.manage.system.service.auth.IAuthService;
 
 import javax.annotation.Resource;
@@ -28,14 +31,18 @@ public class AuthController {
 
     @PostMapping("/login")
     @ApiOperation("用户登录")
-    public ResponseEntity login(@NotNull @RequestBody Map map){
-        return ResponseEntity.ok(authService.authorize((String) map.get("username"),(String) map.get("password")));
+    public AppResult<AuthVO> login(@NotNull @RequestBody AuthDTO authDTO){
+        Map<String, String> map = authService.authorize(authDTO.getUsername(), authDTO.getPassword());
+        AuthVO authVO = new AuthVO(map.get("msg"), map.get("token"));
+        return AppResult.success(authVO);
     }
 
     @PostMapping("/register")
     @ApiOperation("用户注册")
-    public ResponseEntity register(@NotNull @RequestBody Map map){
-        return ResponseEntity.ok(authService.register((String) map.get("username"),(String) map.get("password"))==true?"注册成功":"注册失败");
+    public AppResult<AuthVO> register(@NotNull @RequestBody AuthDTO authDTO){
+        boolean flg = authService.register(authDTO.getUsername(), authDTO.getPassword());
+        AuthVO authVO = new AuthVO(flg == true ? "注册成功" : "注册失败");
+        return AppResult.success(authVO);
     }
 
     @GetMapping("/hello")
