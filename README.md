@@ -14,5 +14,9 @@
 - model：实体模块（各种po，domain，vo，dto）
 - service：业务模块（service）
 - repository：数据访问模块（包含对数据库和缓存之类的数据操作）
+- autoconfig: 自动配置模块（如线程池配置）
+
+## 2.模块依赖
+当前项目需要本地安装mysql，redis
 
 
