@@ -17,9 +17,9 @@ import supermarket.manage.system.filter.RateLimiterFilter;
 @SpringBootApplication
 @EnableScheduling
 @MapperScan("supermarket.manage.system.repository.mysql.mapper")
-@ServletComponentScan(basePackageClasses = {
-    RateLimiterFilter.class
-})
+//@ServletComponentScan(basePackageClasses = {
+//    RateLimiterFilter.class
+//})
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
