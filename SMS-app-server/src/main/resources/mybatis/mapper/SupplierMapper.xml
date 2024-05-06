@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="supermarket.manage.system.repository.mysql.mapper.SupplierMapper">
+
+    <resultMap id="BaseResultMap" type="supermarket.manage.system.model.domain.Supplier">
+            <id property="sId" column="s_id" jdbcType="INTEGER"/>
+            <result property="sName" column="s_name" jdbcType="VARCHAR"/>
+            <result property="sPrincipal" column="s_principal" jdbcType="VARCHAR"/>
+            <result property="sPhone" column="s_phone" jdbcType="VARCHAR"/>
+            <result property="sAddress" column="s_address" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        s_id,s_name,s_principal,
+        s_phone,s_address,update_time,
+        create_time,is_deleted
+    </sql>
+</mapper>
