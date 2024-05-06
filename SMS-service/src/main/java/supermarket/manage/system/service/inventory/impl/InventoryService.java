@@ -66,6 +66,7 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
                                 .eq(Constant.IS_DELETED, 0)
                                 .setSql("inventory = inventory + " + inventoryInfoDTO.getInboundNum())
                 ) > 0;
+        //todo 如果前端无法实现，考虑将取消该事件
         try {
             applicationContext.publishEvent(new InventoryUpdateEvent(new InventoryEventEntity(
                             inventoryInfoDTO.getGid(),

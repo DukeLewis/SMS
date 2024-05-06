@@ -44,7 +44,7 @@ create table goods
     g_name              varchar(30)   not null comment '商品名称',
     purchase_price      varchar(10)   not null comment '进货价格',
     inventory           int           not null comment '当前商品库存',
-    inventory_threshold int           not null,
+    inventory_threshold int           not null comment '库存警告阈值',
     sell_price          varchar(10)   not null comment '销售价格',
     g_brand             varchar(30)   not null comment '商品品牌',
     g_category          varchar(30)   not null comment '商品类别',
