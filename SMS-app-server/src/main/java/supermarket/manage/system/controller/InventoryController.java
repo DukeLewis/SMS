@@ -36,10 +36,10 @@ public class InventoryController {
         return AppResult.success(inventoryService.addInventory(inventoryInfoDTO));
     }
 
-    @PostMapping("/del")
+    @PostMapping("/del/{id}")
     @ApiOperation("商品出库记录")
-    public AppResult delInventory(@RequestBody @NotNull @Validated InventoryInfoDTO inventoryInfoDTO) {
-        return AppResult.success(inventoryService.delInventory(inventoryInfoDTO));
+    public AppResult delInventory(@PathVariable Integer id) {
+        return AppResult.success(inventoryService.delInventory(id));
     }
 
 

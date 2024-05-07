@@ -46,50 +46,13 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean addInventory(InventoryInfoDTO inventoryInfoDTO) {
+        int inventoryNum=inventoryInfoDTO.getInboundNum()-inventoryInfoDTO.getOutboundNum();
         boolean flg = save(Inventory.builder()
                 .gId(inventoryInfoDTO.getGid())
                 .gName(inventoryInfoDTO.getGname())
                 .gCategory(inventoryInfoDTO.getGcategory())
                 .inboundNum(inventoryInfoDTO.getInboundNum())
                 .inboundTime(inventoryInfoDTO.getInboundTime())
-                .supplier(inventoryInfoDTO.getSupplier())
-                .outboundNum(-1)
-                .outboundTime(null)
-                .purpose(inventoryInfoDTO.getPurpose())
-                .createTime(new Date())
-                .updateTime(new Date())
-                .isDeleted(0).build())
-                &&
-                goodsMapper.update(null,
-                        new UpdateWrapper<Goods>()
-                                .eq(Constant.GOODS_ID, inventoryInfoDTO.getGid())
-                                .eq(Constant.IS_DELETED, 0)
-                                .setSql("inventory = inventory + " + inventoryInfoDTO.getInboundNum())
-                ) > 0;
-        //todo 如果前端无法实现，考虑将取消该事件
-        try {
-            applicationContext.publishEvent(new InventoryUpdateEvent(new InventoryEventEntity(
-                            inventoryInfoDTO.getGid(),
-                            inventoryInfoDTO.getGname(),
-                            InventoryEventEntity.Type.IN.getType(),
-                            inventoryInfoDTO.getInboundNum())
-                    )
-            );
-        } catch (Exception e) {
-            log.info("入库消息推送失败");
-        }
-        return flg;
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean delInventory(InventoryInfoDTO inventoryInfoDTO) {
-        boolean flg = save(Inventory.builder()
-                .gId(inventoryInfoDTO.getGid())
-                .gName(inventoryInfoDTO.getGname())
-                .gCategory(inventoryInfoDTO.getGcategory())
-                .inboundNum(-1)
-                .inboundTime(null)
                 .supplier(inventoryInfoDTO.getSupplier())
                 .outboundNum(inventoryInfoDTO.getOutboundNum())
                 .outboundTime(inventoryInfoDTO.getOutboundTime())
@@ -101,23 +64,27 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
                 goodsMapper.update(null,
                         new UpdateWrapper<Goods>()
                                 .eq(Constant.GOODS_ID, inventoryInfoDTO.getGid())
-                                .ge("inventory", inventoryInfoDTO.getOutboundNum())
                                 .eq(Constant.IS_DELETED, 0)
-                                .setSql("inventory = inventory - " + inventoryInfoDTO.getOutboundNum())
+                                .setSql("inventory = inventory + " + inventoryNum)
                 ) > 0;
+        //todo 如果前端无法实现，考虑将取消该事件
         try {
             applicationContext.publishEvent(new InventoryUpdateEvent(new InventoryEventEntity(
                             inventoryInfoDTO.getGid(),
                             inventoryInfoDTO.getGname(),
-                            InventoryEventEntity.Type.OUT.getType(),
-                            inventoryInfoDTO.getOutboundNum()
-                    )
+                            inventoryNum>0?InventoryEventEntity.Type.IN.getType() : InventoryEventEntity.Type.OUT.getType(),
+                            Math.abs(inventoryNum))
                     )
             );
         } catch (Exception e) {
-            log.info("出库消息推送失败");
+            log.info("入库消息推送失败");
         }
         return flg;
+    }
+
+    @Override
+    public boolean delInventory(Integer id) {
+        return removeById(id);
     }
 
     @Override
