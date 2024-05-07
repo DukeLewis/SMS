@@ -10,9 +10,8 @@ spring:
     port: 6379
     host: 127.0.0.1
 mybatis-plus:
-  config:
-    mapper-locations: classpath:/mybatis/mapper/*.xml
-    config-location: classpath:/mybatis/mybatis-config.xml
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+#    config-location: classpath:/mybatis/mybatis-config.xml
 knife4j:
   enable: true
 thread:
