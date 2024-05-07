@@ -30,8 +30,8 @@ public class InventoryController {
 
     @PostMapping("/add")
     @ApiOperation("商品入库记录")
-    @RateLimiter(value = "supermarket.manage.system.controller.InventoryController.addInventory"
-    ,limit = "100", windowSize = "1",msg = "库存添加频率过高")
+//    @RateLimiter(value = "supermarket.manage.system.controller.InventoryController.addInventory"
+//    ,limit = "100", windowSize = "1",msg = "库存添加频率过高")
     public AppResult addInventory(@RequestBody @NotNull @Validated InventoryInfoDTO inventoryInfoDTO) {
         return AppResult.success(inventoryService.addInventory(inventoryInfoDTO));
     }

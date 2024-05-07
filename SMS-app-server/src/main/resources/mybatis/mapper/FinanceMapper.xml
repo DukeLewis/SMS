@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="supermarket.manage.system.repository.mysql.mapper.FinanceMapper">
+
+    <resultMap id="BaseResultMap" type="supermarket.manage.system.model.domain.Finance">
+            <id property="fId" column="f_id" jdbcType="INTEGER"/>
+            <result property="recordTime" column="record_time" jdbcType="TIMESTAMP"/>
+            <result property="revenue" column="revenue" jdbcType="DOUBLE"/>
+            <result property="costs" column="costs" jdbcType="DOUBLE"/>
+            <result property="waterCost" column="water_cost" jdbcType="DOUBLE"/>
+            <result property="eleCost" column="ele_cost" jdbcType="DOUBLE"/>
+            <result property="spend" column="spend" jdbcType="DOUBLE"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        f_id,record_time,revenue,
+        costs,water_cost,ele_cost,
+        spend,update_time,create_time,
+        is_deleted
+    </sql>
+</mapper>
