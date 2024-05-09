@@ -16,7 +16,8 @@
         <result property="gType" column="g_type" jdbcType="VARCHAR"/>
         <result property="gSpecs" column="g_specs" jdbcType="VARCHAR"/>
         <result property="gOrigin" column="g_origin" jdbcType="VARCHAR"/>
-        <result property="supplierList" column="supplier_list" jdbcType="VARCHAR"/>
+        <result property="supplierIdList" column="supplier_id_list" jdbcType="VARCHAR"/>
+        <result property="supplierPriceList" column="supplier_price_list" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>

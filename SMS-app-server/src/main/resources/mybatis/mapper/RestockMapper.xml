@@ -6,7 +6,8 @@
 
     <resultMap id="BaseResultMap" type="supermarket.manage.system.model.domain.Restock">
         <id property="rId" column="r_id" jdbcType="INTEGER"/>
-        <result property="productList" column="product_list" jdbcType="VARCHAR"/>
+        <result property="productIdList" column="product_id_list" jdbcType="VARCHAR"/>
+        <result property="productQuantityList" column="product_quantity_list" jdbcType="INTEGER"/>
         <result property="supplierList" column="supplier_list" jdbcType="VARCHAR"/>
         <result property="productPricelist" column="product_pricelist" jdbcType="VARCHAR"/>
         <result property="arriveTime" column="arrive_time" jdbcType="TIMESTAMP"/>

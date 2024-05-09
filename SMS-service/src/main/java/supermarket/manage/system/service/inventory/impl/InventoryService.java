@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import supermarket.manage.system.common.commons.Constant;
+import supermarket.manage.system.common.commons.enumeration.DeletedType;
 import supermarket.manage.system.model.domain.Goods;
 import supermarket.manage.system.model.domain.Inventory;
 import supermarket.manage.system.model.dto.InventoryInfoDTO;
@@ -84,7 +85,11 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
 
     @Override
     public boolean delInventory(Integer id) {
-        return removeById(id);
+        return update(null,
+                new UpdateWrapper<Inventory>()
+                        .eq("id",id)
+                        .set(Constant.IS_DELETED, 1)
+        );
     }
 
     @Override
@@ -96,7 +101,7 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
                 new Page<Inventory>(pag, pagesize),
                 new QueryWrapper<Inventory>().eq(Constant.GOODS_NAME, pageQueryDTO.getKeyword())
                         //0为未删除，1为已删除
-                        .ne(Constant.IS_DELETED, 1)
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED)
         );
         return new PageResult(
                 pag, pagesize, page.getTotal(), page.getRecords()
@@ -112,7 +117,7 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
                 new Page<Inventory>(pag, pagesize),
                 new QueryWrapper<Inventory>()
                         //0为未删除，1为已删除
-                        .ne(Constant.IS_DELETED, 1)
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED)
         );
         return new PageResult(
                 pag, pagesize, page.getTotal(), page.getRecords()

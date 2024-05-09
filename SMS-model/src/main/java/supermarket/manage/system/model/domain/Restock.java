@@ -25,9 +25,14 @@ public class Restock implements Serializable {
     private Integer rId;
 
     /**
-     * 商品列表，商品编号和数量合为一个十六位数，前八位商品编号，后八位为商品数量，多个商品用逗号进行隔开
+     * 商品id列表
      */
-    private String productList;
+    private String productIdList;
+
+    /**
+     * 商品数量列表
+     */
+    private Integer productQuantityList;
 
     /**
      * 对应商品列表中的每个商品是由哪个供应商进行供货，多个用逗号隔开
