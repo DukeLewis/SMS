@@ -6,6 +6,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import supermarket.manage.system.common.commons.Constant;
+import supermarket.manage.system.common.commons.enumeration.DeletedType;
+import supermarket.manage.system.common.commons.enumeration.RestockStatus;
+import supermarket.manage.system.common.commons.enumeration.ResultCode;
+import supermarket.manage.system.common.exception.ApplicationException;
+import supermarket.manage.system.common.util.ListUtil;
 import supermarket.manage.system.model.domain.Restock;
 import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.dto.RestockInfoDTO;
@@ -32,15 +37,12 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
 
     @Override
     public boolean addRestock(RestockInfoDTO restockInfoDTO) {
-        StringBuilder sb = new StringBuilder();
-        StringBuilder sb1 = new StringBuilder();
-        StringBuilder sb2 = new StringBuilder();
-        getAllList(restockInfoDTO,sb,sb1,sb2);
         return save(Restock.builder()
-                .productList(sb.toString())
-                .supplierList(sb2.toString())
-                .productPricelist(sb1.toString())
+                .productIdList(ListUtil.list2String(restockInfoDTO.getProductIdList()))
+                .supplierList(ListUtil.list2String(restockInfoDTO.getSupplierList()))
+                .productPricelist(ListUtil.list2String(restockInfoDTO.getProductPricelist()))
                 .arriveTime(restockInfoDTO.getArriveTime())
+                .status(RestockStatus.UN_ARRIVED.getStatus())
                 .createTime(new Date())
                 .updateTime(new Date())
                 .isDeleted(0).build());
@@ -48,18 +50,16 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
 
     @Override
     public boolean updateRestock(RestockInfoDTO restockInfoDTO) {
-        //跟上面方法部分重复，可以考虑做对象封装，但是懒得做
-        StringBuilder sb = new StringBuilder();
-        StringBuilder sb1 = new StringBuilder();
-        StringBuilder sb2 = new StringBuilder();
-        getAllList(restockInfoDTO,sb,sb1,sb2);
-        //todo 关于更新操作，其实需要满足isDeleted操作为0（即没有被逻辑删除），但是这里没有校验，其他几个的更新方法也是，之后再改
-        return updateById(
+        Restock restock = getById(restockInfoDTO.getRId());
+        if(null==restock){
+            throw new ApplicationException(ResultCode.RESTOCK_NOT_EXISTS.getMessage());
+        }
+        return DeletedType.UN_DELETED.getCode().equals(restock.getIsDeleted())&&updateById(
                 Restock.builder()
                         .rId(restockInfoDTO.getRId())
-                        .productList(sb.toString())
-                        .supplierList(sb2.toString())
-                        .productPricelist(sb1.toString())
+                        .productIdList(ListUtil.list2String(restockInfoDTO.getProductIdList()))
+                        .supplierList(ListUtil.list2String(restockInfoDTO.getSupplierList()))
+                        .productPricelist(ListUtil.list2String(restockInfoDTO.getProductPricelist()))
                         .arriveTime(restockInfoDTO.getArriveTime())
                         //注意，如果这里进行了更改那么就是删除该记录
                         .isDeleted(restockInfoDTO.getIsDeleted())
@@ -77,7 +77,7 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
                 new Page<Restock>(pag, pagesize),
                 new QueryWrapper<Restock>()
                         //0为未删除，1为已删除
-                        .ne(Constant.IS_DELETED, 1)
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED)
         );
         return new PageResult(
                 pag, pagesize, page.getTotal(), page.getRecords()
@@ -101,36 +101,6 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
         );
     }
 
-
-    private void getAllList(RestockInfoDTO restockInfoDTO,StringBuilder sb,StringBuilder sb1,StringBuilder sb2){
-        List<String> productIdList = restockInfoDTO.getProductIdList();
-        List<String> productNumberList = restockInfoDTO.getProductNumberList();
-        List<String> productPricelist = restockInfoDTO.getProductPricelist();
-        List<String> supplierList = restockInfoDTO.getSupplierList();
-        int n=productIdList.size();
-        for (int i = 0; i < n; i++) {
-            StringBuilder sub = new StringBuilder(productIdList.get(i) + productNumberList.get(i));
-            if(i!=n-1){
-                sub.append(",");
-            }
-            sb.append(sub);
-        }
-        //辅助gc
-        productIdList=null;
-        productNumberList=null;
-        for (int i = 0; i < n; i++) {
-            StringBuilder sub = new StringBuilder(productPricelist.get(i));
-            StringBuilder sub1 = new StringBuilder(supplierList.get(i));
-            if(i!=n-1){
-                sub.append(",");
-                sub1.append(",");
-            }
-            sb1.append(sub);
-            sb2.append(sub1);
-        }
-        productPricelist=null;
-        supplierList=null;
-    }
 }
 
 

@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @description:
+ * @description: 定时任务，定时扫描超时未到货的进货单
  * @author：dukelewis
  * @date: 2024/4/21
  * @Copyright： https://github.com/DukeLewis
