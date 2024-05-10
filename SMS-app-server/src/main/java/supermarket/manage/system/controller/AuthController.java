@@ -22,7 +22,7 @@ import java.util.Objects;
  */
 @RestController
 @Api(tags = "1.用户登录注册模块")
-@RequestMapping("user")
+@RequestMapping("/user")
 public class AuthController {
 
     @Resource

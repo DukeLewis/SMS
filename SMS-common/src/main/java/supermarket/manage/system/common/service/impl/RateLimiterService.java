@@ -30,7 +30,7 @@ public class RateLimiterService implements IRateLimiterService {
         String luaScript="local window_start=ARGV[1]-tonumber(ARGV[4])*10000\n"+
                 "redis.call('ZREMRANGEBYSCORE',KEYS[1],'-inf',window_start)\n"+
                 "local current_req=redis.call('ZCARD',KEY[1])\n"+
-                "if current_req<tonumber(ARGV[2] then\n"+
+                "if current_req<tonumber(ARGV[2]) then\n"+
                 "   redis.call('ZADD',KEYS[1],ARGV[3],ARGV[1])\n"+
                 "   return 1\n" +
                 "else\n"+

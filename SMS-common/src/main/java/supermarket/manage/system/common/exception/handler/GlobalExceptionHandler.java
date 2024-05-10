@@ -4,9 +4,7 @@ package supermarket.manage.system.common.exception.handler;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.common.commons.enumeration.ResultCode;
@@ -19,7 +17,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ApplicationException.class)
     public AppResult applicationException(ApplicationException e){
         // 打印异常信息
-        e.printStackTrace(); // 上生产之前要删除
+//        e.printStackTrace(); // 上生产之前要删除
         // 打印日志
         log.error(e.getMessage());
         if (e.getErrorResult() != null) {
@@ -31,14 +29,13 @@ public class GlobalExceptionHandler {
         }
         // 返回具体的异常信息
         return AppResult.failed(e.getMessage());
-
     }
 
 
     @ExceptionHandler(Exception.class)
     public AppResult exceptionHandler (Exception e) {
         // 打印异常信息
-        e.printStackTrace();
+//        e.printStackTrace();
         // 打印日志
         log.error(e.getMessage());
         // 非空校验
@@ -52,7 +49,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Throwable.class)
     public AppResult throwableHandler(Throwable e){
         // 打印异常信息
-        e.printStackTrace();
+//        e.printStackTrace();
         // 打印日志
         log.error(e.getMessage());
         // 非空校验

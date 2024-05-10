@@ -51,16 +51,17 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
     @Override
     public boolean updateRestock(RestockInfoDTO restockInfoDTO) {
         Restock restock = getById(restockInfoDTO.getRId());
-        if(null==restock){
+        if(null==restock||DeletedType.UN_DELETED.getCode().equals(restock.getIsDeleted())){
             throw new ApplicationException(ResultCode.RESTOCK_NOT_EXISTS.getMessage());
         }
-        return DeletedType.UN_DELETED.getCode().equals(restock.getIsDeleted())&&updateById(
+        return updateById(
                 Restock.builder()
                         .rId(restockInfoDTO.getRId())
                         .productIdList(ListUtil.list2String(restockInfoDTO.getProductIdList()))
                         .supplierList(ListUtil.list2String(restockInfoDTO.getSupplierList()))
                         .productPricelist(ListUtil.list2String(restockInfoDTO.getProductPricelist()))
                         .arriveTime(restockInfoDTO.getArriveTime())
+                        .status(restockInfoDTO.getStatus())
                         //注意，如果这里进行了更改那么就是删除该记录
                         .isDeleted(restockInfoDTO.getIsDeleted())
                         .updateTime(new Date())

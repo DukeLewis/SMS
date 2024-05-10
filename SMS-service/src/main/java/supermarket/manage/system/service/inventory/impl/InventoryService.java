@@ -65,7 +65,7 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
                 goodsMapper.update(null,
                         new UpdateWrapper<Goods>()
                                 .eq(Constant.GOODS_ID, inventoryInfoDTO.getGid())
-                                .eq(Constant.IS_DELETED, 0)
+                                .eq(Constant.IS_DELETED, DeletedType.UN_DELETED)
                                 .setSql("inventory = inventory + " + inventoryNum)
                 ) > 0;
         //todo 如果前端无法实现，考虑将取消该事件
