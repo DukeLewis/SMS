@@ -1,5 +1,6 @@
 package supermarket.manage.system.common.commons.enumeration;
 
+
 /**
  * 返回状态码和描述信息枚举类
  */
@@ -68,9 +69,13 @@ public enum ResultCode {
         this.message = message;
     }
 
+
     @Override
     public String toString() {
-        return "code = " + code + ",message = " + message + ". ";
+        return "ResultCode{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                '}';
     }
 
     public int getCode() {

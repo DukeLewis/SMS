@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import supermarket.manage.system.common.annotation.InfoLog;
+import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.common.commons.Constant;
 import supermarket.manage.system.common.commons.enumeration.DeletedType;
 import supermarket.manage.system.common.commons.enumeration.InfoType;
@@ -78,7 +79,7 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
         Goods goods = getById(goodsInfoDTO.getGid());
 
         if(null==goods||DeletedType.DELETED.equals(goods.getIsDeleted())){
-            throw new ApplicationException(ResultCode.GOODS_NOT_EXISTS.getMessage());
+            throw new ApplicationException(AppResult.failed(ResultCode.GOODS_NOT_EXISTS));
         }
 
         return updateById(Goods.builder()
@@ -126,7 +127,7 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
 
         Goods goods = getById(supplierPageQueryDTO.getId());
         if(null==goods){
-            throw new ApplicationException(ResultCode.GOODS_NOT_EXISTS.getMessage());
+            throw new ApplicationException(AppResult.failed(ResultCode.GOODS_NOT_EXISTS));
         }
         String[] supplierIdList = goods.getSupplierIdList().split(Constant.DATABASE_SPLIT);
         Page<Supplier> supplierList = supplierMapper.selectPage(

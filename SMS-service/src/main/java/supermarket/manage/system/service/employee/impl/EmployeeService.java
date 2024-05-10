@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.common.commons.Constant;
 import supermarket.manage.system.common.commons.enumeration.DeletedType;
 import supermarket.manage.system.common.commons.enumeration.ResultCode;
@@ -47,7 +48,7 @@ public class EmployeeService extends ServiceImpl<EmployeeMapper, Employee>
         Employee employee = getById(employeeInfoDTO.getEid());
 
         if(null==employee||DeletedType.DELETED.equals(employee.getIsDeleted())){
-            throw new ApplicationException(ResultCode.ERROR_IS_NULL.getMessage());
+            throw new ApplicationException(AppResult.failed(ResultCode.ERROR_IS_NULL));
         }
 
         return updateById(Employee.builder()
