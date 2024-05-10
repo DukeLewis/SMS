@@ -17,34 +17,17 @@ import java.util.Map;
 @Component
 public class GoodsSupport {
 
-    public Map<String, SortType> sortTypeMap=new HashMap<>();
+    public static final Map<String, Constant.SortType> sortTypeMap=new HashMap<>();
+
+    public static final Map<String, Constant.KeyWordType> keyWordTypeMap=new HashMap<>();
 
     @PostConstruct
     public void init(){
-        sortTypeMap.put(Constant.SortType.ASC.getInfo(), new SortAsc());
-        sortTypeMap.put(Constant.SortType.DESC.getInfo(), new SortDesc());
-    }
+        sortTypeMap.put(Constant.SortType.ASC.getInfo(), Constant.SortType.ASC);
+        sortTypeMap.put(Constant.SortType.DESC.getInfo(), Constant.SortType.DESC);
 
-    public interface SortType{
-        /**
-         * 获取排序的QueryWrapper
-         * @param qw 待处理的QueryWrapper
-         * @param key 排序的关键字
-         * @return 处理后的QueryWrapper
-         */
-        QueryWrapper sortBy(QueryWrapper qw,String key);
-    }
-
-    public static class SortAsc implements SortType{
-        public QueryWrapper sortBy(QueryWrapper qw,String key){
-            return (QueryWrapper) qw.orderByAsc(key);
-        }
-    }
-
-    public static class SortDesc implements SortType{
-        public QueryWrapper sortBy(QueryWrapper qw,String key){
-            return (QueryWrapper) qw.orderByDesc(key);
-        }
+        keyWordTypeMap.put(Constant.KeyWordType.CATEGORY.getInfo(), Constant.KeyWordType.CATEGORY);
+        keyWordTypeMap.put(Constant.KeyWordType.NAME.getInfo(), Constant.KeyWordType.NAME);
     }
 
 }

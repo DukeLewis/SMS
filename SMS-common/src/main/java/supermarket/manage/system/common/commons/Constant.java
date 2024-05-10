@@ -32,6 +32,11 @@ public class Constant {
     public static final String GOODS_NAME = "g_name";
 
     /**
+     * 商品类型
+     */
+    public static final String GOODS_CATEGORY = "g_category";
+
+    /**
      * 商品id
      */
     public static final String GOODS_ID="g_id";
@@ -67,6 +72,26 @@ public class Constant {
          * 描述
          */
         private final String info;
+
+        public boolean equal(SortType sortType){
+            return this.info.equals(sortType.getInfo());
+        }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public enum KeyWordType{
+        CATEGORY("category"),
+        NAME("name");
+
+        /**
+         * 描述
+         */
+        private final String info;
+
+        public boolean equal(KeyWordType keyWordType){
+            return this.info.equals(keyWordType.getInfo());
+        }
     }
 
 

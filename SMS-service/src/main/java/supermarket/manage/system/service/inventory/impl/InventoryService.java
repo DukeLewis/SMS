@@ -9,8 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.common.commons.Constant;
 import supermarket.manage.system.common.commons.enumeration.DeletedType;
+import supermarket.manage.system.common.commons.enumeration.ResultCode;
+import supermarket.manage.system.common.exception.ApplicationException;
 import supermarket.manage.system.model.domain.Goods;
 import supermarket.manage.system.model.domain.Inventory;
 import supermarket.manage.system.model.dto.InventoryInfoDTO;
@@ -60,14 +63,17 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
                 .purpose(inventoryInfoDTO.getPurpose())
                 .createTime(new Date())
                 .updateTime(new Date())
-                .isDeleted(0).build())
-                &&
-                goodsMapper.update(null,
-                        new UpdateWrapper<Goods>()
-                                .eq(Constant.GOODS_ID, inventoryInfoDTO.getGid())
-                                .eq(Constant.IS_DELETED, DeletedType.UN_DELETED)
-                                .setSql("inventory = inventory + " + inventoryNum)
-                ) > 0;
+                .isDeleted(0).build());
+        Goods goods = goodsMapper.selectById(inventoryInfoDTO.getGid());
+        if(goods==null){
+            throw new ApplicationException(AppResult.failed(ResultCode.GOODS_NOT_EXISTS));
+        }
+        flg = flg&&goodsMapper.update(null,
+                new UpdateWrapper<Goods>()
+                        .eq(Constant.GOODS_ID, inventoryInfoDTO.getGid())
+                        .eq(Constant.IS_DELETED, DeletedType.UN_DELETED.getCode())
+                        .setSql("inventory = inventory + " + inventoryNum)
+        ) > 0;
         //todo 如果前端无法实现，考虑将取消该事件
         try {
             applicationContext.publishEvent(new InventoryUpdateEvent(new InventoryEventEntity(
@@ -88,7 +94,7 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
         return update(null,
                 new UpdateWrapper<Inventory>()
                         .eq("id",id)
-                        .set(Constant.IS_DELETED, 1)
+                        .set(Constant.IS_DELETED, DeletedType.DELETED.getCode())
         );
     }
 
@@ -101,7 +107,7 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
                 new Page<Inventory>(pag, pagesize),
                 new QueryWrapper<Inventory>().eq(Constant.GOODS_NAME, pageQueryDTO.getKeyword())
                         //0为未删除，1为已删除
-                        .ne(Constant.IS_DELETED, DeletedType.DELETED)
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED.getCode())
         );
         return new PageResult(
                 pag, pagesize, page.getTotal(), page.getRecords()
@@ -117,7 +123,7 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
                 new Page<Inventory>(pag, pagesize),
                 new QueryWrapper<Inventory>()
                         //0为未删除，1为已删除
-                        .ne(Constant.IS_DELETED, DeletedType.DELETED)
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED.getCode())
         );
         return new PageResult(
                 pag, pagesize, page.getTotal(), page.getRecords()

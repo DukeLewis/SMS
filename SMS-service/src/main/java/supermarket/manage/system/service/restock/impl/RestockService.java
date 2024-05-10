@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.common.commons.Constant;
 import supermarket.manage.system.common.commons.enumeration.DeletedType;
 import supermarket.manage.system.common.commons.enumeration.RestockStatus;
@@ -52,7 +53,7 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
     public boolean updateRestock(RestockInfoDTO restockInfoDTO) {
         Restock restock = getById(restockInfoDTO.getRId());
         if(null==restock||DeletedType.UN_DELETED.getCode().equals(restock.getIsDeleted())){
-            throw new ApplicationException(ResultCode.RESTOCK_NOT_EXISTS.getMessage());
+            throw new ApplicationException(AppResult.failed(ResultCode.RESTOCK_NOT_EXISTS));
         }
         return updateById(
                 Restock.builder()
@@ -78,7 +79,7 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
                 new Page<Restock>(pag, pagesize),
                 new QueryWrapper<Restock>()
                         //0为未删除，1为已删除
-                        .ne(Constant.IS_DELETED, DeletedType.DELETED)
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED.getCode())
         );
         return new PageResult(
                 pag, pagesize, page.getTotal(), page.getRecords()
