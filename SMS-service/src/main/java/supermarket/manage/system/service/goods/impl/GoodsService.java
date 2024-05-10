@@ -75,6 +75,12 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
     //todo 该处不可更改库存
     @Override
     public boolean informationModification(GoodsInfoDTO goodsInfoDTO) {
+        Goods goods = getById(goodsInfoDTO.getGid());
+
+        if(null==goods||DeletedType.DELETED.equals(goods.getIsDeleted())){
+            throw new ApplicationException(ResultCode.GOODS_NOT_EXISTS.getMessage());
+        }
+
         return updateById(Goods.builder()
                 .gId(goodsInfoDTO.getGid())
                 .gName(goodsInfoDTO.getGname())

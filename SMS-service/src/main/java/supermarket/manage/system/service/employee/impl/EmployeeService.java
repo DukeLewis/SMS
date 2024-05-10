@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import supermarket.manage.system.common.commons.Constant;
 import supermarket.manage.system.common.commons.enumeration.DeletedType;
+import supermarket.manage.system.common.commons.enumeration.ResultCode;
+import supermarket.manage.system.common.exception.ApplicationException;
 import supermarket.manage.system.model.domain.Employee;
 import supermarket.manage.system.model.dto.EmployeeInfoDTO;
 import supermarket.manage.system.model.dto.PageQueryDTO;
@@ -42,6 +44,12 @@ public class EmployeeService extends ServiceImpl<EmployeeMapper, Employee>
 
     @Override
     public boolean informationModification(EmployeeInfoDTO employeeInfoDTO) {
+        Employee employee = getById(employeeInfoDTO.getEid());
+
+        if(null==employee||DeletedType.DELETED.equals(employee.getIsDeleted())){
+            throw new ApplicationException(ResultCode.ERROR_IS_NULL.getMessage());
+        }
+
         return updateById(Employee.builder()
                 .eId(employeeInfoDTO.getEid())
                 .eName(employeeInfoDTO.getEname())
