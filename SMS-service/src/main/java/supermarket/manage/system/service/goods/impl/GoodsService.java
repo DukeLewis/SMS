@@ -47,8 +47,6 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
     @Resource
     private SupplierMapper supplierMapper;
 
-    @Resource
-    private GoodsSupport goodsSupport;
 
     //todo 录入商品信息同时需要新增入库信息
     @Override
@@ -103,12 +101,20 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
     public PageResult informationQuery(PageQueryDTO pageQueryDTO) {
         Integer pag = pageQueryDTO.getPage();
         Integer pagesize = pageQueryDTO.getPagesize();
-
+        //获取查询类型
+        Constant.KeyWordType keyWordType = GoodsSupport.keyWordTypeMap.get(pageQueryDTO.getKeyword());
+        if(null==keyWordType){
+            throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
+        }
+        //0为未删除，1为已删除
+        QueryWrapper<Goods> queryWrapper = new QueryWrapper<Goods>().ne(Constant.IS_DELETED, DeletedType.DELETED);
+        //判断查询类型执行对应查询
+        queryWrapper=keyWordType.equal(Constant.KeyWordType.CATEGORY)
+                ?queryWrapper.eq(Constant.GOODS_CATEGORY, pageQueryDTO.getKeyword())
+                :queryWrapper.eq(Constant.GOODS_NAME, pageQueryDTO.getKeyword());
         Page<Goods> page = goodsMapper.selectPage(
                 new Page<Goods>(pag, pagesize),
-                new QueryWrapper<Goods>().eq(Constant.GOODS_NAME, pageQueryDTO.getKeyword())
-                        //0为未删除，1为已删除
-                        .ne(Constant.IS_DELETED, DeletedType.DELETED)
+                queryWrapper
         );
         return new PageResult(
                 pag, pagesize, page.getTotal(), page.getRecords()
@@ -121,19 +127,28 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
         Integer pag = supplierPageQueryDTO.getPage();
         Integer pagesize = supplierPageQueryDTO.getPagesize();
 
-        GoodsSupport.SortType sortType = goodsSupport.sortTypeMap.get(supplierPageQueryDTO.getSortType());
-        String sortKey = supplierPageQueryDTO.getSortKey();
-
-
+        //获取商品信息
         Goods goods = getById(supplierPageQueryDTO.getId());
         if(null==goods){
             throw new ApplicationException(AppResult.failed(ResultCode.GOODS_NOT_EXISTS));
         }
+        //获取供应商id列表
         String[] supplierIdList = goods.getSupplierIdList().split(Constant.DATABASE_SPLIT);
+        //获取排序类型
+        Constant.SortType sortType = GoodsSupport.sortTypeMap.get(supplierPageQueryDTO.getSortType());
+        if(null==sortType){
+            throw new ApplicationException(AppResult.failed(ResultCode.SORT_TYPE_NOT_EXISTS));
+        }
+        String sortKey = supplierPageQueryDTO.getSortKey();
+        QueryWrapper<Supplier> queryWrapper = new QueryWrapper<Supplier>()
+                .in(Constant.SUPPLIER_ID, supplierIdList);
+        //判断排序类型执行对应排序
+        queryWrapper=sortType.equal(Constant.SortType.ASC)
+                ?queryWrapper.orderByAsc(sortKey)
+                :queryWrapper.orderByDesc(sortKey);
         Page<Supplier> supplierList = supplierMapper.selectPage(
                 new Page<Supplier>(pag, pagesize),
-                (QueryWrapper<Supplier>)sortType.sortBy(new QueryWrapper<Supplier>()
-                        .in(Constant.SUPPLIER_ID, supplierIdList),sortKey)
+                queryWrapper
         );
         //创建供应商信息列表
         List<QuerySupplierListOfGoodsEntity> supplierListOfGoods = new ArrayList<>();

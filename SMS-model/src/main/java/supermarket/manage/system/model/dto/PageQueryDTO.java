@@ -35,8 +35,8 @@ public class PageQueryDTO implements Serializable {
 
 
     /**
-     * 查询条件
+     * 查询条件（分类、名称）
      */
-    @ApiModelProperty(value = "查询条件")
+    @ApiModelProperty(value = "查询条件（分类，名称）",allowableValues = "category,name")
     private String keyword;
 }

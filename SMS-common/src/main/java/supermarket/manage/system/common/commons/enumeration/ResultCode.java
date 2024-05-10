@@ -12,6 +12,8 @@ public enum ResultCode {
     FAILED_FORBIDDEN            (1003, "禁止访问"),
     FAILED_CREATE               (1004, "新增失败"),
     FAILED_NOT_EXISTS           (1005, "资源不存在"),
+    KEYWORD_TYPE_NOT_EXISTS     (1006, "查询关键字不存在"),
+    SORT_TYPE_NOT_EXISTS        (1007, "排序类型不存在"),
 
     // 关于用户的错误描述
     FAILED_USER_EXISTS          (1101, "用户已存在"),
