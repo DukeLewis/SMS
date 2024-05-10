@@ -27,7 +27,6 @@ public class GoodsInfoDTO implements Serializable {
     /**
      * 商品唯一标识
      */
-    @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "商品唯一标识")
     @NotNull
     private Integer gid;

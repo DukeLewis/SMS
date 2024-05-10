@@ -71,7 +71,7 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
         flg = flg&&goodsMapper.update(null,
                 new UpdateWrapper<Goods>()
                         .eq(Constant.GOODS_ID, inventoryInfoDTO.getGid())
-                        .eq(Constant.IS_DELETED, DeletedType.UN_DELETED)
+                        .eq(Constant.IS_DELETED, DeletedType.UN_DELETED.getCode())
                         .setSql("inventory = inventory + " + inventoryNum)
         ) > 0;
         //todo 如果前端无法实现，考虑将取消该事件
@@ -94,7 +94,7 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
         return update(null,
                 new UpdateWrapper<Inventory>()
                         .eq("id",id)
-                        .set(Constant.IS_DELETED, 1)
+                        .set(Constant.IS_DELETED, DeletedType.DELETED.getCode())
         );
     }
 
@@ -107,7 +107,7 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
                 new Page<Inventory>(pag, pagesize),
                 new QueryWrapper<Inventory>().eq(Constant.GOODS_NAME, pageQueryDTO.getKeyword())
                         //0为未删除，1为已删除
-                        .ne(Constant.IS_DELETED, DeletedType.DELETED)
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED.getCode())
         );
         return new PageResult(
                 pag, pagesize, page.getTotal(), page.getRecords()
@@ -123,7 +123,7 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
                 new Page<Inventory>(pag, pagesize),
                 new QueryWrapper<Inventory>()
                         //0为未删除，1为已删除
-                        .ne(Constant.IS_DELETED, DeletedType.DELETED)
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED.getCode())
         );
         return new PageResult(
                 pag, pagesize, page.getTotal(), page.getRecords()

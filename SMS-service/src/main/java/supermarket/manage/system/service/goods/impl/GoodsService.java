@@ -15,6 +15,7 @@ import supermarket.manage.system.common.commons.enumeration.ResultCode;
 import supermarket.manage.system.common.exception.ApplicationException;
 import supermarket.manage.system.common.util.ListUtil;
 import supermarket.manage.system.model.domain.Goods;
+import supermarket.manage.system.model.domain.Inventory;
 import supermarket.manage.system.model.domain.Supplier;
 import supermarket.manage.system.model.dto.GoodsInfoDTO;
 import supermarket.manage.system.model.dto.PageQueryDTO;
@@ -22,6 +23,7 @@ import supermarket.manage.system.model.dto.SupplierPageQueryDTO;
 import supermarket.manage.system.model.entity.QuerySupplierListOfGoodsEntity;
 import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.repository.mysql.mapper.GoodsMapper;
+import supermarket.manage.system.repository.mysql.mapper.InventoryMapper;
 import supermarket.manage.system.repository.mysql.mapper.SupplierMapper;
 import supermarket.manage.system.service.goods.GoodsSupport;
 import supermarket.manage.system.service.goods.IGoodsService;
@@ -47,12 +49,17 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
     @Resource
     private SupplierMapper supplierMapper;
 
+    @Resource
+    private InventoryMapper inventoryMapper;
 
-    //todo 录入商品信息同时需要新增入库信息
+    //todo 考虑是否录入商品信息同时需要新增入库信息
     @Override
     @InfoLog(infoType = InfoType.ADD, item = "商品", infoItemIdExpression = "#goodsInfoDTO.gid")
+    @Transactional(rollbackFor = Exception.class)
     public boolean informationEntry(GoodsInfoDTO goodsInfoDTO) {
+        Date date = new Date();
         return save(Goods.builder()
+                .gId(goodsInfoDTO.getGid())
                 .gName(goodsInfoDTO.getGname())
                 .purchasePrice(goodsInfoDTO.getPurchasePrice())
                 .inventory(goodsInfoDTO.getInventory())
@@ -65,10 +72,26 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
                 .gType(goodsInfoDTO.getGtype())
                 .supplierIdList(ListUtil.list2String(goodsInfoDTO.getSupplierIdList()))
                 .supplierPriceList(ListUtil.list2String(goodsInfoDTO.getSupplierPriceList()))
-                .createTime(new Date())
-                .updateTime(new Date())
-                .isDeleted(0)
-                .build());
+                .createTime(date)
+                .updateTime(date)
+                .isDeleted(DeletedType.UN_DELETED.getCode())
+                .build())
+                &&
+                inventoryMapper.insert(
+                        Inventory.builder()
+                                .gId(goodsInfoDTO.getGid())
+                                .gName(goodsInfoDTO.getGname())
+                                .gCategory(goodsInfoDTO.getGcategory())
+                                .inboundNum(goodsInfoDTO.getInventory())
+                                .inboundTime(date)
+                                .supplier(null)
+                                .outboundNum(0)
+                                .outboundTime(date)
+                                .purpose("录入商品信息")
+                                .createTime(date)
+                                .updateTime(date)
+                                .isDeleted(0).build()
+                )>0;
     }
 
     //todo 该处不可更改库存
@@ -76,7 +99,7 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
     public boolean informationModification(GoodsInfoDTO goodsInfoDTO) {
         Goods goods = getById(goodsInfoDTO.getGid());
 
-        if(null==goods||DeletedType.DELETED.equals(goods.getIsDeleted())){
+        if(null==goods||DeletedType.DELETED.getCode().equals(goods.getIsDeleted())){
             throw new ApplicationException(AppResult.failed(ResultCode.GOODS_NOT_EXISTS));
         }
 
@@ -107,7 +130,7 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
         }
         //0为未删除，1为已删除
-        QueryWrapper<Goods> queryWrapper = new QueryWrapper<Goods>().ne(Constant.IS_DELETED, DeletedType.DELETED);
+        QueryWrapper<Goods> queryWrapper = new QueryWrapper<Goods>().ne(Constant.IS_DELETED, DeletedType.DELETED.getCode());
         //判断查询类型执行对应查询
         queryWrapper=keyWordType.equal(Constant.KeyWordType.CATEGORY)
                 ?queryWrapper.eq(Constant.GOODS_CATEGORY, pageQueryDTO.getKeyword())

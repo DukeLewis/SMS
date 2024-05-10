@@ -47,7 +47,7 @@ public class EmployeeService extends ServiceImpl<EmployeeMapper, Employee>
     public boolean informationModification(EmployeeInfoDTO employeeInfoDTO) {
         Employee employee = getById(employeeInfoDTO.getEid());
 
-        if(null==employee||DeletedType.DELETED.equals(employee.getIsDeleted())){
+        if(null==employee||DeletedType.DELETED.getCode().equals(employee.getIsDeleted())){
             throw new ApplicationException(AppResult.failed(ResultCode.ERROR_IS_NULL));
         }
 
@@ -70,7 +70,7 @@ public class EmployeeService extends ServiceImpl<EmployeeMapper, Employee>
                 new Page<Employee>(pag,pagesize),
                 new QueryWrapper<Employee>().eq(Constant.EMPLOYEE_NAME, pageQueryDTO.getKeyword())
                         //0为未删除，1为已删除
-                        .ne(Constant.IS_DELETED, DeletedType.DELETED)
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED.getCode())
         );
         return new PageResult(
                 pag,pagesize,page.getTotal(),page.getRecords()

@@ -79,7 +79,7 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
                 new Page<Restock>(pag, pagesize),
                 new QueryWrapper<Restock>()
                         //0为未删除，1为已删除
-                        .ne(Constant.IS_DELETED, DeletedType.DELETED)
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED.getCode())
         );
         return new PageResult(
                 pag, pagesize, page.getTotal(), page.getRecords()
