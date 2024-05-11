@@ -38,7 +38,7 @@ public class InventoryController {
 
     @PostMapping("/del/{id}")
     @ApiOperation("商品出库记录")
-    public AppResult delInventory(@PathVariable Integer id) {
+    public AppResult delInventory(@PathVariable @NotNull Integer id) {
         return AppResult.success(inventoryService.delInventory(id));
     }
 

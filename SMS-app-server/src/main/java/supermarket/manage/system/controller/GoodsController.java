@@ -31,7 +31,7 @@ public class GoodsController {
 
     @PostMapping("/enter")
     @ApiOperation("商品信息录入")
-    public AppResult informationEntry(@NotNull @RequestBody GoodsInfoDTO goodsInfoDTO){
+    public AppResult informationEntry(@NotNull @RequestBody @Validated GoodsInfoDTO goodsInfoDTO){
         return AppResult.success(goodsService.informationEntry(goodsInfoDTO));
     }
 
@@ -49,7 +49,7 @@ public class GoodsController {
 
     @GetMapping("/querySupplier")
     @ApiOperation("商品的供应商信息查询")
-    public AppResult<PageResult> querySupplier(@NotNull SupplierPageQueryDTO supplierPageQueryDTO){
+    public AppResult<PageResult> querySupplier(@NotNull @Validated SupplierPageQueryDTO supplierPageQueryDTO){
         return AppResult.success(goodsService.querySupplier(supplierPageQueryDTO));
     }
 }

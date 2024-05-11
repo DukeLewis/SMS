@@ -14,6 +14,7 @@ public enum ResultCode {
     FAILED_NOT_EXISTS           (1005, "资源不存在"),
     KEYWORD_TYPE_NOT_EXISTS     (1006, "查询关键字不存在"),
     SORT_TYPE_NOT_EXISTS        (1007, "排序类型不存在"),
+    KEYWORD_NOT_EXISTS          (1008, "查询关键字不存在"),
 
     // 关于用户的错误描述
     FAILED_USER_EXISTS          (1101, "用户已存在"),
