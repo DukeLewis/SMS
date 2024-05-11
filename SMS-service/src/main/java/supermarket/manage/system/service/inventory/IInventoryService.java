@@ -22,16 +22,16 @@ public interface IInventoryService extends IService<Inventory> {
     boolean addInventory(InventoryInfoDTO inventoryInfoDTO);
 
     /**
-     * 出库信息
-     * @param inventoryInfoDTO
+     * 删除库存信息
+     * @param id
      * @return
      */
-    boolean delInventory(InventoryInfoDTO inventoryInfoDTO);
+    boolean delInventory(Integer id);
 
 
     /**
      * 查询某个商品库存信息
-     * @param gid
+     * @param pageQueryDTO
      * @return
      */
     PageResult queryInventory(PageQueryDTO pageQueryDTO);

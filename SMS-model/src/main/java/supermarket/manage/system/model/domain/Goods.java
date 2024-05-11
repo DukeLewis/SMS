@@ -75,9 +75,14 @@ public class Goods implements Serializable {
     private String gOrigin;
 
     /**
-     * 能供应该商品的供应商列表
+     * 能供应该商品的供应商id列表
      */
-    private String supplierList;
+    private String supplierIdList;
+
+    /**
+     * 能提供该商品的供应商对应的价格列表
+     */
+    private String supplierPriceList;
 
     /**
      * 更新时间

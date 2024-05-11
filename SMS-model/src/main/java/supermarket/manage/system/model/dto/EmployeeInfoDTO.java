@@ -35,6 +35,7 @@ public class EmployeeInfoDTO implements Serializable {
      * 员工姓名
      */
     @ApiModelProperty(value = "员工姓名")
+    @NotBlank
     private String ename;
 
     /**

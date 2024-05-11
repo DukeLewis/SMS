@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @description: 商品信息DTO
@@ -26,7 +27,6 @@ public class GoodsInfoDTO implements Serializable {
     /**
      * 商品唯一标识
      */
-    @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "商品唯一标识")
     @NotNull
     private Integer gid;
@@ -102,11 +102,18 @@ public class GoodsInfoDTO implements Serializable {
     private String gorigin;
 
     /**
-     * 能供应该商品的供应商列表
+     * 能供应该商品的供应商id列表
      */
-    @ApiModelProperty(value = "能供应该商品的供应商列表")
-    @NotBlank
-    private String supplierList;
+    @ApiModelProperty(value = "能供应该商品的供应商id列表")
+    @NotNull
+    private List<String> supplierIdList;
+
+    /**
+     * 供应商提供商品的价格列表
+     */
+    @ApiModelProperty(value = "供应商提供商品的价格列表")
+    @NotNull
+    private List<String> supplierPriceList;
 
     /**
      * 逻辑删除字段

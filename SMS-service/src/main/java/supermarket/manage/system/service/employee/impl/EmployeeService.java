@@ -4,7 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.common.commons.Constant;
+import supermarket.manage.system.common.commons.enumeration.DeletedType;
+import supermarket.manage.system.common.commons.enumeration.ResultCode;
+import supermarket.manage.system.common.exception.ApplicationException;
 import supermarket.manage.system.model.domain.Employee;
 import supermarket.manage.system.model.dto.EmployeeInfoDTO;
 import supermarket.manage.system.model.dto.PageQueryDTO;
@@ -41,6 +45,12 @@ public class EmployeeService extends ServiceImpl<EmployeeMapper, Employee>
 
     @Override
     public boolean informationModification(EmployeeInfoDTO employeeInfoDTO) {
+        Employee employee = getById(employeeInfoDTO.getEid());
+
+        if(null==employee||DeletedType.DELETED.getCode().equals(employee.getIsDeleted())){
+            throw new ApplicationException(AppResult.failed(ResultCode.ERROR_IS_NULL));
+        }
+
         return updateById(Employee.builder()
                 .eId(employeeInfoDTO.getEid())
                 .eName(employeeInfoDTO.getEname())
@@ -56,11 +66,15 @@ public class EmployeeService extends ServiceImpl<EmployeeMapper, Employee>
         Integer pag = pageQueryDTO.getPage();
         Integer pagesize = pageQueryDTO.getPagesize();
 
+        if(null==pageQueryDTO.getKeyword()){
+            throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_NOT_EXISTS));
+        }
+
         Page<Employee> page = employeeMapper.selectPage(
                 new Page<Employee>(pag,pagesize),
                 new QueryWrapper<Employee>().eq(Constant.EMPLOYEE_NAME, pageQueryDTO.getKeyword())
                         //0为未删除，1为已删除
-                        .ne(Constant.IS_DELETED,1)
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED.getCode())
         );
         return new PageResult(
                 pag,pagesize,page.getTotal(),page.getRecords()

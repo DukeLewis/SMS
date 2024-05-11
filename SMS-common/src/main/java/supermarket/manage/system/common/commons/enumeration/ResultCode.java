@@ -1,5 +1,9 @@
 package supermarket.manage.system.common.commons.enumeration;
 
+
+/**
+ * 返回状态码和描述信息枚举类
+ */
 public enum ResultCode {
     SUCCESS                    (0,"操作成功"),
     FAILED                      (1000,"操作失败"),
@@ -8,6 +12,11 @@ public enum ResultCode {
     FAILED_FORBIDDEN            (1003, "禁止访问"),
     FAILED_CREATE               (1004, "新增失败"),
     FAILED_NOT_EXISTS           (1005, "资源不存在"),
+    KEYWORD_TYPE_NOT_EXISTS     (1006, "查询关键字不存在"),
+    SORT_TYPE_NOT_EXISTS        (1007, "排序类型不存在"),
+    KEYWORD_NOT_EXISTS          (1008, "查询关键字不存在"),
+    ERR_JWT_EXPIRED             (1009, "JWT过期"),
+    ERR_JWT_INVALID             (1010, "JWT无效"),
 
     // 关于用户的错误描述
     FAILED_USER_EXISTS          (1101, "用户已存在"),
@@ -40,13 +49,24 @@ public enum ResultCode {
     FAILED_EMPLOYEE_DELETE      (1506, "员工信息删除失败"),
     FAILED_EMPLOYEE_QUERY       (1507, "员工信息查询失败"),
 
+    //商品
+    GOODS_NOT_EXISTS(1601,"商品不存在"),
+
+    //进货单
+    RESTOCK_NOT_EXISTS(1701,"进货单不存在"),
+
     ERROR_SERVICES              (2000, "服务器内部错误"),
     ERROR_IS_NULL               (2001, "IS NULL.");
 
 
-    //状态码
+    /**
+     * 状态码
+     */
     int code;
-    //描述信息
+
+    /**
+     * 描述信息
+     */
     String message;
 
     ResultCode(int code, String message){
@@ -54,9 +74,13 @@ public enum ResultCode {
         this.message = message;
     }
 
+
     @Override
     public String toString() {
-        return "code = " + code + ",message = " + message + ". ";
+        return "ResultCode{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                '}';
     }
 
     public int getCode() {
@@ -66,10 +90,5 @@ public enum ResultCode {
     public String getMessage() {
         return message;
     }
-
-
-
-
-
 
 }

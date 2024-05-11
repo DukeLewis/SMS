@@ -44,14 +44,15 @@ create table goods
     g_name              varchar(30)   not null comment '商品名称',
     purchase_price      varchar(10)   not null comment '进货价格',
     inventory           int           not null comment '当前商品库存',
-    inventory_threshold int           not null comment '库存警告阈值',
+    inventory_threshold int           not null,
     sell_price          varchar(10)   not null comment '销售价格',
     g_brand             varchar(30)   not null comment '商品品牌',
     g_category          varchar(30)   not null comment '商品类别',
     g_type              varchar(30)   null comment '商品型号',
     g_specs             varchar(30)   null comment '商品规格',
     g_origin            varchar(30)   null comment '商品产地',
-    supplier_list       varchar(5000) null comment '能供应该商品的供应商列表',
+    supplier_id_list    varchar(5000) null comment '能供应该商品的供应商id列表',
+    supplier_price_list varchar(5000) null comment '能提供该商品的供应商对应的价格列表',
     update_time         datetime      not null comment '更新时间',
     create_time         datetime      not null comment '创建时间',
     is_deleted          tinyint(5)    not null comment '逻辑删除字段'
@@ -61,16 +62,17 @@ create table goods
 
 create table restock
 (
-    r_id              int(20) auto_increment comment '进货单唯一标识'
+    r_id                  int(20) auto_increment comment '进货单唯一标识'
         primary key,
-    product_list      varchar(10000) not null comment '商品列表，商品编号和数量合为一个十八位数，前八位商品编号，后八位为商品数量，多个商品用逗号进行隔开',
-    supplier_list     varchar(5000)  not null comment '对应商品列表中的每个商品是由哪个供应商进行供货，多个用逗号隔开',
-    product_pricelist varchar(5000)  not null comment '商品进价列表，对应上面的商品列表中的每个商品中的进价，多个用逗号隔开',
-    arrive_time       datetime       not null comment '到货时间',
-    status            tinyint(6)     not null comment '进货单状态位，0-已下单未到货，1-已到货，2-待定，3-延期',
-    create_time       datetime       not null comment '创建时间，同时也是下单时间',
-    update_time       datetime       not null comment '更新时间',
-    is_deleted        tinyint(5)     not null comment '逻辑删除字段'
+    product_id_list       varchar(1000) not null comment '商品id列表',
+    product_quantity_list int           not null comment '商品数量列表',
+    supplier_list         varchar(5000) not null comment '对应商品列表中的每个商品是由哪个供应商进行供货，多个用逗号隔开',
+    product_pricelist     varchar(5000) not null comment '商品进价列表，对应上面的商品列表中的每个商品中的进价，多个用逗号隔开',
+    arrive_time           datetime      not null comment '到货时间',
+    status                tinyint(6)    not null comment '进货单状态位，0-已下单未到货，1-已到货，2-待定，3-延期',
+    create_time           datetime      not null comment '创建时间，同时也是下单时间',
+    update_time           datetime      not null comment '更新时间',
+    is_deleted            tinyint(5)    not null comment '逻辑删除字段'
 );
 
 ----------------------

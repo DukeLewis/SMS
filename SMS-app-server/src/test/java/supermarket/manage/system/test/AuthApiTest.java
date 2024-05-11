@@ -1,9 +1,13 @@
 package supermarket.manage.system.test;
 
 import com.alibaba.fastjson2.JSON;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import supermarket.manage.system.common.commons.AppResult;
+import supermarket.manage.system.common.commons.enumeration.ResultCode;
+import supermarket.manage.system.common.exception.ApplicationException;
 import supermarket.manage.system.service.auth.IAuthService;
 
 import javax.annotation.Resource;
@@ -40,6 +44,13 @@ public class AuthApiTest {
     public void testLogin() {
         Map<String, String> map = authService.authorize("admin", "123456");
         log.info("登录结果：{}", JSON.toJSONString(map));
+    }
+
+
+    @org.junit.Test
+    public void test2() throws JsonProcessingException {
+        ApplicationException e = new ApplicationException(AppResult.failed(ResultCode.FAILED));
+        log.info("1:{}",JSON.toJSONString(e.getErrorResult()));
     }
 
 }

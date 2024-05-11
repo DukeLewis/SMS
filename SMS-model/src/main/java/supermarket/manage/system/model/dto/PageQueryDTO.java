@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -35,8 +36,8 @@ public class PageQueryDTO implements Serializable {
 
 
     /**
-     * 查询条件
+     * 查询条件（分类、名称）
      */
-    @ApiModelProperty(value = "查询条件")
+    @ApiModelProperty(value = "查询条件（分类，名称）",allowableValues = "category,name")
     private String keyword;
 }

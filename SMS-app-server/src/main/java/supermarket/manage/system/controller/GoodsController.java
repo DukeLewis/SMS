@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.model.dto.GoodsInfoDTO;
 import supermarket.manage.system.model.dto.PageQueryDTO;
+import supermarket.manage.system.model.dto.SupplierPageQueryDTO;
 import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.service.goods.IGoodsService;
 
@@ -30,7 +31,7 @@ public class GoodsController {
 
     @PostMapping("/enter")
     @ApiOperation("商品信息录入")
-    public AppResult informationEntry(@NotNull @RequestBody GoodsInfoDTO goodsInfoDTO){
+    public AppResult informationEntry(@NotNull @RequestBody @Validated GoodsInfoDTO goodsInfoDTO){
         return AppResult.success(goodsService.informationEntry(goodsInfoDTO));
     }
 
@@ -44,5 +45,11 @@ public class GoodsController {
     @ApiOperation("商品信息查询")
     public AppResult<PageResult> informationQuery(@NotNull PageQueryDTO pageQueryDTO){
         return AppResult.success(goodsService.informationQuery(pageQueryDTO));
+    }
+
+    @GetMapping("/querySupplier")
+    @ApiOperation("商品的供应商信息查询")
+    public AppResult<PageResult> querySupplier(@NotNull @Validated SupplierPageQueryDTO supplierPageQueryDTO){
+        return AppResult.success(goodsService.querySupplier(supplierPageQueryDTO));
     }
 }

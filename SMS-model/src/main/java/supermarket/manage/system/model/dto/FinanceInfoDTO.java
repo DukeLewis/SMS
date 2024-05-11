@@ -32,7 +32,6 @@ public class FinanceInfoDTO implements Serializable {
     /**
      * 财务记录唯一标识
      */
-    @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "财务记录唯一标识")
     @NotNull
     private Integer fid;
