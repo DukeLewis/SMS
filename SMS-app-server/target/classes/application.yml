@@ -1,5 +1,0 @@
-server:
-  port: 8090
-spring:
-  profiles:
-    active: zyc

@@ -1,5 +1,7 @@
 package supermarket.manage.system.common.commons;
 
+import java.sql.Date;
+
 /**
  * @description: 公共常量
  * @author：dukelewis
@@ -42,6 +44,14 @@ public class Constant {
      * 进货id
      */
     public static final String RESTOCK_ID = "r_id";
+
+
+    public static final String Finance_DATE = "record_time";
+
+
+    public static final String Supplier_Name = "s_name";
+
+    public static final String Supplier_Id = "s_id";
 
     public static class ResultCode{
 

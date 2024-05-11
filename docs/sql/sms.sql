@@ -111,7 +111,7 @@ create table supplier
 create table user
 (
     u_id         int(10) auto_increment comment '用户id'
-        primary key,
+        primary key ,
     u_name       varchar(30)  not null comment '用户名',
     password     varchar(100) not null comment '密码',
     u_permission tinyint(5)   not null comment '用户权限',
