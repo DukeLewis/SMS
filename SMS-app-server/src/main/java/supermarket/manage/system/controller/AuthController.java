@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.model.dto.AuthDTO;
@@ -31,7 +32,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @ApiOperation("用户登录")
-    public AppResult<AuthVO> login(@NotNull @RequestBody AuthDTO authDTO){
+    public AppResult<AuthVO> login(@NotNull @RequestBody @Validated AuthDTO authDTO){
         Map<String, String> map = authService.authorize(authDTO.getUsername(), authDTO.getPassword());
         AuthVO authVO = new AuthVO(map.get("msg"), map.get("token"));
         return AppResult.success(authVO);
@@ -39,7 +40,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ApiOperation("用户注册")
-    public AppResult<AuthVO> register(@NotNull @RequestBody AuthDTO authDTO){
+    public AppResult<AuthVO> register(@NotNull @RequestBody @Validated AuthDTO authDTO){
         boolean flg = authService.register(authDTO.getUsername(), authDTO.getPassword());
         AuthVO authVO = new AuthVO(flg == true ? "注册成功" : "注册失败");
         return AppResult.success(authVO);

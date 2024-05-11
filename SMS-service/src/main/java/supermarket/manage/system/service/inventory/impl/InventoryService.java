@@ -103,6 +103,10 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory>
         Integer pag = pageQueryDTO.getPage();
         Integer pagesize = pageQueryDTO.getPagesize();
 
+        if(null==pageQueryDTO.getKeyword()){
+            throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_NOT_EXISTS));
+        }
+
         Page<Inventory> page = inventoryMapper.selectPage(
                 new Page<Inventory>(pag, pagesize),
                 new QueryWrapper<Inventory>().eq(Constant.GOODS_NAME, pageQueryDTO.getKeyword())

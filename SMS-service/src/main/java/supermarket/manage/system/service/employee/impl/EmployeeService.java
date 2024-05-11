@@ -66,6 +66,10 @@ public class EmployeeService extends ServiceImpl<EmployeeMapper, Employee>
         Integer pag = pageQueryDTO.getPage();
         Integer pagesize = pageQueryDTO.getPagesize();
 
+        if(null==pageQueryDTO.getKeyword()){
+            throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_NOT_EXISTS));
+        }
+
         Page<Employee> page = employeeMapper.selectPage(
                 new Page<Employee>(pag,pagesize),
                 new QueryWrapper<Employee>().eq(Constant.EMPLOYEE_NAME, pageQueryDTO.getKeyword())

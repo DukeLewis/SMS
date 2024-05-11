@@ -29,7 +29,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         logger.info("验证jwt");
         Claims claims = null;
         try {
-            if (StringUtils.isEmpty(token)) {
+            if (!StringUtils.hasText(token)) {
                 filterChain.doFilter(request, response);
                 log.info("token为空");
                 return;

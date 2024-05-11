@@ -30,7 +30,7 @@ public class EmployeeController {
 
     @PostMapping("/enter")
     @ApiOperation("员工信息录入")
-    public AppResult informationEntry(@NotNull @RequestBody EmployeeInfoDTO employeeInfoDTO){
+    public AppResult informationEntry(@NotNull @RequestBody @Validated EmployeeInfoDTO employeeInfoDTO){
         return AppResult.success(employeeService.informationEntry(employeeInfoDTO)==true?"录入成功":"录入失败");
     }
 

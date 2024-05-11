@@ -124,6 +124,9 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
     public PageResult informationQuery(PageQueryDTO pageQueryDTO) {
         Integer pag = pageQueryDTO.getPage();
         Integer pagesize = pageQueryDTO.getPagesize();
+        if(null==pageQueryDTO.getKeyword()){
+            throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_NOT_EXISTS));
+        }
         //获取查询类型
         Constant.KeyWordType keyWordType = GoodsSupport.keyWordTypeMap.get(pageQueryDTO.getKeyword());
         if(null==keyWordType){

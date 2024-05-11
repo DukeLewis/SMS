@@ -92,6 +92,10 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
         Integer pag = pageQueryDTO.getPage();
         Integer pagesize = pageQueryDTO.getPagesize();
 
+        if(null==pageQueryDTO.getKeyword()){
+            throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_NOT_EXISTS));
+        }
+
         Page<Restock> page = restockMapper.selectPage(
                 new Page<Restock>(pag, pagesize),
                 new QueryWrapper<Restock>().eq(Constant.RESTOCK_ID, pageQueryDTO.getKeyword())
