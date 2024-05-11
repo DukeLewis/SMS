@@ -41,9 +41,9 @@ public class SupplierPageQueryDTO extends PageQueryDTO{
     private String sortType;
 
     /**
-     * 排序关键字
+     * 排序关键字（目前只有进价）
      */
-    @ApiModelProperty(value = "排序关键字")
-    @NotBlank
-    private String sortKey;
+//    @ApiModelProperty(value = "排序关键字")
+//    @NotBlank
+//    private String sortKey;
 }
