@@ -104,15 +104,7 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance>
     @Override
     public List<Map<String, Object>> gengerateinFinance(FinanceInfoDTO financeInfoDTO) {
 
-        String timeType = financeInfoDTO.getTimeType();
-
-
-        IGenerateFinanceExecutor generateFinanceExecutor =
-                GenerateFinanceExecutorConfig.generateFinanceExecutorMap.get(timeType);
-
-        if(null==generateFinanceExecutor){
-            throw new ApplicationException(AppResult.failed(ResultCode.TIME_TYPE_NOT_EXISTS));
-        }
+        IGenerateFinanceExecutor generateFinanceExecutor = getGenerateFinanceExecutor(financeInfoDTO);
 
         return generateFinanceExecutor.gengerateIncomeFinance(financeInfoDTO);
 
@@ -125,26 +117,57 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance>
 
     }
 
+
     @Override
     public List<Map<String, Object>> gengerateexFinance(FinanceInfoDTO financeInfoDTO) {
-        QueryWrapper<Finance> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("create_time,sum(spend) as total_spend,sum(costs) as total_costs,sum(water_cost) as total_water_cost,sum(ele_cost) as total_ele_cost")
-                .groupBy("create_time")
-                .orderByAsc("create_time");
-        List<Map<String, Object>> mapList = financeMapper.selectMaps(queryWrapper);
-        return mapList;
+
+        IGenerateFinanceExecutor generateFinanceExecutor = getGenerateFinanceExecutor(financeInfoDTO);
+
+        return generateFinanceExecutor.gengerateDisburseFinance(financeInfoDTO);
+
+        //todo
+//        QueryWrapper<Finance> queryWrapper = new QueryWrapper<>();
+//        queryWrapper.select("create_time,sum(spend) as total_spend,sum(costs) as total_costs,sum(water_cost) as total_water_cost,sum(ele_cost) as total_ele_cost")
+//                .groupBy("create_time")
+//                .orderByAsc("create_time");
+//        List<Map<String, Object>> mapList = financeMapper.selectMaps(queryWrapper);
+//        return mapList;
 
     }
 
     @Override
     public List<Map<String, Object>> gengerateprFinance(FinanceInfoDTO financeInfoDTO) {
-        QueryWrapper<Finance> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("create_time,sum(spend) as total_spend,sum(revenue) as total_revenue,total_spend-total_revenue as total_lirun")
-                .groupBy("create_time")
-                .orderByAsc("create_time");
-        List<Map<String, Object>> mapList = financeMapper.selectMaps(queryWrapper);
-        return mapList;
 
+        IGenerateFinanceExecutor generateFinanceExecutor = getGenerateFinanceExecutor(financeInfoDTO);
+
+        return generateFinanceExecutor.gengerateProfitFinance(financeInfoDTO);
+
+
+        //todo
+//        QueryWrapper<Finance> queryWrapper = new QueryWrapper<>();
+//        queryWrapper.select("create_time,sum(spend) as total_spend,sum(revenue) as total_revenue,total_spend-total_revenue as total_lirun")
+//                .groupBy("create_time")
+//                .orderByAsc("create_time");
+//        List<Map<String, Object>> mapList = financeMapper.selectMaps(queryWrapper);
+//        return mapList;
+
+    }
+
+    /**
+     * 获取对应的财务报表执行器
+     * @param financeInfoDTO
+     * @return
+     */
+    private static IGenerateFinanceExecutor getGenerateFinanceExecutor(FinanceInfoDTO financeInfoDTO) {
+        String timeType = financeInfoDTO.getTimeType();
+
+        IGenerateFinanceExecutor generateFinanceExecutor =
+                GenerateFinanceExecutorConfig.generateFinanceExecutorMap.get(timeType);
+
+        if(null==generateFinanceExecutor){
+            throw new ApplicationException(AppResult.failed(ResultCode.TIME_TYPE_NOT_EXISTS));
+        }
+        return generateFinanceExecutor;
     }
 }
 
