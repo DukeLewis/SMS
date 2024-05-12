@@ -38,18 +38,7 @@ public class SalesController {
         return AppResult.success(salesService.informationDeletion(salesInfoDTO));
     }
 
-    @GetMapping("/querybygname")
-    @ApiOperation("根据商品名称模糊查询销售信息")
-    public AppResult<PageResult> informationQueryByName(@NotNull PageQueryDTO pageQueryDTO){
-        return AppResult.success(salesService.informationQueryByName(pageQueryDTO));
-    }
 
-
-    @GetMapping("/querybysname")
-    @ApiOperation("根据销售员查询销售信息")
-    public AppResult<PageResult> informationQueryByName(@NotNull PageQueryDTO pageQueryDTO){
-        return AppResult.success(salesService.informationQueryByName(pageQueryDTO));
-    }
 
 
 }
