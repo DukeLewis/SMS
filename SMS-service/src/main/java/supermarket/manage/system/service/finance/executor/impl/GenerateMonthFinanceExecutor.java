@@ -17,17 +17,17 @@ import java.util.Map;
 public class GenerateMonthFinanceExecutor implements IGenerateFinanceExecutor {
 
     @Override
-    public List<Map<String, Object>> gengerateIncomeFinance(FinanceInfoDTO financeInfoDTO) {
+    public List<Map<String, Object>> generateIncomeFinance(FinanceInfoDTO financeInfoDTO) {
         return null;
     }
 
     @Override
-    public List<Map<String, Object>> gengerateDisburseFinance(FinanceInfoDTO financeInfoDTO) {
+    public List<Map<String, Object>> generateDisburseFinance(FinanceInfoDTO financeInfoDTO) {
         return null;
     }
 
     @Override
-    public List<Map<String, Object>> gengerateProfitFinance(FinanceInfoDTO financeInfoDTO) {
+    public List<Map<String, Object>> generateProfitFinance(FinanceInfoDTO financeInfoDTO) {
         return null;
     }
 }

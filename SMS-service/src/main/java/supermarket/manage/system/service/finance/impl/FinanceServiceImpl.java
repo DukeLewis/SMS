@@ -106,7 +106,7 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance>
 
         IGenerateFinanceExecutor generateFinanceExecutor = getGenerateFinanceExecutor(financeInfoDTO);
 
-        return generateFinanceExecutor.gengerateIncomeFinance(financeInfoDTO);
+        return generateFinanceExecutor.generateIncomeFinance(financeInfoDTO);
 
         //todo
 //        QueryWrapper<Finance> queryWrapper = new QueryWrapper<>();
@@ -123,7 +123,7 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance>
 
         IGenerateFinanceExecutor generateFinanceExecutor = getGenerateFinanceExecutor(financeInfoDTO);
 
-        return generateFinanceExecutor.gengerateDisburseFinance(financeInfoDTO);
+        return generateFinanceExecutor.generateDisburseFinance(financeInfoDTO);
 
         //todo
 //        QueryWrapper<Finance> queryWrapper = new QueryWrapper<>();
@@ -140,7 +140,7 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance>
 
         IGenerateFinanceExecutor generateFinanceExecutor = getGenerateFinanceExecutor(financeInfoDTO);
 
-        return generateFinanceExecutor.gengerateProfitFinance(financeInfoDTO);
+        return generateFinanceExecutor.generateProfitFinance(financeInfoDTO);
 
 
         //todo

@@ -17,19 +17,19 @@ public interface IGenerateFinanceExecutor {
      * @param financeInfoDTO
      * @return
      */
-    List<Map<String, Object>> gengerateDisburseFinance(FinanceInfoDTO financeInfoDTO);
+    List<Map<String, Object>> generateDisburseFinance(FinanceInfoDTO financeInfoDTO);
 
     /**
      * 获取收入报表
      * @param financeInfoDTO 报表信息
      * @return 报表信息
      */
-    List<Map<String, Object>> gengerateIncomeFinance(FinanceInfoDTO financeInfoDTO);
+    List<Map<String, Object>> generateIncomeFinance(FinanceInfoDTO financeInfoDTO);
 
     /**
      * 获取利润报表
      * @param financeInfoDTO
      * @return
      */
-    List<Map<String, Object>> gengerateProfitFinance(FinanceInfoDTO financeInfoDTO);
+    List<Map<String, Object>> generateProfitFinance(FinanceInfoDTO financeInfoDTO);
 }
