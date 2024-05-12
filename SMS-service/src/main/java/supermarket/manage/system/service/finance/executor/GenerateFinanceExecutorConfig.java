@@ -2,6 +2,7 @@ package supermarket.manage.system.service.finance.executor;
 
 import org.springframework.stereotype.Component;
 import supermarket.manage.system.common.commons.enumeration.FinanceType;
+import supermarket.manage.system.service.finance.executor.impl.GenerateDayFinanceExecutor;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -17,11 +18,12 @@ import java.util.Map;
 @Component
 public class GenerateFinanceExecutorConfig {
 
-    public static final Map<FinanceType,IGenerateFinanceExecutor> generateFinanceExecutorMap = new HashMap<>();
+    public static final Map<String,IGenerateFinanceExecutor> generateFinanceExecutorMap = new HashMap<>();
 
 
     @Resource
     private IGenerateFinanceExecutor generateDayFinanceExecutor;
+
 
     @Resource
     private IGenerateFinanceExecutor generateMonthFinanceExecutor;
@@ -31,9 +33,10 @@ public class GenerateFinanceExecutorConfig {
 
     @PostConstruct
     public void init(){
-        generateFinanceExecutorMap.put(FinanceType.DAY,generateDayFinanceExecutor);
-        generateFinanceExecutorMap.put(FinanceType.MONTH,generateMonthFinanceExecutor);
-        generateFinanceExecutorMap.put(FinanceType.YEAR,generateYearFinanceExecutor);
+//        generateDayFinanceExecutor.generateIncomeFinance(null);
+        generateFinanceExecutorMap.put(FinanceType.DAY.getInfo(),generateDayFinanceExecutor);
+        generateFinanceExecutorMap.put(FinanceType.MONTH.getInfo(),generateMonthFinanceExecutor);
+        generateFinanceExecutorMap.put(FinanceType.YEAR.getInfo(),generateYearFinanceExecutor);
     }
 
 }

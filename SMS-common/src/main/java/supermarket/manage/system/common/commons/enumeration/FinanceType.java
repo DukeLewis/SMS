@@ -18,8 +18,8 @@ public enum FinanceType {
 
     private final String info;
 
-    public boolean equal(FinanceType financeType) {
-        return this.info.equals(financeType.getInfo());
-    }
+//    public boolean equal(FinanceType financeType) {
+//        return this.info.equals(financeType.getInfo());
+//    }
 
 }
