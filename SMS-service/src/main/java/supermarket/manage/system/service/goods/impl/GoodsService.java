@@ -1,6 +1,7 @@
 package supermarket.manage.system.service.goods.impl;
 
 
+import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -11,6 +12,7 @@ import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.common.commons.Constant;
 import supermarket.manage.system.common.commons.enumeration.DeletedType;
 import supermarket.manage.system.common.commons.enumeration.InfoType;
+import supermarket.manage.system.common.commons.enumeration.ModuleType;
 import supermarket.manage.system.common.commons.enumeration.ResultCode;
 import supermarket.manage.system.common.exception.ApplicationException;
 import supermarket.manage.system.common.util.ListUtil;
@@ -25,14 +27,12 @@ import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.repository.mysql.mapper.GoodsMapper;
 import supermarket.manage.system.repository.mysql.mapper.InventoryMapper;
 import supermarket.manage.system.repository.mysql.mapper.SupplierMapper;
-import supermarket.manage.system.service.goods.GoodsSupport;
+import supermarket.manage.system.service.support.CommonalitySupport;
 import supermarket.manage.system.service.goods.IGoodsService;
 
 import javax.annotation.Resource;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author ASUS
@@ -91,7 +91,7 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
                                 .createTime(date)
                                 .updateTime(date)
                                 .isDeleted(0).build()
-                )>0;
+                ) > 0;
     }
 
     //todo 该处不可更改库存
@@ -99,7 +99,7 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
     public boolean informationModification(GoodsInfoDTO goodsInfoDTO) {
         Goods goods = getById(goodsInfoDTO.getGid());
 
-        if(null==goods||DeletedType.DELETED.getCode().equals(goods.getIsDeleted())){
+        if (null == goods || DeletedType.DELETED.getCode().equals(goods.getIsDeleted())) {
             throw new ApplicationException(AppResult.failed(ResultCode.GOODS_NOT_EXISTS));
         }
 
@@ -124,20 +124,18 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
     public PageResult informationQuery(PageQueryDTO pageQueryDTO) {
         Integer pag = pageQueryDTO.getPage();
         Integer pagesize = pageQueryDTO.getPagesize();
-        if(null==pageQueryDTO.getKeyword()){
+        if (null == pageQueryDTO.getKeyword()||null==pageQueryDTO.getKeywordType()) {
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_NOT_EXISTS));
         }
         //获取查询类型
-        Constant.KeyWordType keyWordType = GoodsSupport.keyWordTypeMap.get(pageQueryDTO.getKeyword());
-        if(null==keyWordType){
+        String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.GOODS);
+        if(null==queryTypeName){
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
         }
         //0为未删除，1为已删除
         QueryWrapper<Goods> queryWrapper = new QueryWrapper<Goods>().ne(Constant.IS_DELETED, DeletedType.DELETED.getCode());
         //判断查询类型执行对应查询
-        queryWrapper=keyWordType.equal(Constant.KeyWordType.CATEGORY)
-                ?queryWrapper.eq(Constant.GOODS_CATEGORY, pageQueryDTO.getKeyword())
-                :queryWrapper.eq(Constant.GOODS_NAME, pageQueryDTO.getKeyword());
+        queryWrapper = queryWrapper.eq(queryTypeName, pageQueryDTO.getKeyword());
         Page<Goods> page = goodsMapper.selectPage(
                 new Page<Goods>(pag, pagesize),
                 queryWrapper
@@ -155,38 +153,63 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
 
         //获取商品信息
         Goods goods = getById(supplierPageQueryDTO.getId());
-        if(null==goods){
+        if (null == goods) {
             throw new ApplicationException(AppResult.failed(ResultCode.GOODS_NOT_EXISTS));
         }
         //获取供应商id列表
         String[] supplierIdList = goods.getSupplierIdList().split(Constant.DATABASE_SPLIT);
+        //获取供应商价格列表
+        String[] supplierPriceList = goods.getSupplierPriceList().split(Constant.DATABASE_SPLIT);
+        HashMap<String, Integer> supplierMap = new HashMap<>();
+        int len = supplierIdList.length;
+        for (int i = 0; i < len; i++) {
+            supplierMap.put(supplierIdList[i], Integer.parseInt(supplierPriceList[i]));
+        }
         //获取排序类型
-        Constant.SortType sortType = GoodsSupport.sortTypeMap.get(supplierPageQueryDTO.getSortType());
-        if(null==sortType){
+        Constant.SortType sortType = CommonalitySupport.sortTypeMap.get(supplierPageQueryDTO.getSortType());
+        if (null == sortType) {
             throw new ApplicationException(AppResult.failed(ResultCode.SORT_TYPE_NOT_EXISTS));
         }
-        String sortKey = supplierPageQueryDTO.getSortKey();
+//        String sortKey = supplierPageQueryDTO.getSortKey();
+        //将map中元素按照value的值进行排序，默认排序是升序
+        supplierMap = supplierMap.entrySet()
+                .stream()
+                //判断排序类型执行对应排序
+                .sorted(sortType.equal(Constant.SortType.ASC)
+                        ? Map.Entry.comparingByValue()
+                        : Map.Entry.comparingByValue(Comparator.reverseOrder())
+                )
+                .collect(Collectors.toMap(
+                                Map.Entry::getKey, Map.Entry::getValue, (s1, s2) -> s1, LinkedHashMap::new
+                        )
+                );
+
         QueryWrapper<Supplier> queryWrapper = new QueryWrapper<Supplier>()
                 .in(Constant.SUPPLIER_ID, supplierIdList);
-        //判断排序类型执行对应排序
-        queryWrapper=sortType.equal(Constant.SortType.ASC)
-                ?queryWrapper.orderByAsc(sortKey)
-                :queryWrapper.orderByDesc(sortKey);
         Page<Supplier> supplierList = supplierMapper.selectPage(
                 new Page<Supplier>(pag, pagesize),
                 queryWrapper
         );
-        //创建供应商信息列表
+        //创建供应商信息列表，按照进价排序
         List<QuerySupplierListOfGoodsEntity> supplierListOfGoods = new ArrayList<>();
         List<Supplier> supplierListRecords = supplierList.getRecords();
-        for (Supplier supplier : supplierListRecords) {
-            supplierListOfGoods.add(new QuerySupplierListOfGoodsEntity(
-                    supplier.getSId(),
-                    supplier.getSName(),
-                    supplier.getSPrincipal(),
-                    supplier.getSPhone(),
-                    supplier.getSAddress()
-            ));
+        Iterator<Map.Entry<String, Integer>> iterator = supplierMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Integer> entry = iterator.next();
+            Assert.notNull(entry, "supplierMap中存在null值");
+            String key = entry.getKey();
+            for (Supplier supplier : supplierListRecords) {
+                if (key.equals(supplier.getSId())) {
+                    supplierListOfGoods.add(new QuerySupplierListOfGoodsEntity(
+                            supplier.getSId(),
+                            supplier.getSName(),
+                            supplier.getSPrincipal(),
+                            supplier.getSPhone(),
+                            supplier.getSAddress()
+                    ));
+                    break;
+                }
+            }
         }
         return new PageResult(
                 supplierPageQueryDTO.getPage(),

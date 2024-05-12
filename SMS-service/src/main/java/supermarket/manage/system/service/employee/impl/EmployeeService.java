@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.common.commons.Constant;
 import supermarket.manage.system.common.commons.enumeration.DeletedType;
+import supermarket.manage.system.common.commons.enumeration.ModuleType;
 import supermarket.manage.system.common.commons.enumeration.ResultCode;
 import supermarket.manage.system.common.exception.ApplicationException;
 import supermarket.manage.system.model.domain.Employee;
@@ -15,6 +16,7 @@ import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.repository.mysql.mapper.EmployeeMapper;
 import supermarket.manage.system.service.employee.IEmployeeService;
+import supermarket.manage.system.service.support.CommonalitySupport;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -66,13 +68,19 @@ public class EmployeeService extends ServiceImpl<EmployeeMapper, Employee>
         Integer pag = pageQueryDTO.getPage();
         Integer pagesize = pageQueryDTO.getPagesize();
 
-        if(null==pageQueryDTO.getKeyword()){
+        if (null == pageQueryDTO.getKeyword()||null==pageQueryDTO.getKeywordType()) {
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_NOT_EXISTS));
+        }
+
+        //获取查询类型
+        String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.EMPLOYEE);
+        if(null==queryTypeName){
+            throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
         }
 
         Page<Employee> page = employeeMapper.selectPage(
                 new Page<Employee>(pag,pagesize),
-                new QueryWrapper<Employee>().eq(Constant.EMPLOYEE_NAME, pageQueryDTO.getKeyword())
+                new QueryWrapper<Employee>().eq(queryTypeName, pageQueryDTO.getKeyword())
                         //0为未删除，1为已删除
                         .ne(Constant.IS_DELETED, DeletedType.DELETED.getCode())
         );

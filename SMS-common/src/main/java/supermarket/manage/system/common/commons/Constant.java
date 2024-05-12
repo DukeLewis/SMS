@@ -27,9 +27,34 @@ public class Constant {
     public static final String EMPLOYEE_NAME = "e_name";
 
     /**
+     * 员工姓名（条件查询时使用）
+     */
+    public static final String EMPLOYEE_QUERY_NAME = "e_name";
+
+    /**
+     * 员工id
+     */
+    public static final String EMPLOYEE_ID = "e_id";
+
+    /**
+     * 员工id（条件查询时使用）
+     */
+    public static final String EMPLOYEE_QUERY_ID = "e_id";
+
+    /**
+     * 员工岗位（员工分类）（条件查询时使用）
+     */
+    public static final String EMPLOYEE_QUERY_CATEGORY = "position";
+
+    /**
      * 商品名称
      */
     public static final String GOODS_NAME = "g_name";
+
+    /**
+     * 商品名称（条件查询时使用）
+     */
+    public static final String GOODS_QUERY_NAME = "g_name";
 
     /**
      * 商品类型
@@ -37,9 +62,19 @@ public class Constant {
     public static final String GOODS_CATEGORY = "g_category";
 
     /**
+     * 商品类型（条件查询时使用）
+     */
+    public static final String GOODS_QUERY_CATEGORY = "g_category";
+
+    /**
      * 商品id
      */
     public static final String GOODS_ID="g_id";
+
+    /**
+     * 商品id（条件查询时使用）
+     */
+    public static final String GOODS_QUERY_ID="g_id";
 
     /**
      * 是否删除
@@ -52,6 +87,11 @@ public class Constant {
     public static final String RESTOCK_ID = "r_id";
 
     /**
+     * 进货id（条件查询时使用）
+     */
+    public static final String RESTOCK_QUERY_ID = "r_id";
+
+    /**
      * 数据库对于一个字符串的截取符号
      */
     public static final String DATABASE_SPLIT = ",";
@@ -61,12 +101,48 @@ public class Constant {
      */
     public static final String SUPPLIER_ID = "s_id";
 
-    public static final String SUPPLIER_NAME = "s_name";
+    /**
+     * 供应商id（条件查询时使用）
+     */
+    public static final String SUPPLIER_QUERY_ID = "s_id";
 
     /**
-     * 创建日期
+     * 供应商名称（条件查询时使用）
      */
-    public static final String CREATE_DATE = "create_time";
+    public static final String SUPPLY_QUERY_NAME = "s_name";
+
+    /**
+     * 销售员（条件查询时使用）
+     */
+    public static final String SALES_QUERY_SALESMAN = "saler";
+
+    /**
+     * 销售id（条件查询时使用）
+     */
+    public static final String SALES_QUERY_ID = "g_id";
+
+    /**
+     * 销售名称（条件查询时使用）
+     */
+    public static final String SALES_QUERT_NAME = "g_name";
+
+    /**
+     * 销售时间（条件查询时使用）
+     */
+    public static final String SALES_QUERY_TIME = "sale_time";
+
+
+    /**
+     * 库存id（条件查询时使用）
+     */
+    public static final String INVENTORY_QUERY_ID = "g_id";
+
+    /**
+     * 库存名称（条件查询时使用）
+     */
+    public static final String INVENTORY_QUERY_CATEGORY = "g_name";
+
+
 
 
     @Getter
@@ -89,7 +165,10 @@ public class Constant {
     @AllArgsConstructor
     public enum KeyWordType{
         CATEGORY("category"),
-        NAME("name");
+        NAME("name"),
+        ID("id"),
+        TIME("time"),
+        SALESMAN("salesman");
 
         /**
          * 描述

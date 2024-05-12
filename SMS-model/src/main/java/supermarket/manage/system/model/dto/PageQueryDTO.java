@@ -36,8 +36,22 @@ public class PageQueryDTO implements Serializable {
 
 
     /**
-     * 查询条件（分类、名称）
+     * 查询条件（分类，名称，销售员，id，日期）
+     * id：如果对应的是商品查询，那么就是商品id，如果对应的是进货单查询，那么就是进货单id
+     * 分类：如果对应的是商品查询，那么就是商品分类，如果对应的是支出查询，那么就是支出类型
+     * 名称：如果对应的是商品查询，那么就是商品名称，如果对应的是员工查询，那么就是员工名称
+     * 销售员：用于财务查询，根据销售员信息进行查询
      */
-    @ApiModelProperty(value = "查询条件（分类，名称）",allowableValues = "category,name")
+    @ApiModelProperty(value = "查询条件（分类，名称，销售员，id，日期）," +
+            "id：如果对应的是商品查询，那么就是商品id，如果对应的是进货单查询，那么就是进货单id." +
+            "分类：如果对应的是商品查询，那么就是商品分类，如果对应的是支出查询，那么就是支出类型." +
+            "名称：如果对应的是商品查询，那么就是商品名称，如果对应的是员工查询，那么就是员工名称." +
+            "销售员：用于财务查询，根据销售员信息进行查询",allowableValues = "category,name,salesman,id,time")
+    private String keywordType;
+
+    /**
+     * 查询关键字的值
+     */
+    @ApiModelProperty(value = "查询关键字的值")
     private String keyword;
 }
