@@ -12,6 +12,7 @@ import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.common.commons.Constant;
 import supermarket.manage.system.common.commons.enumeration.DeletedType;
 import supermarket.manage.system.common.commons.enumeration.InfoType;
+import supermarket.manage.system.common.commons.enumeration.ModuleType;
 import supermarket.manage.system.common.commons.enumeration.ResultCode;
 import supermarket.manage.system.common.exception.ApplicationException;
 import supermarket.manage.system.common.util.ListUtil;
@@ -26,11 +27,10 @@ import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.repository.mysql.mapper.GoodsMapper;
 import supermarket.manage.system.repository.mysql.mapper.InventoryMapper;
 import supermarket.manage.system.repository.mysql.mapper.SupplierMapper;
-import supermarket.manage.system.service.goods.GoodsSupport;
+import supermarket.manage.system.service.support.CommonalitySupport;
 import supermarket.manage.system.service.goods.IGoodsService;
 
 import javax.annotation.Resource;
-import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -124,20 +124,18 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
     public PageResult informationQuery(PageQueryDTO pageQueryDTO) {
         Integer pag = pageQueryDTO.getPage();
         Integer pagesize = pageQueryDTO.getPagesize();
-        if (null == pageQueryDTO.getKeyword()) {
+        if (null == pageQueryDTO.getKeyword()||null==pageQueryDTO.getKeywordType()) {
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_NOT_EXISTS));
         }
         //获取查询类型
-        Constant.KeyWordType keyWordType = GoodsSupport.keyWordTypeMap.get(pageQueryDTO.getKeyword());
-        if (null == keyWordType) {
+        String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.GOODS);
+        if(null==queryTypeName){
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
         }
         //0为未删除，1为已删除
         QueryWrapper<Goods> queryWrapper = new QueryWrapper<Goods>().ne(Constant.IS_DELETED, DeletedType.DELETED.getCode());
         //判断查询类型执行对应查询
-        queryWrapper = keyWordType.equal(Constant.KeyWordType.CATEGORY)
-                ? queryWrapper.eq(Constant.GOODS_CATEGORY, pageQueryDTO.getKeyword())
-                : queryWrapper.eq(Constant.GOODS_NAME, pageQueryDTO.getKeyword());
+        queryWrapper = queryWrapper.eq(queryTypeName, pageQueryDTO.getKeyword());
         Page<Goods> page = goodsMapper.selectPage(
                 new Page<Goods>(pag, pagesize),
                 queryWrapper
@@ -168,7 +166,7 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
             supplierMap.put(supplierIdList[i], Integer.parseInt(supplierPriceList[i]));
         }
         //获取排序类型
-        Constant.SortType sortType = GoodsSupport.sortTypeMap.get(supplierPageQueryDTO.getSortType());
+        Constant.SortType sortType = CommonalitySupport.sortTypeMap.get(supplierPageQueryDTO.getSortType());
         if (null == sortType) {
             throw new ApplicationException(AppResult.failed(ResultCode.SORT_TYPE_NOT_EXISTS));
         }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.common.commons.Constant;
 import supermarket.manage.system.common.commons.enumeration.DeletedType;
+import supermarket.manage.system.common.commons.enumeration.ModuleType;
 import supermarket.manage.system.common.commons.enumeration.RestockStatus;
 import supermarket.manage.system.common.commons.enumeration.ResultCode;
 import supermarket.manage.system.common.exception.ApplicationException;
@@ -18,6 +19,7 @@ import supermarket.manage.system.model.dto.RestockInfoDTO;
 import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.repository.mysql.mapper.RestockMapper;
 import supermarket.manage.system.service.restock.IRestockService;
+import supermarket.manage.system.service.support.CommonalitySupport;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -92,13 +94,18 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
         Integer pag = pageQueryDTO.getPage();
         Integer pagesize = pageQueryDTO.getPagesize();
 
-        if(null==pageQueryDTO.getKeyword()){
+        if (null == pageQueryDTO.getKeyword()||null==pageQueryDTO.getKeywordType()) {
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_NOT_EXISTS));
+        }
+        //获取查询类型
+        String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.RESTOCK);
+        if(null==queryTypeName){
+            throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
         }
 
         Page<Restock> page = restockMapper.selectPage(
                 new Page<Restock>(pag, pagesize),
-                new QueryWrapper<Restock>().eq(Constant.RESTOCK_ID, pageQueryDTO.getKeyword())
+                new QueryWrapper<Restock>().eq(queryTypeName, pageQueryDTO.getKeyword())
                         //0为未删除，1为已删除
                         .ne(Constant.IS_DELETED, 1)
         );
