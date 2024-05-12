@@ -79,6 +79,13 @@ public class FinanceInfoDTO implements Serializable {
     private String spend;
 
     /**
+     * 时间类型(年，月，日）
+     */
+    @ApiModelProperty(value = "时间类型(年，月，日）",allowableValues = "day,month,year")
+    @NotBlank
+    private String timeType;
+
+    /**
      * 更新时间
      */
     @ApiModelProperty(value = "更新时间")

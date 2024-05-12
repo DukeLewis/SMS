@@ -61,7 +61,7 @@ public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, Supplier>
         Integer pagesize = pageQueryDTO.getPagesize();
         Page<Supplier> page = supplierMapper.selectPage(
                 new Page<Supplier>(pag,pagesize),
-                new QueryWrapper<Supplier>().eq(Constant.Supplier_Name, pageQueryDTO.getKeyword())
+                new QueryWrapper<Supplier>().eq(Constant.SUPPLIER_NAME, pageQueryDTO.getKeyword())
                         //0为未删除，1为已删除
                         .ne(Constant.IS_DELETED,1)
         );
@@ -73,7 +73,7 @@ public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, Supplier>
         Integer pagesize = pageQueryDTO.getPagesize();
         Page<Supplier> page = supplierMapper.selectPage(
                 new Page<Supplier>(pag,pagesize),
-                new QueryWrapper<Supplier>().eq(Constant.Supplier_Id, pageQueryDTO.getKeyword())
+                new QueryWrapper<Supplier>().eq(Constant.SUPPLIER_ID, pageQueryDTO.getKeyword())
                         //0为未删除，1为已删除
                         .ne(Constant.IS_DELETED,1)
         );

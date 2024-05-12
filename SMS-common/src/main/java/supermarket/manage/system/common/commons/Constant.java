@@ -61,6 +61,13 @@ public class Constant {
      */
     public static final String SUPPLIER_ID = "s_id";
 
+    public static final String SUPPLIER_NAME = "s_name";
+
+    /**
+     * 创建日期
+     */
+    public static final String CREATE_DATE = "create_time";
+
 
     @Getter
     @AllArgsConstructor

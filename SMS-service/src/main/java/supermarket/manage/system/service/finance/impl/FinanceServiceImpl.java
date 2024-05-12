@@ -1,24 +1,24 @@
 package supermarket.manage.system.service.finance.impl;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.data.redis.core.ReactiveRedisTemplate;
-import org.springframework.jdbc.object.SqlFunction;
 import org.springframework.stereotype.Service;
+import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.common.commons.Constant;
+import supermarket.manage.system.common.commons.enumeration.ResultCode;
+import supermarket.manage.system.common.exception.ApplicationException;
 import supermarket.manage.system.model.domain.Finance;
-import supermarket.manage.system.model.domain.Restock;
 import supermarket.manage.system.model.dto.FinanceInfoDTO;
 import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.repository.mysql.mapper.FinanceMapper;
 import supermarket.manage.system.service.finance.FinanceService;
+import supermarket.manage.system.service.finance.executor.GenerateFinanceExecutorConfig;
+import supermarket.manage.system.service.finance.executor.IGenerateFinanceExecutor;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +91,7 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance>
         Integer pagesize = pageQueryDTO.getPagesize();
         Page<Finance> page = financeMapper.selectPage(
                 new Page<Finance>(pag, pagesize),
-                new QueryWrapper<Finance>().eq(Constant.Finance_DATE, pageQueryDTO.getKeyword())
+                new QueryWrapper<Finance>().eq(Constant.CREATE_DATE, pageQueryDTO.getKeyword())
                         //0为未删除，1为已删除
                         .ne(Constant.IS_DELETED, 1)
         );
@@ -104,12 +104,24 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance>
     @Override
     public List<Map<String, Object>> gengerateinFinance(FinanceInfoDTO financeInfoDTO) {
 
+        String timeType = financeInfoDTO.getTimeType();
 
-        QueryWrapper<Finance> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("create_time,sum(revenue) as total_revenue").groupBy("create_time").orderByAsc("create_time");
-        List<Map<String, Object>> mapList = financeMapper.selectMaps(queryWrapper);
 
-        return mapList;
+        IGenerateFinanceExecutor generateFinanceExecutor =
+                GenerateFinanceExecutorConfig.generateFinanceExecutorMap.get(timeType);
+
+        if(null==generateFinanceExecutor){
+            throw new ApplicationException(AppResult.failed(ResultCode.TIME_TYPE_NOT_EXISTS));
+        }
+
+        return generateFinanceExecutor.gengerateIncomeFinance(financeInfoDTO);
+
+        //todo
+//        QueryWrapper<Finance> queryWrapper = new QueryWrapper<>();
+//        queryWrapper.select("create_time,sum(revenue) as total_revenue").groupBy("create_time").orderByAsc("create_time");
+//        List<Map<String, Object>> mapList = financeMapper.selectMaps(queryWrapper);
+
+//        return mapList;
 
     }
 
