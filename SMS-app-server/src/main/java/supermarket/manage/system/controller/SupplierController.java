@@ -31,15 +31,10 @@ public class SupplierController {
         return AppResult.success(supplierService.informationModification(supplierInfoDTO));
     }
 
-    @GetMapping("/querybyname")
-    @ApiOperation("根据姓名查询供应商信息")
-    public AppResult<PageResult> informationQueryByName(@NotNull PageQueryDTO pageQueryDTO){
-        return AppResult.success(supplierService.informationQueryByName(pageQueryDTO));
-    }
-    @GetMapping("/querybyid")
-    @ApiOperation("根据ID查询供应商信息")
-    public AppResult<PageResult> informationQueryById(@NotNull PageQueryDTO pageQueryDTO){
-        return AppResult.success(supplierService.informationQueryById(pageQueryDTO));
+    @GetMapping("/query")
+    @ApiOperation("供应商信息查询")
+    public AppResult<PageResult> informationQuery(@NotNull PageQueryDTO pageQueryDTO){
+        return AppResult.success(supplierService.informationQuery(pageQueryDTO));
     }
 
 }

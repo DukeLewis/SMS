@@ -40,7 +40,7 @@ public interface FinanceService extends IService<Finance> {
 
     /**
      * 查询财务信息
-     * @param financeInfoDTO
+     * @param pageQueryDTO
      * @return
      */
     PageResult queryFinance(PageQueryDTO pageQueryDTO);

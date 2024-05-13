@@ -38,6 +38,12 @@ public class SalesController {
         return AppResult.success(salesService.informationDeletion(salesInfoDTO));
     }
 
+    @GetMapping("/query")
+    @ApiOperation("销售信息查询")
+    public AppResult<PageResult> informationQuery(@NotNull PageQueryDTO pageQueryDTO){
+        return AppResult.success(salesService.informationQuery(pageQueryDTO));
+    }
+
 
 
 

@@ -26,17 +26,10 @@ public interface SupplierService extends IService<Supplier> {
 
 
     /**
-     * 根据姓名查询供应商信息,返回信息做分页处理
+     * 供应商信息查询,返回信息做分页处理
      * @param pageQueryDTO
      * @return
      */
-    PageResult informationQueryByName(PageQueryDTO pageQueryDTO);
-
-    /**
-     * 根据ID查询供应商信息,返回信息做分页处理
-     * @param pageQueryDTO
-     * @return
-     */
-    PageResult informationQueryById(PageQueryDTO pageQueryDTO);
+    PageResult informationQuery(PageQueryDTO pageQueryDTO);
 
 }

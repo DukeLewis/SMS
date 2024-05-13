@@ -45,17 +45,10 @@ public interface SalesService extends IService<Sales> {
      * @return
      */
     /**
-     * 根据姓名查询供应商信息,返回信息做分页处理
+     * 根据指定条件查询供应商信息,返回信息做分页处理
      * @param pageQueryDTO
      * @return
      */
-    PageResult informationQueryByName(PageQueryDTO pageQueryDTO);
-
-    /**
-     * 根据ID查询供应商信息,返回信息做分页处理
-     * @param pageQueryDTO
-     * @return
-     */
-    PageResult informationQueryById(PageQueryDTO pageQueryDTO);
+    public PageResult informationQuery(@NotNull PageQueryDTO pageQueryDTO);
 
 }
