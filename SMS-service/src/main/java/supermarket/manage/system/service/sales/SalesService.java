@@ -40,10 +40,11 @@ public interface SalesService extends IService<Sales> {
     public boolean informationDeletion( SalesInfoDTO salesInfoDTO);
 
     /**
-     * 销售信息查询
-     * @param salesInfoDTO
+     * 所有销售信息查询
+     * @param pageQueryDTO
      * @return
      */
+    public PageResult informationQueryALL(@NotNull PageQueryDTO pageQueryDTO);
     /**
      * 根据指定条件查询供应商信息,返回信息做分页处理
      * @param pageQueryDTO

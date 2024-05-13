@@ -39,7 +39,14 @@ public interface FinanceService extends IService<Finance> {
     boolean deleteFinance(FinanceInfoDTO financeInfoDTO);
 
     /**
-     * 查询财务信息
+     * 查询所有财务信息
+     * @param pageQueryDTO
+     * @return
+     */
+    PageResult queryFinanceALL(PageQueryDTO pageQueryDTO);
+
+    /**
+     * 条件查询财务信息
      * @param pageQueryDTO
      * @return
      */

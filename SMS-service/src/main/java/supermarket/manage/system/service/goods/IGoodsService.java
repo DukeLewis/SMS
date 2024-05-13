@@ -36,6 +36,13 @@ public interface IGoodsService extends IService<Goods> {
      * @param pageQueryDTO
      * @return
      */
+    PageResult informationQueryALL(PageQueryDTO pageQueryDTO);
+
+    /**
+     * 商品信息查询,返回信息做分页处理
+     * @param pageQueryDTO
+     * @return
+     */
     PageResult informationQuery(PageQueryDTO pageQueryDTO);
 
     /**

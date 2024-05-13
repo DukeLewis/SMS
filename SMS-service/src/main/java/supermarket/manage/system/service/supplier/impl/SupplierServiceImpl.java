@@ -12,6 +12,7 @@ import supermarket.manage.system.common.commons.enumeration.ModuleType;
 import supermarket.manage.system.common.commons.enumeration.ResultCode;
 import supermarket.manage.system.common.exception.ApplicationException;
 import supermarket.manage.system.model.domain.Goods;
+import supermarket.manage.system.model.domain.Sales;
 import supermarket.manage.system.model.domain.Supplier;
 import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.dto.SupplierInfoDTO;
@@ -59,6 +60,21 @@ public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, Supplier>
                 .build());
     }
 
+    @Override
+    public PageResult informationQueryALL(PageQueryDTO pageQueryDTO) {
+        Integer pag = pageQueryDTO.getPage();
+        Integer pagesize = pageQueryDTO.getPagesize();
+
+        Page<Supplier> page = supplierMapper.selectPage(
+                new Page<Supplier>(pag, pagesize),
+                new QueryWrapper<Supplier>()
+                        //0为未删除，1为已删除
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED.getCode())
+        );
+        return new PageResult(
+                pag, pagesize, page.getTotal(), page.getRecords()
+        );
+    }
 
     @Override
     public PageResult informationQuery(PageQueryDTO pageQueryDTO) {
