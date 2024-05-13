@@ -17,6 +17,7 @@ public enum ResultCode {
     KEYWORD_NOT_EXISTS          (1008, "查询关键字不存在"),
     ERR_JWT_EXPIRED             (1009, "JWT过期"),
     ERR_JWT_INVALID             (1010, "JWT无效"),
+    TIME_TYPE_NOT_EXISTS        (1011, "排序类型不存在"),
 
     // 关于用户的错误描述
     FAILED_USER_EXISTS          (1101, "用户已存在"),

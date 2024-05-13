@@ -2,7 +2,9 @@ package supermarket.manage.system.model.dto;
 
 
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -46,7 +48,7 @@ public class FinanceInfoDTO implements Serializable {
      */
     @ApiModelProperty(value = "收入")
     @NotBlank
-    private String purchasePrice;
+    private String revenue;
 
     /**
      * 采购成本
@@ -77,6 +79,13 @@ public class FinanceInfoDTO implements Serializable {
     private String spend;
 
     /**
+     * 时间类型(年，月，日）
+     */
+    @ApiModelProperty(value = "时间类型(年，月，日）",allowableValues = "day,month,year")
+    @NotBlank
+    private String timeType;
+
+    /**
      * 更新时间
      */
     @ApiModelProperty(value = "更新时间")
@@ -90,5 +99,16 @@ public class FinanceInfoDTO implements Serializable {
     @ApiModelProperty(value = "创建时间")
     @NotNull
     private Date createTime;
+
+    /**
+     * 逻辑删除字段
+     */
+    @ApiModelProperty(value = "逻辑删除字段")
+    @NotNull
+    private Integer isDeleted;
+
+
+
+
 
 }

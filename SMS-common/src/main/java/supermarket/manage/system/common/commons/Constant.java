@@ -142,6 +142,11 @@ public class Constant {
      */
     public static final String INVENTORY_QUERY_CATEGORY = "g_name";
 
+    /**
+     *  创建时间
+     */
+    public static final String CREATE_DATE="create_time";
+
 
 
 
