@@ -30,6 +30,13 @@ public interface IEmployeeService extends IService<Employee> {
     boolean informationModification(EmployeeInfoDTO employeeInfoDTO);
 
     /**
+     * 所有员工信息查询,返回信息做分页处理
+     * @param pageQueryDTO
+     * @return
+     */
+    PageResult queryEmployeeAll(PageQueryDTO pageQueryDTO);
+
+    /**
      * 员工信息查询,返回信息做分页处理
      * @param pageQueryDTO
      * @return

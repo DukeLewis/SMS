@@ -45,7 +45,14 @@ public class FinanceController {
     public AppResult deleteinFinance(@NotNull @Validated @RequestBody FinanceInfoDTO FinanceInfoDTO) {
         return AppResult.success(financeService.deleteFinance(FinanceInfoDTO));
     }
-    @ApiOperation("查询财务信息")
+
+    @ApiOperation("查询所有财务信息")
+    @PostMapping("/queryall")
+    public AppResult<PageResult> queryFinanceALL(@NotNull PageQueryDTO PageQueryDTO) {
+        return AppResult.success(financeService.queryFinanceALL(PageQueryDTO));
+    }
+
+    @ApiOperation("条件查询财务信息")
     @PostMapping("/query")
     public AppResult<PageResult> queryinFinance(@NotNull PageQueryDTO PageQueryDTO) {
         return AppResult.success(financeService.queryFinance(PageQueryDTO));

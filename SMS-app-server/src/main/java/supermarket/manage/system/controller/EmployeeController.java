@@ -40,10 +40,17 @@ public class EmployeeController {
         return AppResult.success(employeeService.informationModification(employeeInfoDTO)==true?"修改成功":"修改失败");
     }
 
+    @ApiOperation("查询所有员工信息")
+    @PostMapping("/queryall")
+    public AppResult<PageResult> queryEmployeeAll(@NotNull PageQueryDTO pageQueryDTO) {
+        return AppResult.success(employeeService.queryEmployeeAll(pageQueryDTO));
+    }
+
     @GetMapping("/query")
     @ApiOperation("员工信息查询")
     public AppResult<PageResult> informationQuery(@NotNull PageQueryDTO pageQueryDTO){
         return AppResult.success(employeeService.informationQuery(pageQueryDTO));
     }
+
 
 }

@@ -16,6 +16,7 @@ import supermarket.manage.system.common.commons.enumeration.ModuleType;
 import supermarket.manage.system.common.commons.enumeration.ResultCode;
 import supermarket.manage.system.common.exception.ApplicationException;
 import supermarket.manage.system.common.util.ListUtil;
+import supermarket.manage.system.model.domain.Finance;
 import supermarket.manage.system.model.domain.Goods;
 import supermarket.manage.system.model.domain.Inventory;
 import supermarket.manage.system.model.domain.Supplier;
@@ -117,6 +118,22 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
                 .supplierIdList(ListUtil.list2String(goodsInfoDTO.getSupplierIdList()))
                 .supplierPriceList(ListUtil.list2String(goodsInfoDTO.getSupplierPriceList()))
                 .build());
+    }
+
+    @Override
+    public PageResult informationQueryALL(PageQueryDTO pageQueryDTO) {
+        Integer pag = pageQueryDTO.getPage();
+        Integer pagesize = pageQueryDTO.getPagesize();
+
+        Page<Goods> page = goodsMapper.selectPage(
+                new Page<Goods>(pag, pagesize),
+                new QueryWrapper<Goods>()
+                        //0为未删除，1为已删除
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED.getCode())
+        );
+        return new PageResult(
+                pag, pagesize, page.getTotal(), page.getRecords()
+        );
     }
 
 

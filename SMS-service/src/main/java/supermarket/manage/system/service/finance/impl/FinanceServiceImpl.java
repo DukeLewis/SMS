@@ -11,6 +11,7 @@ import supermarket.manage.system.common.commons.enumeration.DeletedType;
 import supermarket.manage.system.common.commons.enumeration.ModuleType;
 import supermarket.manage.system.common.commons.enumeration.ResultCode;
 import supermarket.manage.system.common.exception.ApplicationException;
+import supermarket.manage.system.model.domain.Employee;
 import supermarket.manage.system.model.domain.Finance;
 import supermarket.manage.system.model.domain.Goods;
 import supermarket.manage.system.model.dto.FinanceInfoDTO;
@@ -86,6 +87,22 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance>
                         .createTime(financeInfoDTO.getCreateTime())
                         .isDeleted(1)
                         .build()
+        );
+    }
+
+    @Override
+    public PageResult queryFinanceALL(PageQueryDTO pageQueryDTO) {
+        Integer pag = pageQueryDTO.getPage();
+        Integer pagesize = pageQueryDTO.getPagesize();
+
+        Page<Finance> page = financeMapper.selectPage(
+                new Page<Finance>(pag, pagesize),
+                new QueryWrapper<Finance>()
+                        //0为未删除，1为已删除
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED.getCode())
+        );
+        return new PageResult(
+                pag, pagesize, page.getTotal(), page.getRecords()
         );
     }
 
