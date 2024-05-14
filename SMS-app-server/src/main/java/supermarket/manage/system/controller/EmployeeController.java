@@ -41,7 +41,7 @@ public class EmployeeController {
     }
 
     @ApiOperation("查询所有员工信息")
-    @PostMapping("/queryall")
+    @GetMapping("/queryall")
     public AppResult<PageResult> queryEmployeeAll(@NotNull PageQueryDTO pageQueryDTO) {
         return AppResult.success(employeeService.queryEmployeeAll(pageQueryDTO));
     }

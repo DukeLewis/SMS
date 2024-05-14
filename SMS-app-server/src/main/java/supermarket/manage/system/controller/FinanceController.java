@@ -47,13 +47,13 @@ public class FinanceController {
     }
 
     @ApiOperation("查询所有财务信息")
-    @PostMapping("/queryall")
+    @GetMapping("/queryall")
     public AppResult<PageResult> queryFinanceALL(@NotNull PageQueryDTO PageQueryDTO) {
         return AppResult.success(financeService.queryFinanceALL(PageQueryDTO));
     }
 
     @ApiOperation("条件查询财务信息")
-    @PostMapping("/query")
+    @GetMapping("/query")
     public AppResult<PageResult> queryinFinance(@NotNull PageQueryDTO PageQueryDTO) {
         return AppResult.success(financeService.queryFinance(PageQueryDTO));
     }
