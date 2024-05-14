@@ -12,6 +12,8 @@ spring:
 mybatis-plus:
   mapper-locations: classpath:/mybatis/mapper/*.xml
 #    config-location: classpath:/mybatis/mybatis-config.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 knife4j:
   enable: true
 thread:
