@@ -147,7 +147,10 @@ public class Constant {
      */
     public static final String CREATE_DATE="create_time";
 
-
+    /**
+     * 关于条件查询的对应条件类型获得的拼接字符串
+     */
+    public static final String QUERY_TYPE="_QUERY_";
 
 
     @Getter

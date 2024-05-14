@@ -46,7 +46,7 @@ public class CommonalitySupport {
         }
         Class<Constant> constantClass = Constant.class;
         String fieldName = wordType.getInfo().toUpperCase();
-        fieldName=moduleType.getInfo().toUpperCase()+"_QUERY_"+fieldName;
+        fieldName=moduleType.getInfo().toUpperCase()+Constant.QUERY_TYPE+fieldName;
         try {
             Field field = constantClass.getField(fieldName);
             String res=(String)field.get(null);

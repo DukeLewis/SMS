@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @description:
+ * @description: 操作数据的类型枚举，如：增删改查
  * @author：dukelewis
  * @date: 2024/4/16
  * @Copyright： https://github.com/DukeLewis
