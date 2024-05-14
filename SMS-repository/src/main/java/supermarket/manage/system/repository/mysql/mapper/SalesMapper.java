@@ -4,6 +4,8 @@ package supermarket.manage.system.repository.mysql.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import supermarket.manage.system.model.domain.Sales;
 
+import java.util.List;
+
 /**
 * @author ASUS
 * @description 针对表【sales】的数据库操作Mapper
@@ -12,6 +14,7 @@ import supermarket.manage.system.model.domain.Sales;
 */
 public interface SalesMapper extends BaseMapper<Sales> {
 
+    List<Sales> getByTime(String time);
 }
 
 

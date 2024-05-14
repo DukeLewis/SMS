@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sun.istack.internal.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.common.commons.Constant;
@@ -25,6 +26,7 @@ import supermarket.manage.system.service.support.CommonalitySupport;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
 * @author ASUS
@@ -32,6 +34,7 @@ import java.util.Date;
 * @createDate 2024-05-07 00:19:13
 */
 @Service
+@Slf4j
 public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
     implements SalesService {
 
@@ -55,7 +58,9 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
 
     @Override
     public boolean informationModification(SalesInfoDTO salesInfoDTO) {
+        System.out.println();
         return updateById(Sales.builder()
+                .gId(salesInfoDTO.getGid())
                 .gName(salesInfoDTO.getGname())
                 .gPrice(salesInfoDTO.getGPrice())
                 .saleNum(salesInfoDTO.getSaleNum())
@@ -69,6 +74,7 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
     @Override
     public boolean informationDeletion(SalesInfoDTO salesInfoDTO) {
         return updateById(Sales.builder()
+                .gId(salesInfoDTO.getGid())
                 .gName(salesInfoDTO.getGname())
                 .gPrice(salesInfoDTO.getGPrice())
                 .saleNum(salesInfoDTO.getSaleNum())
@@ -104,27 +110,26 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
         }
         //获取查询类型
         String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.SALES);
+        log.info("查询类型：{}",queryTypeName);
         if(null==queryTypeName){
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
         }
         //0为未删除，1为已删除
         QueryWrapper<Sales> queryWrapper = new QueryWrapper<Sales>().ne(Constant.IS_DELETED, DeletedType.DELETED.getCode());
         //判断查询类型执行对应查询
-        System.out.println("===============");
-        System.out.println(queryTypeName);
-        System.out.println(pageQueryDTO.getKeyword());
+//        System.out.println("===============");
+//        System.out.println(queryTypeName);
+//        System.out.println(pageQueryDTO.getKeyword());
 
         String keyword = pageQueryDTO.getKeyword();
         if(pageQueryDTO.getKeywordType().equals("time")){
             //日期查询
-            System.out.println("进入");
-            queryWrapper.apply("DATEDIFF({0},{1})=0",queryTypeName,pageQueryDTO.getKeyword());
-            Page<Sales> page = salesMapper.selectPage(
-                    new Page<Sales>(pag, pagesize),
-                    queryWrapper
-            );
+
+            List<Sales> byTime = salesMapper.getByTime(pageQueryDTO.getKeyword());
+
+            log.info("结果:{}",byTime);
             return new PageResult(
-                    pag, pagesize, page.getTotal(), page.getRecords()
+                    pag, pagesize, Long.valueOf(byTime.size()), byTime
             );
         }else{
             queryWrapper = queryWrapper.eq(queryTypeName, pageQueryDTO.getKeyword());
