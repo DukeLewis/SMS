@@ -11,6 +11,7 @@ import supermarket.manage.system.common.commons.enumeration.ModuleType;
 import supermarket.manage.system.common.commons.enumeration.ResultCode;
 import supermarket.manage.system.common.exception.ApplicationException;
 import supermarket.manage.system.model.domain.Employee;
+import supermarket.manage.system.model.domain.Restock;
 import supermarket.manage.system.model.dto.EmployeeInfoDTO;
 import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.vo.PageResult;
@@ -61,6 +62,22 @@ public class EmployeeService extends ServiceImpl<EmployeeMapper, Employee>
                 .ePhone(employeeInfoDTO.getEphone())
                 .updateTime(new Date())
                 .isDeleted(employeeInfoDTO.getIsDeleted()).build());
+    }
+
+    @Override
+    public PageResult queryEmployeeAll(PageQueryDTO pageQueryDTO){
+        Integer pag = pageQueryDTO.getPage();
+        Integer pagesize = pageQueryDTO.getPagesize();
+
+        Page<Employee> page = employeeMapper.selectPage(
+                new Page<Employee>(pag, pagesize),
+                new QueryWrapper<Employee>()
+                        //0为未删除，1为已删除
+                        .ne(Constant.IS_DELETED, DeletedType.DELETED.getCode())
+        );
+        return new PageResult(
+                pag, pagesize, page.getTotal(), page.getRecords()
+        );
     }
 
     @Override

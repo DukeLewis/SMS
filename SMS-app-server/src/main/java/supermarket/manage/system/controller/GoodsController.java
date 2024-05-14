@@ -40,6 +40,11 @@ public class GoodsController {
     public AppResult informationModification(@Validated @NotNull @RequestBody GoodsInfoDTO goodsInfoDTO){
         return AppResult.success(goodsService.informationModification(goodsInfoDTO));
     }
+    @GetMapping("/queryall")
+    @ApiOperation("所有商品信息查询")
+    public AppResult<PageResult> informationQueryALL(@NotNull PageQueryDTO pageQueryDTO){
+        return AppResult.success(goodsService.informationQueryALL(pageQueryDTO));
+    }
 
     @GetMapping("/query")
     @ApiOperation("商品信息查询")
