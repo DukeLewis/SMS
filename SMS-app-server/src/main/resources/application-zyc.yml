@@ -6,8 +6,13 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/sms?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
     username: root
     password: 123123
+  jackson:
+    date-format: yyyy-MM-dd
 mybatis-plus:
   mapper-locations: classpath:/mybatis/mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 
 knife4j:
   enable: true

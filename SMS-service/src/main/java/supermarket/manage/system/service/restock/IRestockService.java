@@ -33,7 +33,7 @@ public interface IRestockService extends IService<Restock> {
      * @param pageQueryDTO
      * @return
      */
-    PageResult queryRestockall(PageQueryDTO pageQueryDTO);
+    PageResult queryRestockALL(PageQueryDTO pageQueryDTO);
 
     /**
      * 查询进货单

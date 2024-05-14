@@ -31,7 +31,7 @@ public class SupplierController {
         return AppResult.success(supplierService.informationModification(supplierInfoDTO));
     }
 
-    @GetMapping("/queryall")
+    @GetMapping("/queryALL")
     @ApiOperation("所有供应商信息查询")
     public AppResult<PageResult> informationQueryALL(@NotNull PageQueryDTO pageQueryDTO){
         return AppResult.success(supplierService.informationQueryALL(pageQueryDTO));

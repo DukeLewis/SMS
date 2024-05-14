@@ -39,7 +39,7 @@ public class SalesInfoDTO implements Serializable {
      * 商品单价
      */
     @ApiModelProperty(value = "商品单价")
-    @NotBlank
+    @NotNull
     private Double gPrice;
 
     /**
@@ -67,14 +67,14 @@ public class SalesInfoDTO implements Serializable {
      * 更新时间
      */
     @ApiModelProperty(value = "更新时间")
-    @NotBlank
+    @NotNull
     private Date updateTime;
 
     /**
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    @NotBlank
+    @NotNull
     private Date createTime;
 
     /**

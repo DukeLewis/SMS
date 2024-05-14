@@ -5,15 +5,15 @@
 <mapper namespace="supermarket.manage.system.repository.mysql.mapper.SalesMapper">
 
     <resultMap id="BaseResultMap" type="supermarket.manage.system.model.domain.Sales">
-            <id property="gId" column="g_id" jdbcType="INTEGER"/>
-            <result property="gName" column="g_name" jdbcType="VARCHAR"/>
-            <result property="gPrice" column="g_price" jdbcType="DOUBLE"/>
-            <result property="saleNum" column="sale_num" jdbcType="INTEGER"/>
-            <result property="saleTime" column="sale_time" jdbcType="TIMESTAMP"/>
-            <result property="saler" column="saler" jdbcType="VARCHAR"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+        <id property="gId" column="g_id" jdbcType="INTEGER"/>
+        <result property="gName" column="g_name" jdbcType="VARCHAR"/>
+        <result property="gPrice" column="g_price" jdbcType="DOUBLE"/>
+        <result property="saleNum" column="sale_num" jdbcType="INTEGER"/>
+        <result property="saleTime" column="sale_time" jdbcType="TIMESTAMP"/>
+        <result property="saler" column="saler" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -21,4 +21,16 @@
         sale_num,sale_time,saler,
         update_time,create_time,is_deleted
     </sql>
+
+    <select id="getByTime" resultMap="BaseResultMap">
+        SELECT *
+        FROM Sales
+        WHERE
+        (is_deleted=0
+        and
+        DATEDIFF(sale_time,#{time})=0
+        )
+        order by create_time desc;
+
+    </select>
 </mapper>
