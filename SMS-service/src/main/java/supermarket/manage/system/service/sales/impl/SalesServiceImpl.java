@@ -1,6 +1,7 @@
 package supermarket.manage.system.service.sales.impl;
 
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -109,14 +110,34 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
         //0为未删除，1为已删除
         QueryWrapper<Sales> queryWrapper = new QueryWrapper<Sales>().ne(Constant.IS_DELETED, DeletedType.DELETED.getCode());
         //判断查询类型执行对应查询
-        queryWrapper = queryWrapper.eq(queryTypeName, pageQueryDTO.getKeyword());
-        Page<Sales> page = salesMapper.selectPage(
-                new Page<Sales>(pag, pagesize),
-                queryWrapper
-        );
-        return new PageResult(
-                pag, pagesize, page.getTotal(), page.getRecords()
-        );
+        System.out.println("===============");
+        System.out.println(queryTypeName);
+        System.out.println(pageQueryDTO.getKeyword());
+
+        String keyword = pageQueryDTO.getKeyword();
+        if(pageQueryDTO.getKeywordType().equals("time")){
+            //日期查询
+            System.out.println("进入");
+            queryWrapper.apply("DATEDIFF({0},{1})=0",queryTypeName,pageQueryDTO.getKeyword());
+            Page<Sales> page = salesMapper.selectPage(
+                    new Page<Sales>(pag, pagesize),
+                    queryWrapper
+            );
+            return new PageResult(
+                    pag, pagesize, page.getTotal(), page.getRecords()
+            );
+        }else{
+            queryWrapper = queryWrapper.eq(queryTypeName, pageQueryDTO.getKeyword());
+            Page<Sales> page = salesMapper.selectPage(
+                    new Page<Sales>(pag, pagesize),
+                    queryWrapper
+            );
+            return new PageResult(
+                    pag, pagesize, page.getTotal(), page.getRecords()
+            );
+        }
+
+
     }
 }
 

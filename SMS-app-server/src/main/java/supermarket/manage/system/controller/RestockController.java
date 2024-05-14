@@ -45,9 +45,9 @@ public class RestockController {
 
 
     @ApiOperation("查询所有进货单")
-    @PostMapping("/queryall")
-    public AppResult<PageResult> queryRestockall(@NotNull PageQueryDTO pageQueryDTO) {
-        return AppResult.success(restockService.queryRestockall(pageQueryDTO));
+    @PostMapping("/queryALL")
+    public AppResult<PageResult> queryRestockALL(@NotNull PageQueryDTO pageQueryDTO) {
+        return AppResult.success(restockService.queryRestockALL(pageQueryDTO));
     }
 
     @ApiOperation("查询某个进货单")

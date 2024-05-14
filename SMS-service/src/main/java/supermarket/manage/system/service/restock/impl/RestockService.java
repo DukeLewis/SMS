@@ -73,7 +73,7 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
     }
 
     @Override
-    public PageResult queryRestockall(PageQueryDTO pageQueryDTO) {
+    public PageResult queryRestockALL(PageQueryDTO pageQueryDTO) {
         Integer pag = pageQueryDTO.getPage();
         Integer pagesize = pageQueryDTO.getPagesize();
 
