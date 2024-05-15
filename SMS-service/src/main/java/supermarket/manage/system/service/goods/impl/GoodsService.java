@@ -91,7 +91,7 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
                                 .purpose("录入商品信息")
                                 .createTime(date)
                                 .updateTime(date)
-                                .isDeleted(0).build()
+                                .isDeleted(DeletedType.UN_DELETED.getCode()).build()
                 ) > 0;
     }
 
