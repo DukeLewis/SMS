@@ -65,7 +65,7 @@ create table restock
     r_id                int(20) auto_increment comment '进货单唯一标识'
         primary key,
     product_id_list     varchar(1000) null comment '商品id列表',
-    product_number_list int           null comment '商品数量列表',
+    product_number_list varchar(5000) null comment '商品数量列表',
     supplier_list       varchar(5000) null comment '对应商品列表中的每个商品是由哪个供应商进行供货，多个用逗号隔开',
     product_pricelist   varchar(5000) null comment '商品进价列表，对应上面的商品列表中的每个商品中的进价，多个用逗号隔开',
     arrive_time         datetime      null comment '到货时间',
@@ -74,7 +74,6 @@ create table restock
     update_time         datetime      null comment '更新时间',
     is_deleted          tinyint(5)    null comment '逻辑删除字段'
 );
-
 ----------------------
 
 create table sales

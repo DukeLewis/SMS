@@ -32,7 +32,7 @@ public class Restock implements Serializable {
     /**
      * 商品数量列表
      */
-    private Integer productNumberList;
+    private String productNumberList;
 
     /**
      * 对应商品列表中的每个商品是由哪个供应商进行供货，多个用逗号隔开

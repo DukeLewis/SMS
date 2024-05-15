@@ -7,7 +7,7 @@
     <resultMap id="BaseResultMap" type="supermarket.manage.system.model.domain.Restock">
         <id property="rId" column="r_id" jdbcType="INTEGER"/>
         <result property="productIdList" column="product_id_list" jdbcType="VARCHAR"/>
-        <result property="productNumberList" column="product_number_list" jdbcType="INTEGER"/>
+        <result property="productNumberList" column="product_number_list" jdbcType="VARCHAR"/>
         <result property="supplierList" column="supplier_list" jdbcType="VARCHAR"/>
         <result property="productPricelist" column="product_pricelist" jdbcType="VARCHAR"/>
         <result property="arriveTime" column="arrive_time" jdbcType="TIMESTAMP"/>
