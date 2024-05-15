@@ -61,7 +61,7 @@ public class SalesInfoDTO implements Serializable {
      */
     @ApiModelProperty(value = "销售员")
     @NotBlank
-    private String saler;
+    private Integer saler;
 
     /**
      * 更新时间
