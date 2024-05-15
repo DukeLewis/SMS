@@ -25,11 +25,9 @@ create table finance
     f_id        int(10) auto_increment comment '财务记录唯一标识'
         primary key,
     record_time datetime      not null comment '记录日期',
-    revenue     double(10, 2) not null comment '收入',
-    costs       double(10, 2) null comment '采购成本',
-    water_cost  double(10, 2) null comment '水费',
-    ele_cost    double(10, 2) null comment '电费',
-    spend       double(10, 2) null comment '支出',
+    f_type        varchar(5)    not null comment '类别，1为收入2为支出',
+    amount      double(10, 2) null comment '数额',
+    remark      varchar(50)   null comment '备注',
     update_time datetime      not null comment '更新时间',
     create_time datetime      not null comment '创建时间',
     is_deleted  tinyint(5)    not null comment '逻辑删除字段'
@@ -85,7 +83,7 @@ create table sales
     g_price     double(10, 2) not null comment '商品单价',
     sale_num    int(10)       null comment '销售数量',
     sale_time   datetime      null comment '销售时间',
-    saler       varchar(20)   null comment '销售员',
+    saler       int(10)   null comment '销售员,对应employee里面的员工',
     update_time datetime      not null comment '更新时间',
     create_time datetime      not null comment '创建时间',
     is_deleted  tinyint(5)    not null comment '逻辑删除字段'

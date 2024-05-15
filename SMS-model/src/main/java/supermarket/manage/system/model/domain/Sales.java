@@ -51,7 +51,7 @@ public class Sales implements Serializable {
     /**
      * 销售员
      */
-    private String saler;
+    private Integer saler;
 
     /**
      * 更新时间

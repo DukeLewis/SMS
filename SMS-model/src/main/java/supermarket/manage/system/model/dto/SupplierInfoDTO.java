@@ -59,14 +59,14 @@ public class SupplierInfoDTO implements Serializable {
      * 更新时间
      */
     @ApiModelProperty(value = "更新时间")
-    @NotBlank
+
     private Date updatetime;
 
     /**
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    @NotBlank
+
     private Date createTime;
 
     /**
