@@ -38,7 +38,7 @@ public class SupplierController {
     }
 
     @GetMapping("/query")
-    @ApiOperation("供应商信息查询")
+    @ApiOperation("供应商信息条件查询")
     public AppResult<PageResult> informationQuery(@NotNull PageQueryDTO pageQueryDTO){
         return AppResult.success(supplierService.informationQuery(pageQueryDTO));
     }

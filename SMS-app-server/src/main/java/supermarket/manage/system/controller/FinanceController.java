@@ -52,7 +52,7 @@ public class FinanceController {
         return AppResult.success(financeService.queryFinanceALL(PageQueryDTO));
     }
 
-    @ApiOperation("条件查询财务信息")
+    @ApiOperation("财务信息条件查询")
     @GetMapping("/query")
     public AppResult<PageResult> queryinFinance(@NotNull PageQueryDTO PageQueryDTO) {
         return AppResult.success(financeService.queryFinance(PageQueryDTO));

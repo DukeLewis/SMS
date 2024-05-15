@@ -44,7 +44,7 @@ public class SalesController {
     }
 
     @GetMapping("/query")
-    @ApiOperation("销售信息查询")
+    @ApiOperation("销售信息条件查询")
     public AppResult<PageResult> informationQuery(@NotNull PageQueryDTO pageQueryDTO){
         return AppResult.success(salesService.informationQuery(pageQueryDTO));
     }

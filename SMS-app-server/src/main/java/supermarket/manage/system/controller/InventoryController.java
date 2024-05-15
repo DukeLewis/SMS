@@ -44,7 +44,7 @@ public class InventoryController {
 
 
     @GetMapping("/query")
-    @ApiOperation("单个商品库存查询")
+    @ApiOperation("商品库存条件查询")
     public AppResult<PageResult> queryInventory(@NotNull PageQueryDTO pageQueryDTO) {
         return AppResult.success(inventoryService.queryInventory(pageQueryDTO));
     }
