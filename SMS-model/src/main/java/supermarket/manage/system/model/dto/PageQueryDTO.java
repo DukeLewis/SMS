@@ -47,8 +47,7 @@ public class PageQueryDTO implements Serializable {
             "分类：如果对应的是商品查询，那么就是商品分类，如果对应的是支出查询，那么就是支出类型." +
             "名称：如果对应的是商品查询，那么就是商品名称，如果对应的是员工查询，那么就是员工名称." +
             "销售员：用于财务查询，根据销售员信息进行查询"+
-            "品牌：用于商品品牌查询"+
-            "岗位：用于员工岗位查询"
+            "品牌：用于商品品牌查询"
             ,allowableValues = "category,name,salesman,id,time,brand,position")
     private String keywordType;
 
