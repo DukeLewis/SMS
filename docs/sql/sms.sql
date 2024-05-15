@@ -25,9 +25,9 @@ create table finance
     f_id        int(10) auto_increment comment '财务记录唯一标识'
         primary key,
     record_time datetime      null comment '记录日期',
-    f_type      int(10)       null comment '收入',
+    f_type      int(10)       null comment '类型，1为支出2为收入',
     amount      double(10, 2) null comment '数额',
-    remark      varchar(50)   null comment '备注',
+    remark      varchar(50)   null comment '备注,水电费之类的',
     update_time datetime      null comment '更新时间',
     create_time datetime      null comment '创建时间',
     is_deleted  tinyint(5)    null comment '逻辑删除字段'
