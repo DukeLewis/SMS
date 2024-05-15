@@ -105,24 +105,25 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
     public PageResult informationQuery(@NotNull PageQueryDTO pageQueryDTO){
         Integer pag = pageQueryDTO.getPage();
         Integer pagesize = pageQueryDTO.getPagesize();
+
         if (null == pageQueryDTO.getKeyword()||null==pageQueryDTO.getKeywordType()) {
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_NOT_EXISTS));
         }
-        //获取查询类型
-        String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.SALES);
-        log.info("查询类型：{}",queryTypeName);
-        if(null==queryTypeName){
-            throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
-        }
-        //0为未删除，1为已删除
-        QueryWrapper<Sales> queryWrapper = new QueryWrapper<Sales>().ne(Constant.IS_DELETED, DeletedType.DELETED.getCode());
-        //判断查询类型执行对应查询
-//        System.out.println("===============");
-//        System.out.println(queryTypeName);
-//        System.out.println(pageQueryDTO.getKeyword());
 
-        String keyword = pageQueryDTO.getKeyword();
+
+
+
         if(pageQueryDTO.getKeywordType().equals("time")){
+            //获取查询类型
+            String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.SALES);
+            //log.info("查询类型：{}",queryTypeName);
+            System.out.println("查询类型：{}"+queryTypeName);
+            if(null==queryTypeName){
+                throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
+            }
+            //0为未删除，1为已删除
+            QueryWrapper<Sales> queryWrapper = new QueryWrapper<Sales>().ne(Constant.IS_DELETED, DeletedType.DELETED.getCode());
+            //判断查询类型执行对应查询
             //日期查询
 
             List<Sales> byTime = salesMapper.getByTime(pageQueryDTO.getKeyword());
@@ -131,7 +132,38 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
             return new PageResult(
                     pag, pagesize, Long.valueOf(byTime.size()), byTime
             );
+        }else if (pageQueryDTO.getKeywordType().equals("name")){
+            //获取查询类型
+            String queryTypeName2 = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.GOODS);
+            //log.info("查询类型：{}",queryTypeName);
+            System.out.println("查询类型：{}"+queryTypeName2);
+            if(null==queryTypeName2){
+                throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
+            }
+            //0为未删除，1为已删除
+            QueryWrapper<Sales> queryWrapper2 = new QueryWrapper<Sales>().ne(Constant.IS_DELETED, DeletedType.DELETED.getCode());
+
+            queryWrapper2 = queryWrapper2.eq(queryTypeName2, pageQueryDTO.getKeyword());
+            Page<Sales> page = salesMapper.selectPage(
+                    new Page<Sales>(pag, pagesize),
+                    queryWrapper2
+            );
+            return new PageResult(
+                    pag, pagesize, page.getTotal(), page.getRecords()
+            );
         }else{
+            //获取查询类型
+            String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.SALES);
+            //log.info("查询类型：{}",queryTypeName);
+            System.out.println("查询类型：{}"+queryTypeName);
+            if(null==queryTypeName){
+                throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
+            }
+            //0为未删除，1为已删除
+            QueryWrapper<Sales> queryWrapper = new QueryWrapper<Sales>().ne(Constant.IS_DELETED, DeletedType.DELETED.getCode());
+            //判断查询类型执行对应查询
+//            System.out.println(queryTypeName);
+//            System.out.println(pageQueryDTO.getKeyword());
             queryWrapper = queryWrapper.eq(queryTypeName, pageQueryDTO.getKeyword());
             Page<Sales> page = salesMapper.selectPage(
                     new Page<Sales>(pag, pagesize),

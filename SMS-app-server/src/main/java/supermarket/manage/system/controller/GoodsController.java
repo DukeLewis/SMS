@@ -47,7 +47,7 @@ public class GoodsController {
     }
 
     @GetMapping("/query")
-    @ApiOperation("商品信息查询")
+    @ApiOperation("商品信息条件查询")
     public AppResult<PageResult> informationQuery(@NotNull PageQueryDTO pageQueryDTO){
         return AppResult.success(goodsService.informationQuery(pageQueryDTO));
     }

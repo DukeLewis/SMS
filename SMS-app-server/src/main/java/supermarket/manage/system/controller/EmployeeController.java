@@ -47,7 +47,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/query")
-    @ApiOperation("员工信息查询")
+    @ApiOperation("员工信息条件查询")
     public AppResult<PageResult> informationQuery(@NotNull PageQueryDTO pageQueryDTO){
         return AppResult.success(employeeService.informationQuery(pageQueryDTO));
     }

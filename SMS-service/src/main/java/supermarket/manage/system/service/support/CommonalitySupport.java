@@ -37,18 +37,26 @@ public class CommonalitySupport {
         keyWordTypeMap.put(Constant.KeyWordType.ID.getInfo(), Constant.KeyWordType.ID);
         keyWordTypeMap.put(Constant.KeyWordType.TIME.getInfo(), Constant.KeyWordType.TIME);
         keyWordTypeMap.put(Constant.KeyWordType.SALESMAN.getInfo(), Constant.KeyWordType.SALESMAN);
+        keyWordTypeMap.put(Constant.KeyWordType.BRAND.getInfo(), Constant.KeyWordType.BRAND);
+        keyWordTypeMap.put(Constant.KeyWordType.POSITION.getInfo(), Constant.KeyWordType.POSITION);
+
     }
 
     public static String getQueryType(String keywordType, ModuleType moduleType){
         Constant.KeyWordType wordType = keyWordTypeMap.get(keywordType);
+
         if (null == wordType) {
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
         }
         Class<Constant> constantClass = Constant.class;
         String fieldName = wordType.getInfo().toUpperCase();
+
         fieldName=moduleType.getInfo().toUpperCase()+Constant.QUERY_TYPE+fieldName;
+
         try {
             Field field = constantClass.getField(fieldName);
+
+
             String res=(String)field.get(null);
             return res;
         } catch (NoSuchFieldException e) {

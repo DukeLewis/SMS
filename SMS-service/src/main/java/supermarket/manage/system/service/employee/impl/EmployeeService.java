@@ -91,6 +91,7 @@ public class EmployeeService extends ServiceImpl<EmployeeMapper, Employee>
 
         //获取查询类型
         String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.EMPLOYEE);
+        System.out.println(queryTypeName+"111111111111111");
         if(null==queryTypeName){
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
         }

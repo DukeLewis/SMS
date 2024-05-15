@@ -176,7 +176,11 @@ public class Constant {
         NAME("name"),
         ID("id"),
         TIME("time"),
-        SALESMAN("salesman");
+        SALESMAN("salesman"),
+        BRAND("brand"),
+        POSITION("position");
+
+
 
         /**
          * 描述
