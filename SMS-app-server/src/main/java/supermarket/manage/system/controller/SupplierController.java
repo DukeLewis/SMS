@@ -9,6 +9,7 @@ import supermarket.manage.system.common.commons.AppResult;
 import supermarket.manage.system.model.dto.GoodsInfoDTO;
 import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.dto.SupplierInfoDTO;
+import supermarket.manage.system.model.dto.SupplierPageQueryDTO;
 import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.service.supplier.SupplierService;
 
@@ -41,6 +42,12 @@ public class SupplierController {
     @ApiOperation("供应商信息条件查询")
     public AppResult<PageResult> informationQuery(@NotNull PageQueryDTO pageQueryDTO){
         return AppResult.success(supplierService.informationQuery(pageQueryDTO));
+    }
+
+    @GetMapping("/querySupplier")
+    @ApiOperation("根据商品名称的供应商信息查询")
+    public AppResult<PageResult> querySupplier(@NotNull @Validated SupplierPageQueryDTO supplierPageQueryDTO){
+        return AppResult.success(supplierService.querySupplier(supplierPageQueryDTO));
     }
 
 }

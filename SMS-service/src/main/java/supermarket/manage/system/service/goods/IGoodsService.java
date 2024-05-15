@@ -44,11 +44,4 @@ public interface IGoodsService extends IService<Goods> {
      * @return
      */
     PageResult informationQuery(PageQueryDTO pageQueryDTO);
-
-    /**
-     * 一个商品对应供应商信息查询
-     * @param supplierPageQueryDTO
-     * @return
-     */
-    PageResult querySupplier(SupplierPageQueryDTO supplierPageQueryDTO);
 }
