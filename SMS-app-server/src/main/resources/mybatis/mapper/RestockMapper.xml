@@ -7,7 +7,7 @@
     <resultMap id="BaseResultMap" type="supermarket.manage.system.model.domain.Restock">
         <id property="rId" column="r_id" jdbcType="INTEGER"/>
         <result property="productIdList" column="product_id_list" jdbcType="VARCHAR"/>
-        <result property="productQuantityList" column="product_quantity_list" jdbcType="INTEGER"/>
+        <result property="productNumberList" column="product_number_list" jdbcType="INTEGER"/>
         <result property="supplierList" column="supplier_list" jdbcType="VARCHAR"/>
         <result property="productPricelist" column="product_pricelist" jdbcType="VARCHAR"/>
         <result property="arriveTime" column="arrive_time" jdbcType="TIMESTAMP"/>
@@ -18,10 +18,10 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        r_id
-        ,product_list,supplier_list,
-        product_pricelist,arrive_time,status,
-        create_time,update_time,is_deleted
+        r_id,product_id_list,product_number_list,
+        supplier_list,product_pricelist,arrive_time,
+        status,create_time,update_time,
+        is_deleted
     </sql>
 <!--    该语句的where使用了函数，将无法走索引,如果需要走索引，那么可以考虑先查询出进货单记录，然后在业务代码中进行超时进货单的筛选进行通知预警-->
     <select id="findRestockStatusWarn" resultType="supermarket.manage.system.model.entity.RestockWarnEntity">

@@ -51,10 +51,4 @@ public class GoodsController {
     public AppResult<PageResult> informationQuery(@NotNull PageQueryDTO pageQueryDTO){
         return AppResult.success(goodsService.informationQuery(pageQueryDTO));
     }
-
-    @GetMapping("/querySupplier")
-    @ApiOperation("商品的供应商信息查询")
-    public AppResult<PageResult> querySupplier(@NotNull @Validated SupplierPageQueryDTO supplierPageQueryDTO){
-        return AppResult.success(goodsService.querySupplier(supplierPageQueryDTO));
-    }
 }
