@@ -44,6 +44,7 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
                 .productIdList(ListUtil.list2String(restockInfoDTO.getProductIdList()))
                 .supplierList(ListUtil.list2String(restockInfoDTO.getSupplierList()))
                 .productPricelist(ListUtil.list2String(restockInfoDTO.getProductPricelist()))
+                .productNumberList(ListUtil.list2String(restockInfoDTO.getProductNumberList()))
                 .arriveTime(restockInfoDTO.getArriveTime())
                 .status(RestockStatus.UN_ARRIVED.getStatus())
                 .createTime(new Date())
@@ -63,6 +64,7 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
                         .productIdList(ListUtil.list2String(restockInfoDTO.getProductIdList()))
                         .supplierList(ListUtil.list2String(restockInfoDTO.getSupplierList()))
                         .productPricelist(ListUtil.list2String(restockInfoDTO.getProductPricelist()))
+                        .productNumberList(ListUtil.list2String(restockInfoDTO.getProductNumberList()))
                         .arriveTime(restockInfoDTO.getArriveTime())
                         .status(restockInfoDTO.getStatus())
                         //注意，如果这里进行了更改那么就是删除该记录

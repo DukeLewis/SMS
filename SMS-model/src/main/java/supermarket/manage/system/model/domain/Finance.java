@@ -33,29 +33,19 @@ public class Finance implements Serializable {
     private Date recordTime;
 
     /**
-     * 收入
+     * 类型，1为支出2为收入
      */
-    private Double revenue;
+    private Integer fType;
 
     /**
-     * 采购成本
+     * 数额
      */
-    private Double costs;
+    private Double amount;
 
     /**
-     * 水费
+     * 备注,水电费之类的
      */
-    private Double waterCost;
-
-    /**
-     * 电费
-     */
-    private Double eleCost;
-
-    /**
-     * 支出
-     */
-    private Double spend;
+    private String remark;
 
     /**
      * 更新时间
