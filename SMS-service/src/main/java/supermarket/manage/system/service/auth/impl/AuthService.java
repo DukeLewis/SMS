@@ -60,7 +60,7 @@ public class AuthService extends ServiceImpl<UserMapper, User> implements IAuthS
         chaim.put("username", username);
         chaim.put("id", user.getId());
         Map<String, String> map = new HashMap<>();
-        String jwtToken = JwtUtils.encode(username, 30 * 60 * 1000, chaim);
+        String jwtToken = JwtUtils.encode(username, 100000 * 60 * 1000, chaim);
         map.put("msg", AuthStatus.SUCESS.getMsg());
         map.put("token", jwtToken);
         return map;

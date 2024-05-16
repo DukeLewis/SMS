@@ -117,6 +117,7 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
                 .gType(goodsInfoDTO.getGtype())
                 .supplierIdList(ListUtil.list2String(goodsInfoDTO.getSupplierIdList()))
                 .supplierPriceList(ListUtil.list2String(goodsInfoDTO.getSupplierPriceList()))
+                .isDeleted(goodsInfoDTO.getIsDeleted())
                 .build());
     }
 
