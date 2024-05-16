@@ -93,7 +93,9 @@ public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, Supplier>
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_NOT_EXISTS));
         }
         //获取查询类型
+        System.out.println("=============");
         String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.SUPPLIER);
+        System.out.println("1111111111111111");
         if(null==queryTypeName){
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
         }
