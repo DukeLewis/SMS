@@ -48,22 +48,22 @@ public class WarnController {
      */
     @OnOpen
     public void onOpen(Session session, @PathParam("uid") String uid) {
-        this.session = session;
-        this.uid = uid;
-        //存在该用户id则直接覆盖
-        if (webSocketMap.containsKey(uid)) {
-            webSocketMap.remove(uid);
-            webSocketMap.put(uid, this);
-        } else {
-            //加入用户的连接
-            webSocketMap.put(uid, this);
-            //在线人数加1
-//            addOnlineCount();
-        }
-        sessionPool.put(uid, session);
 
 
         try {
+            this.session = session;
+            this.uid = uid;
+            //存在该用户id则直接覆盖
+            if (webSocketMap.containsKey(uid)) {
+                webSocketMap.remove(uid);
+                webSocketMap.put(uid, this);
+            } else {
+                //加入用户的连接
+                webSocketMap.put(uid, this);
+                //在线人数加1
+//            addOnlineCount();
+            }
+            sessionPool.put(uid, session);
             log.info("{}连接成功",this.uid);
         } catch (Exception e) {
             log.error("用户:" + uid + ",网络异常!!!!!!");

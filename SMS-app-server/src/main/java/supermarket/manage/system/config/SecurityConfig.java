@@ -78,7 +78,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/user/login",
                         "/user/hello",
                         "/user/register",
-                        "/employee/enter"
+                        "/employee/enter",
+                        "/message/*"
                 ).permitAll()
                 // 静态资源，可匿名访问
 //                .antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/profile/**").permitAll()
