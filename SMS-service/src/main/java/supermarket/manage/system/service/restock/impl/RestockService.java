@@ -55,7 +55,7 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
     @Override
     public boolean updateRestock(RestockInfoDTO restockInfoDTO) {
         Restock restock = getById(restockInfoDTO.getRId());
-        if(null==restock||DeletedType.UN_DELETED.getCode().equals(restock.getIsDeleted())){
+        if(null==restock||DeletedType.DELETED.getCode().equals(restock.getIsDeleted())){
             throw new ApplicationException(AppResult.failed(ResultCode.RESTOCK_NOT_EXISTS));
         }
         return updateById(
