@@ -41,10 +41,15 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance>
     FinanceMapper financeMapper;
 
     @Override
-    public boolean recordFinance(FinanceInfoDTO financeInfoDTO) {
-        return save(Finance.builder().recordTime(financeInfoDTO.getRecordTime())
-                .updateTime(financeInfoDTO.getUpdateTime())
-                .createTime(financeInfoDTO.getCreateTime())
+    public boolean recordFinance(Finance finance) {
+        return save(Finance.builder()
+                .fId(finance.getFId())
+                .recordTime(finance.getRecordTime())
+                .fType(finance.getFType())
+                .amount(finance.getAmount())
+                .remark(finance.getRemark())
+                .updateTime(finance.getUpdateTime())
+                .createTime(finance.getCreateTime())
                 .isDeleted(0).build());
     }
 

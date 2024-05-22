@@ -24,6 +24,14 @@ public interface SupplierService extends IService<Supplier> {
      */
     boolean informationModification(SupplierInfoDTO supplierInfoDTO);
 
+
+    /**
+     * 供应商信息删除
+     * @param supplierInfoDTO
+     * @return
+     */
+    boolean informationDeletion(SupplierInfoDTO supplierInfoDTO);
+
     /**
      *所有供应商信息查询,返回信息做分页处理
      * @param pageQueryDTO

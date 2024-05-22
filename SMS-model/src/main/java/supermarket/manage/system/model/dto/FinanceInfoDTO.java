@@ -32,6 +32,7 @@ public class FinanceInfoDTO implements Serializable {
     /**
      * 财务记录唯一标识
      */
+    @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "财务记录唯一标识")
     @NotNull
     private Integer fid;
@@ -44,39 +45,27 @@ public class FinanceInfoDTO implements Serializable {
     private Date recordTime;
 
     /**
-     * 收入
+     * 类型
      */
-    @ApiModelProperty(value = "收入")
+    @ApiModelProperty(value = "类型，1为支出2为收入")
     @NotBlank
-    private String revenue;
+    private String ftype;
 
     /**
-     * 采购成本
+     * 数额
      */
-    @ApiModelProperty(value = "采购成本")
+    @ApiModelProperty(value = "数额")
     @NotBlank
-    private String costs;
+    private Double amount;
 
     /**
-     * 水费
+     * 备注
      */
-    @ApiModelProperty(value = "水费")
+    @ApiModelProperty(value = "备注")
     @NotBlank
-    private String waterCost;
+    private String remark;
 
-    /**
-     * 电费
-     */
-    @ApiModelProperty(value = "电费")
-    @NotBlank
-    private String eleCost;
 
-    /**
-     * 支出
-     */
-    @ApiModelProperty(value = "收入")
-    @NotBlank
-    private String spend;
 
     /**
      * 时间类型(年，月，日）
@@ -92,6 +81,10 @@ public class FinanceInfoDTO implements Serializable {
     @NotNull
     private Date updateTime;
 
+
+    @ApiModelProperty(value = "销售唯一标识")
+    @NotNull
+    private Integer sid;
 
     /**
      * 创建时间

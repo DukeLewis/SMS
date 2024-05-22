@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import supermarket.manage.system.common.commons.AppResult;
+import supermarket.manage.system.model.domain.Finance;
 import supermarket.manage.system.model.dto.AuthDTO;
 import supermarket.manage.system.model.dto.FinanceInfoDTO;
 import supermarket.manage.system.model.dto.PageQueryDTO;
@@ -31,9 +32,9 @@ public class FinanceController {
     private FinanceService financeService;
 
     @ApiOperation("记录财务信息")
-    @PostMapping("/recordin")
-    public AppResult recordinFinance(@NotNull @Validated @RequestBody FinanceInfoDTO FinanceInfoDTO) {
-        return AppResult.success(financeService.recordFinance(FinanceInfoDTO));
+//    @PostMapping("/record")
+    public AppResult recordFinance(@NotNull @Validated @RequestBody Finance finance) {
+        return AppResult.success(financeService.recordFinance(finance));
     }
     @ApiOperation("修改财务信息")
     @PostMapping("/updatein")

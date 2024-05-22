@@ -12,6 +12,7 @@
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="sId" column="s_id" javaType="INTEGER"/>
         <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
     </resultMap>
 
@@ -20,4 +21,16 @@
         amount,remark,update_time,
         create_time,is_deleted
     </sql>
+
+
+    <update id="updateBysId" parameterType="java.lang.Integer">
+        update finance
+        set is_deleted = 1
+        where s_id = #{sid};
+    </update>
+    <select id="selectallbysid" resultType="supermarket.manage.system.model.domain.Finance">
+        select f_id
+        from finance
+        where s_id=#{sid};
+    </select>
 </mapper>

@@ -20,4 +20,9 @@
         position,e_phone,update_time,
         create_time,is_deleted
     </sql>
+    <select id="selectByName" resultType="supermarket.manage.system.model.domain.Employee">
+        select  e_id
+        from employee
+        where e_name = #{name};
+    </select>
 </mapper>

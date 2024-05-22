@@ -3,6 +3,7 @@ package supermarket.manage.system.repository.mysql.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import supermarket.manage.system.model.domain.Sales;
+import supermarket.manage.system.model.dto.SalesInfoDTO;
 
 import java.util.List;
 
@@ -15,6 +16,9 @@ import java.util.List;
 public interface SalesMapper extends BaseMapper<Sales> {
 
     List<Sales> getByTime(String time);
+    List<SalesInfoDTO> listall(Integer isdeleted);
+    List<SalesInfoDTO>  listbygname(String gname);
+    List<SalesInfoDTO> listbysaler(String saler);
 }
 
 

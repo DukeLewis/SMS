@@ -19,10 +19,10 @@ public interface FinanceService extends IService<Finance> {
 
     /**
      * 记录财务信息
-     * @param financeInfoDTO
+     * @param finance
      * @return
      */
-    boolean recordFinance(FinanceInfoDTO financeInfoDTO);
+    boolean recordFinance(Finance finance);
 
     /**
      * 修改财务信息

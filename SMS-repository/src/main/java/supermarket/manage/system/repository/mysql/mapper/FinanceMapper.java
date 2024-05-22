@@ -4,6 +4,8 @@ package supermarket.manage.system.repository.mysql.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import supermarket.manage.system.model.domain.Finance;
 
+import java.util.List;
+
 /**
 * @author ASUS
 * @description 针对表【finance】的数据库操作Mapper
@@ -11,6 +13,10 @@ import supermarket.manage.system.model.domain.Finance;
 * @Entity generator.domain.Finance
 */
 public interface FinanceMapper extends BaseMapper<Finance> {
+    Integer updateBysId(Integer sid);
+
+     List<Finance> selectallbysid(Integer sid) ;
+
 
 }
 

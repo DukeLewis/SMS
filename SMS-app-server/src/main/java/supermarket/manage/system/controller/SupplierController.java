@@ -32,6 +32,12 @@ public class SupplierController {
         return AppResult.success(supplierService.informationModification(supplierInfoDTO));
     }
 
+    @PostMapping("/deletion")
+    @ApiOperation("供应商信息删除")
+    public AppResult informationDeletion(@Validated @NotNull @RequestBody SupplierInfoDTO supplierInfoDTO){
+        return AppResult.success(supplierService.informationDeletion(supplierInfoDTO));
+    }
+
     @GetMapping("/queryALL")
     @ApiOperation("所有供应商信息查询")
     public AppResult<PageResult> informationQueryALL(@NotNull PageQueryDTO pageQueryDTO){

@@ -30,6 +30,7 @@ create table finance
     remark      varchar(50)   null comment '备注,水电费之类的',
     update_time datetime      null comment '更新时间',
     create_time datetime      null comment '创建时间',
+    s_id        int(10)       null comment '销售字段',
     is_deleted  tinyint(5)    null comment '逻辑删除字段'
 );
 
@@ -51,9 +52,9 @@ create table goods
     g_origin            varchar(30)   null comment '商品产地',
     supplier_id_list    varchar(5000) null comment '能供应该商品的供应商id列表',
     supplier_price_list varchar(5000) null comment '能提供该商品的供应商对应的价格列表',
-    update_time         datetime      not null comment '更新时间',
-    create_time         datetime      not null comment '创建时间',
-    is_deleted          tinyint(5)    not null comment '逻辑删除字段'
+    update_time         datetime      null comment '更新时间',
+    create_time         datetime      null comment '创建时间',
+    is_deleted          tinyint(5)    null comment '逻辑删除字段'
 );
 
 -------------------
@@ -76,16 +77,17 @@ create table restock
 
 create table sales
 (
-    g_id        int(10) auto_increment comment '商品唯一标识'
+    s_id        int(10) auto_increment comment '销售记录唯一标识'
         primary key,
-    g_name      varchar(300)  null comment '商品名称',
-    g_price     double(10, 2) null comment '商品单价',
+    g_id      int(10)  null comment '商品id',
+
     sale_num    int(10)       null comment '销售数量',
     sale_time   datetime      null comment '销售时间',
-    saler       int(10)       null comment '销售员',
+    saler       varchar(50)       null comment '销售员',
     update_time datetime      null comment '更新时间',
     create_time datetime      null comment '创建时间',
-    is_deleted  tinyint(5)    null comment '逻辑删除字段'
+    is_deleted  tinyint(5)    null comment '逻辑删除字段',
+
 );
 
 
@@ -111,8 +113,8 @@ create table user
 (
     u_id         int(10) auto_increment comment '用户id'
         primary key,
-    u_name       varchar(30)  not null comment '用户名',
-    password     varchar(100) not null comment '密码',
+    u_name       varchar(30)  null comment '用户名',
+    password     varchar(100) null comment '密码',
     u_permission tinyint(5)   null comment '用户权限',
     update_time  datetime     null comment '更新时间',
     create_time  datetime     null comment '创建时间',

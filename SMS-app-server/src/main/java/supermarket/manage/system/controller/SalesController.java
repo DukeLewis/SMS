@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import supermarket.manage.system.common.commons.AppResult;
+import supermarket.manage.system.model.domain.Sales;
 import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.dto.SalesInfoDTO;
 import supermarket.manage.system.model.dto.SupplierInfoDTO;
@@ -23,8 +24,8 @@ public class SalesController {
     private SalesService salesService;
     @PostMapping("/enter")
     @ApiOperation("销售信息录入")
-    public AppResult informationEntry(@NotNull @RequestBody SalesInfoDTO salesInfoDTO){
-        return AppResult.success(salesService.informationEntry(salesInfoDTO));
+    public AppResult informationEntry(@NotNull @RequestBody Sales sales){
+        return AppResult.success(salesService.informationEntry(sales));
     }
     @PostMapping("/modification")
     @ApiOperation("销售信息修改")

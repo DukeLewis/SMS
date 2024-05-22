@@ -21,10 +21,10 @@ import supermarket.manage.system.model.vo.PageResult;
 public interface SalesService extends IService<Sales> {
     /**
      * 销售信息录入
-     * @param salesInfoDTO
+     * @param sales
      * @return
      */
-    public boolean informationEntry(SalesInfoDTO salesInfoDTO);
+    public boolean informationEntry(Sales sales);
     /**
      * 销售信息修改
      * @param salesInfoDTO

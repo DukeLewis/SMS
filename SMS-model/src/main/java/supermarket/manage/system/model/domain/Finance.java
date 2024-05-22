@@ -58,6 +58,12 @@ public class Finance implements Serializable {
     private Date createTime;
 
     /**
+     * 销售记录
+     */
+    private Integer sId;
+
+
+    /**
      * 逻辑删除字段
      */
     private Integer isDeleted;
