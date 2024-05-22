@@ -11,6 +11,7 @@ import supermarket.manage.system.model.domain.Employee;
 * @Entity generator.domain.Employee
 */
 public interface EmployeeMapper extends BaseMapper<Employee> {
+    Employee selectByName(String name);
 
 }
 

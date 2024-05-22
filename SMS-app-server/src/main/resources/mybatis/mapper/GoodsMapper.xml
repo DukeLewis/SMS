@@ -35,4 +35,9 @@
         FROM goods
         WHERE inventory <![CDATA[ < ]]> inventory_threshold AND is_deleted = 0
     </select>
+    <select id="selectByName" resultType="java.lang.Integer">
+        SELECT g_id
+        FROM goods
+        WHERE g_name = #{gname};
+    </select>
 </mapper>

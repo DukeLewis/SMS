@@ -5,9 +5,21 @@
 <mapper namespace="supermarket.manage.system.repository.mysql.mapper.SalesMapper">
 
     <resultMap id="BaseResultMap" type="supermarket.manage.system.model.domain.Sales">
-        <id property="gId" column="g_id" jdbcType="INTEGER"/>
-        <result property="gName" column="g_name" jdbcType="VARCHAR"/>
-        <result property="gPrice" column="g_price" jdbcType="DOUBLE"/>
+        <id property="sId" column="s_id" jdbcType="INTEGER"/>
+        <result property="gId" column="g_id" jdbcType="INTEGER"/>
+        <result property="saleNum" column="sale_num" jdbcType="INTEGER"/>
+        <result property="saleTime" column="sale_time" jdbcType="TIMESTAMP"/>
+        <result property="saler" column="saler" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="supermarket.manage.system.model.dto.SalesInfoDTO">
+        <id property="sid" column="s_id" jdbcType="INTEGER"/>
+        <result property="gname" column="g_name" jdbcType="VARCHAR"/>
+        <result property="gPrice" column="sell_price" jdbcType="DOUBLE"/>
+<!--        <result property="salemoney" column="amount" jdbcType="DOUBLE"/>-->
         <result property="saleNum" column="sale_num" jdbcType="INTEGER"/>
         <result property="saleTime" column="sale_time" jdbcType="TIMESTAMP"/>
         <result property="saler" column="saler" jdbcType="VARCHAR"/>
@@ -17,20 +29,59 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        g_id,g_name,g_price,
+        s_id,g_id,
         sale_num,sale_time,saler,
         update_time,create_time,is_deleted
     </sql>
 
-    <select id="getByTime" resultMap="BaseResultMap">
-        SELECT *
-        FROM Sales
-        WHERE
-        (is_deleted=0
-        and
-        DATEDIFF(sale_time,#{time})=0
-        )
-        order by create_time desc;
+    <sql id="listall">
+        select s.s_id, g.g_name,g.sell_price,s.sale_num,s.sale_time,
+        s.saler,s.update_time,s.create_time,s.is_deleted
+        from sales as s
+        left join
+        goods as g
+        on s.g_id = g.g_id
+    </sql>
 
+    <select id="getByTime" resultMap="BaseResultMap2">
+        <include refid="listall"></include>
+        WHERE
+        (s.is_deleted=0
+        and
+        DATEDIFF(s.sale_time,#{time})=0
+        )
+        order by s.create_time desc;
+
+    </select>
+
+    <select id="listall" resultMap="BaseResultMap2">
+        <include refid="listall"></include>
+        WHERE
+        s.is_deleted = #{isdeleted}
+
+        order by s.create_time desc;
+    </select>
+
+    <select id="listbygname" resultMap="BaseResultMap2">
+        <include refid="listall"></include>
+        WHERE
+        (s.is_deleted = 0
+        and
+        s.g_id = g.g_id
+        and
+        g.g_name =#{gname}
+        )
+        order by s.create_time desc;
+    </select>
+    <select id="listbysaler" resultMap="BaseResultMap2">
+        <include refid="listall"></include>
+        WHERE
+        (s.is_deleted = 0
+        and
+        s.g_id = g.g_id
+        and
+        s.saler  =#{saler}
+        )
+        order by s.create_time desc;
     </select>
 </mapper>

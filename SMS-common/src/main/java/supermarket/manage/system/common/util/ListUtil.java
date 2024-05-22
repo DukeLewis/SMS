@@ -18,6 +18,9 @@ public class ListUtil {
      * @return
      */
     public static String list2String(List<String> list){
+        if(null==list||list.isEmpty()){
+            return null;
+        }
         StringBuilder res = new StringBuilder();
         for (String s : list) {
             res.append(s).append(Constant.DATABASE_SPLIT);

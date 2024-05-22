@@ -23,20 +23,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Sales implements Serializable {
     /**
-     * 商品唯一标识
+     * 销售记录唯一标识
      */
     @TableId(type = IdType.AUTO)
+    private Integer sId;
+
+    /**
+     * 商品id
+     */
     private Integer gId;
 
-    /**
-     * 商品名称
-     */
-    private String gName;
 
-    /**
-     * 商品单价
-     */
-    private Double gPrice;
 
     /**
      * 销售数量
@@ -51,7 +48,9 @@ public class Sales implements Serializable {
     /**
      * 销售员
      */
-    private Integer saler;
+    private String saler;
+
+
 
     /**
      * 更新时间

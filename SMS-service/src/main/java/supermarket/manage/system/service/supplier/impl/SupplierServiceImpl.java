@@ -70,6 +70,19 @@ public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, Supplier>
     }
 
     @Override
+    public boolean informationDeletion(SupplierInfoDTO supplierInfoDTO) {
+        return updateById(Supplier.builder()
+                .sId(supplierInfoDTO.getSid())
+                .sName(supplierInfoDTO.getSname())
+                .sPrincipal(supplierInfoDTO.getSprincipal())
+                .sPhone(supplierInfoDTO.getSphone())
+                .sAddress(supplierInfoDTO.getSaddress())
+                .updateTime(new Date())
+                .isDeleted(1)
+                .build());
+    }
+
+    @Override
     public PageResult informationQueryALL(PageQueryDTO pageQueryDTO) {
         Integer pag = pageQueryDTO.getPage();
         Integer pagesize = pageQueryDTO.getPagesize();

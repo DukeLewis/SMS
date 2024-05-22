@@ -2,6 +2,7 @@ package supermarket.manage.system.repository.mysql.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.swagger.models.auth.In;
 import supermarket.manage.system.model.domain.Goods;
 import supermarket.manage.system.model.entity.InventoryWarnEntity;
 
@@ -21,6 +22,8 @@ public interface GoodsMapper extends BaseMapper<Goods> {
      * @return
      */
     public List<InventoryWarnEntity> findInventoryWarn();
+
+    public Integer selectByName(String gname);
 
 }
 
