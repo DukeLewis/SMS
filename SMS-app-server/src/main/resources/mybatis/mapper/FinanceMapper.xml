@@ -28,8 +28,8 @@
         set is_deleted = 1
         where s_id = #{sid};
     </update>
-    <select id="selectallbysid" resultType="supermarket.manage.system.model.domain.Finance">
-        select f_id
+    <select id="selectallbysid" resultMap="BaseResultMap">
+        select *
         from finance
         where s_id=#{sid};
     </select>
