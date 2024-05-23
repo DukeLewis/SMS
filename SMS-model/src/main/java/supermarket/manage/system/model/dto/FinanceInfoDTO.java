@@ -41,28 +41,28 @@ public class FinanceInfoDTO implements Serializable {
      * 记录日期
      */
     @ApiModelProperty(value = "记录日期")
-    @NotNull
+
     private Date recordTime;
 
     /**
      * 类型
      */
     @ApiModelProperty(value = "类型，1为支出2为收入")
-    @NotBlank
-    private String ftype;
+
+    private Integer ftype;
 
     /**
      * 数额
      */
     @ApiModelProperty(value = "数额")
-    @NotBlank
+
     private Double amount;
 
     /**
      * 备注
      */
     @ApiModelProperty(value = "备注")
-    @NotBlank
+
     private String remark;
 
 
@@ -71,33 +71,33 @@ public class FinanceInfoDTO implements Serializable {
      * 时间类型(年，月，日）
      */
     @ApiModelProperty(value = "时间类型(年，月，日）",allowableValues = "day,month,year")
-    @NotBlank
+
     private String timeType;
 
     /**
      * 更新时间
      */
     @ApiModelProperty(value = "更新时间")
-    @NotNull
+
     private Date updateTime;
 
 
     @ApiModelProperty(value = "销售唯一标识")
-    @NotNull
+
     private Integer sid;
 
     /**
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    @NotNull
+
     private Date createTime;
 
     /**
      * 逻辑删除字段
      */
     @ApiModelProperty(value = "逻辑删除字段")
-    @NotNull
+
     private Integer isDeleted;
 
 

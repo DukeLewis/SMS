@@ -18,6 +18,10 @@ public interface FinanceMapper extends BaseMapper<Finance> {
 
      List<Finance> selectallbysid(Integer sid) ;
 
+     List<Finance> getByTime(String time);
+
+     List<Finance> getByType(Integer type);
+
 
 }
 
