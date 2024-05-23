@@ -33,4 +33,26 @@
         from finance
         where s_id=#{sid};
     </select>
+    <select id="getByTime" resultMap="BaseResultMap">
+        select *
+        from finance
+        where
+        ( is_deleted = 0
+        and
+        DATEDIFF(create_time,#{time})=0
+        )
+        order by create_time desc;
+
+    </select>
+
+    <select id="getByType" resultMap="BaseResultMap">
+        select *
+        from finance
+        where
+        ( is_deleted = 0
+        and
+         f_type = #{type}
+        )
+        order by create_time desc;
+    </select>
 </mapper>

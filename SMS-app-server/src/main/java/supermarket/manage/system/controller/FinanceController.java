@@ -32,7 +32,7 @@ public class FinanceController {
     private FinanceService financeService;
 
     @ApiOperation("记录财务信息")
-//    @PostMapping("/record")
+    @PostMapping("/record")
     public AppResult recordFinance(@NotNull @Validated @RequestBody Finance finance) {
         return AppResult.success(financeService.recordFinance(finance));
     }

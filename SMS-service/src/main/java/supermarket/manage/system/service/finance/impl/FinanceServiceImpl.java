@@ -14,6 +14,7 @@ import supermarket.manage.system.common.exception.ApplicationException;
 import supermarket.manage.system.model.domain.Employee;
 import supermarket.manage.system.model.domain.Finance;
 import supermarket.manage.system.model.domain.Goods;
+import supermarket.manage.system.model.domain.Sales;
 import supermarket.manage.system.model.dto.FinanceInfoDTO;
 import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.vo.PageResult;
@@ -44,24 +45,37 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance>
     public boolean recordFinance(Finance finance) {
         return save(Finance.builder()
                 .fId(finance.getFId())
-                .recordTime(finance.getRecordTime())
+                .recordTime(new Date())
                 .fType(finance.getFType())
                 .amount(finance.getAmount())
                 .remark(finance.getRemark())
-                .updateTime(finance.getUpdateTime())
-                .createTime(finance.getCreateTime())
+                .updateTime(new Date())
+                .createTime(new Date())
+                .sId(0)
                 .isDeleted(0).build());
     }
 
     @Override
     public boolean updateFinance(FinanceInfoDTO financeInfoDTO) {
+        Finance finance = financeMapper.selectById(financeInfoDTO.getFid());
+        if(finance.getSId()!=0){
+            //为0的是手动添加的记录，不为1的是销售记录，不支持修改
+            return false;
+        }
+        Double amount = finance.getAmount();
+        if (financeInfoDTO.getAmount() != null) {
+            amount = financeInfoDTO.getAmount();
+        }
+        Integer ftype = finance.getFType();
+        if(financeInfoDTO.getFtype() != null && financeInfoDTO.getFtype() != 0) {
+            ftype =financeInfoDTO.getFtype();
+        }
         return updateById(
                 Finance.builder()
-                        .fId(financeInfoDTO.getFid())
-                        .recordTime(financeInfoDTO.getRecordTime())
+                        .fId(finance.getFId())
                         .updateTime(new Date())
-                        .createTime(financeInfoDTO.getCreateTime())
-                        .isDeleted(financeInfoDTO.getIsDeleted())
+                        .amount(amount)
+                        .fType(ftype)
                         .build()
         );
 
@@ -69,12 +83,15 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance>
 
     @Override
     public boolean deleteFinance(FinanceInfoDTO financeInfoDTO) {
+        Finance finance = financeMapper.selectById(financeInfoDTO.getFid());
+        if(finance.getSId()!=0){
+            //为0的是手动添加的记录，不为1的是销售记录，不支持修改
+            return false;
+        }
         return updateById(
                 Finance.builder()
-                        .fId(financeInfoDTO.getFid())
-                        .recordTime(financeInfoDTO.getRecordTime())
+                        .fId(finance.getFId())
                         .updateTime(new Date())
-                        .createTime(financeInfoDTO.getCreateTime())
                         .isDeleted(1)
                         .build()
         );
@@ -96,6 +113,7 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance>
         );
     }
 
+    //支持日期和类别
     @Override
     public PageResult queryFinance(PageQueryDTO pageQueryDTO) {
         Integer pag = pageQueryDTO.getPage();
@@ -103,22 +121,52 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance>
         if (null == pageQueryDTO.getKeyword()||null==pageQueryDTO.getKeywordType()) {
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_NOT_EXISTS));
         }
-        //获取查询类型
-        String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.FINANCE );
-        if(null==queryTypeName){
-            throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
+        if(pageQueryDTO.getKeywordType().equals("time")){
+            //日期查询，获取查询类型
+//            String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.FINANCE);
+//            //log.info("查询类型：{}",queryTypeName);
+//            System.out.println("查询类型：{}"+queryTypeName);
+//            if(null==queryTypeName){
+//                throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
+//            }
+            //0为未删除，1为已删除
+            QueryWrapper<Sales> queryWrapper = new QueryWrapper<Sales>().ne(Constant.IS_DELETED, DeletedType.DELETED.getCode());
+            List<Finance> byTime = financeMapper.getByTime(pageQueryDTO.getKeyword());
+            return new PageResult(
+                    pag, pagesize, Long.valueOf(byTime.size()), byTime
+            );
+        }else{
+            //类型查询、
+//            String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.FINANCE);
+//            //log.info("查询类型：{}",queryTypeName);
+//            System.out.println("查询类型：{}"+queryTypeName);
+//            if(null==queryTypeName){
+//                throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
+//            }
+            //0为未删除，1为已删除
+            QueryWrapper<Sales> queryWrapper = new QueryWrapper<Sales>().ne(Constant.IS_DELETED, DeletedType.DELETED.getCode());
+            List<Finance> ByType = financeMapper.getByType(Integer.parseInt(pageQueryDTO.getKeyword()) );
+            return new PageResult(
+                    pag, pagesize, Long.valueOf(ByType.size()), ByType
+            );
+
         }
-        //0为未删除，1为已删除
-        QueryWrapper<Finance> queryWrapper = new QueryWrapper<Finance>().ne(Constant.IS_DELETED, DeletedType.DELETED.getCode());
-        //判断查询类型执行对应查询
-        queryWrapper = queryWrapper.eq(queryTypeName, pageQueryDTO.getKeyword());
-        Page<Finance> page = financeMapper.selectPage(
-                new Page<Finance>(pag, pagesize),
-                queryWrapper
-        );
-        return new PageResult(
-                pag, pagesize, page.getTotal(), page.getRecords()
-        );
+        //获取查询类型
+//        String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.FINANCE );
+//        if(null==queryTypeName){
+//            throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_TYPE_NOT_EXISTS));
+//        }
+//        //0为未删除，1为已删除
+//        QueryWrapper<Finance> queryWrapper = new QueryWrapper<Finance>().ne(Constant.IS_DELETED, DeletedType.DELETED.getCode());
+//        //判断查询类型执行对应查询
+//        queryWrapper = queryWrapper.eq(queryTypeName, pageQueryDTO.getKeyword());
+//        Page<Finance> page = financeMapper.selectPage(
+//                new Page<Finance>(pag, pagesize),
+//                queryWrapper
+//        );
+//        return new PageResult(
+//                pag, pagesize, page.getTotal(), page.getRecords()
+//        );
     }
 
 

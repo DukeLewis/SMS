@@ -31,28 +31,28 @@ public class SupplierInfoDTO implements Serializable {
      * 供应商名称
      */
     @ApiModelProperty(value = "供应商名称")
-    @NotBlank
+
     private String sname;
 
     /**
      * 负责人姓名
      */
     @ApiModelProperty(value = "负责人姓名")
-    @NotBlank
+
     private String sprincipal;
 
     /**
      * 联系电话
      */
     @ApiModelProperty(value = "联系电话")
-    @NotNull
+
     private String sphone;
 
     /**
      * 供应商地址
      */
     @ApiModelProperty(value = "供应商地址")
-    @NotNull
+
     private String saddress;
 
     /**
