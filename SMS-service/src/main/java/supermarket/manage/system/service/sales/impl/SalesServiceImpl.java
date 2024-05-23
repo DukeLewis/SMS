@@ -76,18 +76,18 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
         //商品支出金额
         Double money2 = Double.parseDouble(goods.getPurchasePrice()) * sales.getSaleNum();
 
-        return save(Sales.builder()
-                .sId(sales.getSId())
-                .gId(sales.getGId())
-                .saleNum(sales.getSaleNum())
-                .saleTime(new Date())
-                .saler(sales.getSaler())
-                .updateTime(new Date())
-                .createTime(new Date())
-                .isDeleted(0)
-                .build())
+        Sales sales1 = new Sales();
+        sales1.setGId(sales.getGId());
+        sales1.setSaleTime(new Date());
+        sales1.setSaleNum(sales.getSaleNum());
+        sales1.setSaler(sales.getSaler());
+        sales1.setCreateTime(new Date());
+        sales1.setUpdateTime(new Date());
+        sales1.setIsDeleted(0);
+        int ans = salesMapper.insert(sales1);
 
-                && goodsMapper.updateById(Goods.builder()
+        int sid = sales1.getSId();
+        return  goodsMapper.updateById(Goods.builder()
                 .gId(goods.getGId())
                 .inventory(goods.getInventory()-sales.getSaleNum())
                 .build()
@@ -100,7 +100,7 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
                 .remark("商品"+goods.getGName()+"的销售金额")
                 .createTime(new Date())
                 .updateTime(new Date())
-                .sId(sales.getSId())
+                .sId(sid)
                 .isDeleted(0)
 
                 .build())>0
@@ -112,12 +112,9 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
                 .remark("商品"+goods.getGName()+"的进货金额")
                 .createTime(new Date())
                 .updateTime(new Date())
-                .sId(sales.getSId())
+                .sId(sid)
                 .isDeleted(0)
                 .build())>0;
-
-
-
 
     }
 
@@ -138,19 +135,19 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
             return false;
         }
         System.out.println("1111111111");
-        List<Finance> listallbysid =  FinanceMapper.selectallbysid(sales.getSId());
-        System.out.println("222222222");
+        List<Finance> listallbysid =  financeMapper.selectallbysid(sales.getSId());
         //商品收入金额
         Double money1 =  Double.parseDouble(goods.getSellPrice()) * salesInfoDTO.getSaleNum();
         //商品支出金额
         Double money2 = Double.parseDouble(goods.getPurchasePrice()) * salesInfoDTO.getSaleNum();
         if(listallbysid==null){
-            System.out.println("fafsfsfs");
             return false;
         }
         for (Finance f: listallbysid) {
+            System.out.println(f.getFId());
             if(f.getFType()==1){
                 //支出
+
                 int i = financeMapper.updateById(Finance.builder()
                         .fId(f.getFId())
                         .amount(money1)
@@ -187,6 +184,7 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean informationDeletion(SalesInfoDTO salesInfoDTO) {
+        Sales sales = salesMapper.selectById(salesInfoDTO.getSid());
         Integer gid = goodsMapper.selectByName(salesInfoDTO.getGname());
         Goods goods = goodsMapper.selectById(gid);
         if(gid==null){
@@ -194,13 +192,13 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
         }
 
         return updateById(Sales.builder()
-                .sId(salesInfoDTO.getSid())
+                .sId(sales.getSId())
                 .updateTime(new Date())
                 .isDeleted(1)
                 .build())
                 && goodsMapper.updateById(Goods.builder()
                 .gId(gid)
-                .inventory(goods.getInventory()+salesInfoDTO.getSaleNum())
+                .inventory((goods.getInventory()+sales.getSaleNum()))
                         .updateTime(new Date())
                 .build()
         )>0

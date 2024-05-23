@@ -2,6 +2,7 @@ package supermarket.manage.system.repository.mysql.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.omg.PortableInterceptor.INACTIVE;
 import supermarket.manage.system.model.domain.Finance;
 
 import java.util.List;
