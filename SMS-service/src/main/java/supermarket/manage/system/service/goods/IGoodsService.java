@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import supermarket.manage.system.model.domain.Goods;
 import supermarket.manage.system.model.dto.GoodsInfoDTO;
 import supermarket.manage.system.model.dto.PageQueryDTO;
-import supermarket.manage.system.model.dto.SupplierPageQueryDTO;
 import supermarket.manage.system.model.vo.PageResult;
 
 /**
