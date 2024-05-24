@@ -27,7 +27,7 @@ public class GenerateDayFinanceExecutor implements IGenerateFinanceExecutor {
     @Override
     public List<Map<String, Object>> generateIncomeFinance(FinanceInfoDTO financeInfoDTO) {
         QueryWrapper<Finance> queryWrapper = new QueryWrapper<>();
-        queryWrapper.select("create_time,sum(revenue) as total_revenue").groupBy("create_time").orderByAsc("create_time");
+        queryWrapper.select("create_time,sum(amount) as total_revenue").groupBy("create_time").orderByAsc("create_time");
         List<Map<String, Object>> mapList = financeMapper.selectMaps(queryWrapper);
 
         return mapList;

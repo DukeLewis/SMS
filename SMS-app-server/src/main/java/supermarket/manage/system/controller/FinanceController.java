@@ -37,13 +37,13 @@ public class FinanceController {
         return AppResult.success(financeService.recordFinance(finance));
     }
     @ApiOperation("修改财务信息")
-    @PostMapping("/updatein")
-    public AppResult updateinFinance(@NotNull @Validated @RequestBody FinanceInfoDTO FinanceInfoDTO) {
+    @PostMapping("/update")
+    public AppResult updateFinance(@NotNull @Validated @RequestBody FinanceInfoDTO FinanceInfoDTO) {
         return AppResult.success(financeService.updateFinance(FinanceInfoDTO));
     }
     @ApiOperation("删除财务信息")
-    @PostMapping("/deletein")
-    public AppResult deleteinFinance(@NotNull @Validated @RequestBody FinanceInfoDTO FinanceInfoDTO) {
+    @PostMapping("/delete")
+    public AppResult deleteFinance(@NotNull @Validated @RequestBody FinanceInfoDTO FinanceInfoDTO) {
         return AppResult.success(financeService.deleteFinance(FinanceInfoDTO));
     }
 
@@ -55,7 +55,7 @@ public class FinanceController {
 
     @ApiOperation("财务信息条件查询")
     @GetMapping("/query")
-    public AppResult<PageResult> queryinFinance(@NotNull PageQueryDTO PageQueryDTO) {
+    public AppResult<PageResult> queryFinance(@NotNull PageQueryDTO PageQueryDTO) {
         return AppResult.success(financeService.queryFinance(PageQueryDTO));
     }
 
