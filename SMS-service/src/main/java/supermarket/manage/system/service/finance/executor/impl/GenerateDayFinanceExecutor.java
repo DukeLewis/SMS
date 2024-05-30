@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import supermarket.manage.system.model.domain.Finance;
 import supermarket.manage.system.model.dto.FinanceInfoDTO;
 import supermarket.manage.system.repository.mysql.mapper.FinanceMapper;
+import supermarket.manage.system.service.finance.executor.GenerateFinanceExecutorConfig;
 import supermarket.manage.system.service.finance.executor.IGenerateFinanceExecutor;
 
 import javax.annotation.Resource;
@@ -18,10 +19,8 @@ import java.util.Map;
  * @Copyright： https://github.com/DukeLewis
  */
 @Service("generateDayFinanceExecutor")
-public class GenerateDayFinanceExecutor implements IGenerateFinanceExecutor {
+public class GenerateDayFinanceExecutor extends GenerateFinanceExecutorConfig implements IGenerateFinanceExecutor {
 
-    @Resource
-    private FinanceMapper financeMapper;
 
 
     @Override

@@ -40,71 +40,66 @@ public class FinanceInfoDTO implements Serializable {
      * 记录日期
      */
     @ApiModelProperty(value = "记录日期")
-    @NotNull
+
     private Date recordTime;
 
     /**
-     * 收入
+     * 类型
      */
-    @ApiModelProperty(value = "收入")
-    @NotBlank
-    private String revenue;
+    @ApiModelProperty(value = "类型，1为支出2为收入")
+
+    private Integer ftype;
 
     /**
-     * 采购成本
+     * 数额
      */
-    @ApiModelProperty(value = "采购成本")
-    @NotBlank
-    private String costs;
+    @ApiModelProperty(value = "数额")
+
+    private Double amount;
 
     /**
-     * 水费
+     * 备注
      */
-    @ApiModelProperty(value = "水费")
-    @NotBlank
-    private String waterCost;
+    @ApiModelProperty(value = "备注")
 
-    /**
-     * 电费
-     */
-    @ApiModelProperty(value = "电费")
-    @NotBlank
-    private String eleCost;
+    private String remark;
 
-    /**
-     * 支出
-     */
-    @ApiModelProperty(value = "收入")
-    @NotBlank
-    private String spend;
+
 
     /**
      * 时间类型(年，月，日）
      */
     @ApiModelProperty(value = "时间类型(年，月，日）",allowableValues = "day,month,year")
-    @NotBlank
+
     private String timeType;
+
+    @ApiModelProperty(value = "哪年，哪月，哪天")
+    private String time;
 
     /**
      * 更新时间
      */
     @ApiModelProperty(value = "更新时间")
-    @NotNull
+
     private Date updateTime;
 
+
+    @ApiModelProperty(value = "销售唯一标识")
+
+    private Integer sid;
 
     /**
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    @NotNull
+
     private Date createTime;
 
     /**
      * 逻辑删除字段
      */
     @ApiModelProperty(value = "逻辑删除字段")
-    @NotNull
+
     private Integer isDeleted;
 
 
