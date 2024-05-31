@@ -11,6 +11,7 @@ import supermarket.manage.system.model.domain.Inventory;
 * @Entity generator.domain.Inventory
 */
 public interface InventoryMapper extends BaseMapper<Inventory> {
+    Inventory selectByGID(Integer gid);
 
 }
 

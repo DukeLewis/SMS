@@ -22,10 +22,7 @@ import supermarket.manage.system.model.domain.*;
 import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.dto.SalesInfoDTO;
 import supermarket.manage.system.model.vo.PageResult;
-import supermarket.manage.system.repository.mysql.mapper.EmployeeMapper;
-import supermarket.manage.system.repository.mysql.mapper.FinanceMapper;
-import supermarket.manage.system.repository.mysql.mapper.GoodsMapper;
-import supermarket.manage.system.repository.mysql.mapper.SalesMapper;
+import supermarket.manage.system.repository.mysql.mapper.*;
 import supermarket.manage.system.service.finance.FinanceService;
 import supermarket.manage.system.service.sales.SalesService;
 import supermarket.manage.system.service.support.CommonalitySupport;
@@ -55,6 +52,9 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
     @Resource
     private EmployeeMapper employeeMapper;
 
+    @Resource
+    private InventoryMapper inventoryMapper;
+
     @InfoLog(infoType = InfoType.ADD, item = "销售", infoItemIdExpression = "#sales.sId")
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -71,6 +71,11 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
         if(employee==null){
             return false;
         }
+        Inventory inventory = inventoryMapper.selectByGID(goods.getGId());
+        if(inventory==null){
+            return false;
+        }
+        Integer Iid = inventory.getId();
         //商品销售金额
         Double money1 =  Double.parseDouble(goods.getSellPrice()) * sales.getSaleNum();
         //商品支出金额
@@ -114,8 +119,12 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
                 .updateTime(new Date())
                 .sId(sid)
                 .isDeleted(0)
+                .build())>0
+                &&inventoryMapper.updateById(Inventory.builder()
+                .id(Iid)
+                .outboundNum(sales.getSaleNum())
+                .outboundTime(new Date())
                 .build())>0;
-
     }
 
     @Override
@@ -134,6 +143,12 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
         if(ven<salesInfoDTO.getSaleNum()){
             return false;
         }
+        Inventory inventory = inventoryMapper.selectByGID(goods.getGId());
+        if(inventory==null){
+            return false;
+        }
+        Integer Iid = inventory.getId();
+        Integer ven2 = inventory.getOutboundNum()-sales.getSaleNum();
         System.out.println("1111111111");
         List<Finance> listallbysid =  financeMapper.selectallbysid(sales.getSId());
         //商品收入金额
@@ -176,6 +191,11 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
                 .gId(gid)
                 .inventory(ven-salesInfoDTO.getSaleNum())
                 .updateTime(new Date())
+                .build())>0
+                &&inventoryMapper.updateById(Inventory.builder()
+                .id(Iid)
+                .outboundNum(ven2+salesInfoDTO.getSaleNum())
+                .outboundTime(new Date())
                 .build())>0;
 
         
@@ -190,7 +210,11 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
         if(gid==null){
             return false;
         }
-
+        Inventory inventory = inventoryMapper.selectByGID(goods.getGId());
+        if(inventory==null){
+            return false;
+        }
+        Integer Iid = inventory.getId();
         return updateById(Sales.builder()
                 .sId(sales.getSId())
                 .updateTime(new Date())
@@ -204,7 +228,12 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
         )>0
                 //删除收入和支出
                 && financeMapper.updateBysId(salesInfoDTO.getSid()
-        )>0;
+        )>0
+                && inventoryMapper.updateById(Inventory.builder()
+                .id(Iid)
+                .outboundNum(inventory.getOutboundNum()+sales.getSaleNum())
+                .outboundTime(new Date())
+                .build())>0;
 
     }
 

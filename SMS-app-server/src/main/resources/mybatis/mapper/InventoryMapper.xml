@@ -27,4 +27,10 @@
         purpose,update_time,create_time,
         is_deleted
     </sql>
+
+    <select id="selectByGID" resultMap="BaseResultMap">
+        select *
+        from inventory
+        where g_id=#{gid};
+    </select>
 </mapper>
