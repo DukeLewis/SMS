@@ -16,18 +16,18 @@ import supermarket.manage.system.common.commons.enumeration.RestockStatus;
 import supermarket.manage.system.common.commons.enumeration.ResultCode;
 import supermarket.manage.system.common.exception.ApplicationException;
 import supermarket.manage.system.common.util.ListUtil;
-import supermarket.manage.system.model.domain.Goods;
-import supermarket.manage.system.model.domain.Inventory;
-import supermarket.manage.system.model.domain.Restock;
+import supermarket.manage.system.model.domain.*;
 import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.dto.RestockInfoDTO;
 import supermarket.manage.system.model.vo.PageResult;
 import supermarket.manage.system.repository.mysql.mapper.GoodsMapper;
 import supermarket.manage.system.repository.mysql.mapper.InventoryMapper;
 import supermarket.manage.system.repository.mysql.mapper.RestockMapper;
+import supermarket.manage.system.service.finance.FinanceService;
 import supermarket.manage.system.service.goods.IGoodsService;
 import supermarket.manage.system.service.inventory.IInventoryService;
 import supermarket.manage.system.service.restock.IRestockService;
+import supermarket.manage.system.service.sales.SalesService;
 import supermarket.manage.system.service.support.CommonalitySupport;
 
 import javax.annotation.Resource;
@@ -52,6 +52,9 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
     @Resource
     private IGoodsService goodsService;
 
+    @Resource
+    private FinanceService financeService;
+
     @Getter
     @Setter
     public static class GoodsAndInventoryModel {
@@ -67,13 +70,15 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
         List<String> productNumberList = restockInfoDTO.getProductNumberList();
         List<String> productIdList = restockInfoDTO.getProductIdList();
         List<String> supplierList = restockInfoDTO.getSupplierList();
+        List<String> productPricelist = restockInfoDTO.getProductPricelist();
         Map<String, GoodsAndInventoryModel> modelMap = new HashMap<>();
+        double sum = 0;
         for (int i = 0; i < productIdList.size()&&productIdList.get(i)!=null&&productIdList.get(i)!=""; i++) {
             GoodsAndInventoryModel model = new GoodsAndInventoryModel();
             model.setNumber(productNumberList.get(i));
+            sum += Double.parseDouble(productNumberList.get(i)) * Double.parseDouble(productPricelist.get(i));
             modelMap.put(productIdList.get(i), model);
         }
-
         List<Goods> goodsList = goodsService.lambdaQuery().in(Goods::getGId, productIdList).list();
         goodsList = goodsList.stream().map(goods -> {
             GoodsAndInventoryModel model = modelMap.get(goods.getGId().toString());
@@ -89,9 +94,11 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
         for (int i = 0; i < productIdList.size(); i++) {
             GoodsAndInventoryModel model = modelMap.get(productIdList.get(i));
             if (null != model) {
+                int gid = Integer.parseInt(productIdList.get(i));
+                int number = Integer.parseInt(productNumberList.get(i));
                 inventoryList.add(Inventory.builder()
-                                .gId(Integer.parseInt(productIdList.get(i)))
-                                .inboundNum(Integer.parseInt(productNumberList.get(i)))
+                                .gId(gid)
+                                .inboundNum(number)
                                 .inboundTime(restockInfoDTO.getArriveTime())
                                 .supplier(supplierList.get(i))
                                 .purpose("进货")
@@ -104,6 +111,16 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
                 );
             }
         }
+        boolean fin = financeService.save(Finance.builder()
+                .recordTime(date)
+                .fType(1)
+                .amount(sum)
+                .remark("进货")
+                .updateTime(date)
+                .createTime(date)
+                .isDeleted(0)
+                .build()
+        );
         boolean inventoryBatch = inventoryService.saveBatch(inventoryList);
         return save(Restock.builder()
                 .productIdList(ListUtil.list2String(restockInfoDTO.getProductIdList()))
@@ -115,7 +132,7 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
                 .createTime(new Date())
                 .updateTime(new Date())
                 .isDeleted(0).build())
-                && goodUpdateBatch && inventoryBatch;
+                && goodUpdateBatch && inventoryBatch && fin;
     }
 
     @Override
