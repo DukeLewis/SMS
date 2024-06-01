@@ -86,7 +86,7 @@ create table sales
     saler       varchar(50)       null comment '销售员',
     update_time datetime      null comment '更新时间',
     create_time datetime      null comment '创建时间',
-    is_deleted  tinyint(5)    null comment '逻辑删除字段',
+    is_deleted  tinyint(5)    null comment '逻辑删除字段'
 
 );
 

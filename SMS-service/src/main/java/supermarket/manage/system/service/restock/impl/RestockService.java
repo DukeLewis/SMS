@@ -73,6 +73,7 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
             model.setNumber(productNumberList.get(i));
             modelMap.put(productIdList.get(i), model);
         }
+
         List<Goods> goodsList = goodsService.lambdaQuery().in(Goods::getGId, productIdList).list();
         goodsList = goodsList.stream().map(goods -> {
             GoodsAndInventoryModel model = modelMap.get(goods.getGId().toString());

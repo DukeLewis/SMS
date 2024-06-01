@@ -41,7 +41,7 @@
         and
         DATEDIFF(create_time,#{time})=0
         )
-        order by create_time desc;
+        order by create_time asc;
 
     </select>
 
@@ -53,6 +53,6 @@
         and
          f_type = #{type}
         )
-        order by create_time desc;
+        order by create_time asc;
     </select>
 </mapper>
