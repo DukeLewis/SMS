@@ -121,7 +121,7 @@ public class FinanceServiceImpl extends ServiceImpl<FinanceMapper, Finance>
         if (null == pageQueryDTO.getKeyword()||null==pageQueryDTO.getKeywordType()) {
             throw new ApplicationException(AppResult.failed(ResultCode.KEYWORD_NOT_EXISTS));
         }
-        if(pageQueryDTO.getKeywordType().equals("time")){
+        if(pageQueryDTO.getKeywordType().equals("recordTime")){
             //日期查询，获取查询类型
 //            String queryTypeName = CommonalitySupport.getQueryType(pageQueryDTO.getKeywordType(), ModuleType.FINANCE);
 //            //log.info("查询类型：{}",queryTypeName);
