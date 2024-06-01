@@ -68,7 +68,7 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
         List<String> productIdList = restockInfoDTO.getProductIdList();
         List<String> supplierList = restockInfoDTO.getSupplierList();
         Map<String, GoodsAndInventoryModel> modelMap = new HashMap<>();
-        for (int i = 0; i < productIdList.size(); i++) {
+        for (int i = 0; i < productIdList.size()&&productIdList.get(i)!=null&&productIdList.get(i)!=""; i++) {
             GoodsAndInventoryModel model = new GoodsAndInventoryModel();
             model.setNumber(productNumberList.get(i));
             modelMap.put(productIdList.get(i), model);
