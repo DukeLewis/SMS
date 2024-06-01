@@ -74,6 +74,9 @@ public class FinanceInfoDTO implements Serializable {
 
     private String timeType;
 
+    @ApiModelProperty(value = "哪年，哪月，哪天")
+    private String time;
+
     /**
      * 更新时间
      */

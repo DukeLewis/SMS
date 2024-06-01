@@ -2,6 +2,7 @@ package supermarket.manage.system.service.finance.executor;
 
 import org.springframework.stereotype.Component;
 import supermarket.manage.system.common.commons.enumeration.FinanceType;
+import supermarket.manage.system.repository.mysql.mapper.FinanceMapper;
 import supermarket.manage.system.service.finance.executor.impl.GenerateDayFinanceExecutor;
 
 import javax.annotation.PostConstruct;
@@ -15,10 +16,12 @@ import java.util.Map;
  * @date: 2024/5/12
  * @Copyright： https://github.com/DukeLewis
  */
-@Component
 public class GenerateFinanceExecutorConfig {
 
     public static final Map<String,IGenerateFinanceExecutor> generateFinanceExecutorMap = new HashMap<>();
+
+    @Resource
+    protected FinanceMapper financeMapper;
 
 
     @Resource

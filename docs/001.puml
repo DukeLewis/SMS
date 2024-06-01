@@ -1,0 +1,40 @@
+@startuml
+[*] --> ActorIdle
+
+state ActorIdle {
+    entry: Actor处于空闲状态
+}
+
+ActorIdle --> InformationQueryRequested
+
+state InformationQueryRequested {
+    entry: Actor请求信息查询
+}
+
+InformationQueryRequested --> ControllerProcessingQuery
+
+state ControllerProcessingQuery {
+    entry: EmployeeController开始处理查询请求
+    do: 调用IEmployeeService进行信息查询
+}
+
+ControllerProcessingQuery --> QuerySuccess
+
+state QuerySuccess {
+    entry: 信息查询成功
+}
+
+QuerySuccess --> PreparingAppResult
+
+state PreparingAppResult {
+    entry: 准备AppResult以反馈查询结果
+}
+
+PreparingAppResult --> AppResultCreated
+
+state AppResultCreated {
+    entry: AppResult已成功创建
+}
+
+AppResultCreated --> ActorIdle
+@enduml

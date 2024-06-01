@@ -2,6 +2,7 @@ package supermarket.manage.system.service.finance.executor.impl;
 
 import org.springframework.stereotype.Service;
 import supermarket.manage.system.model.dto.FinanceInfoDTO;
+import supermarket.manage.system.service.finance.executor.GenerateFinanceExecutorConfig;
 import supermarket.manage.system.service.finance.executor.IGenerateFinanceExecutor;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Map;
  * @Copyright： https://github.com/DukeLewis
  */
 @Service("generateMonthFinanceExecutor")
-public class GenerateMonthFinanceExecutor implements IGenerateFinanceExecutor {
+public class GenerateMonthFinanceExecutor extends GenerateFinanceExecutorConfig implements IGenerateFinanceExecutor {
 
     @Override
     public List<Map<String, Object>> generateIncomeFinance(FinanceInfoDTO financeInfoDTO) {
