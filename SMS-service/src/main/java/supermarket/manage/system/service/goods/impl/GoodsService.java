@@ -59,33 +59,33 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
     @Transactional(rollbackFor = Exception.class)
     public boolean informationEntry(GoodsInfoDTO goodsInfoDTO) {
         Date date = new Date();
-        return save(Goods.builder()
-                .gId(goodsInfoDTO.getGid())
-                .gName(goodsInfoDTO.getGname())
-                .purchasePrice(goodsInfoDTO.getPurchasePrice())
-                .inventory(goodsInfoDTO.getInventory())
-                .inventoryThreshold(goodsInfoDTO.getInventoryThreshold())
-                .sellPrice(goodsInfoDTO.getSellPrice())
-                .gBrand(goodsInfoDTO.getGbrand())
-                .gCategory(goodsInfoDTO.getGcategory())
-                .gSpecs(goodsInfoDTO.getGspecs())
-                .gOrigin(goodsInfoDTO.getGorigin())
-                .gType(goodsInfoDTO.getGtype())
-                .supplierIdList(ListUtil.list2String(goodsInfoDTO.getSupplierIdList()))
-                .supplierPriceList(ListUtil.list2String(goodsInfoDTO.getSupplierPriceList()))
-                .createTime(date)
-                .updateTime(date)
-                .isDeleted(DeletedType.UN_DELETED.getCode())
-                .build())
-                &&
-                inventoryMapper.insert(
+        Goods goods = new Goods();
+        goods.setGName(goodsInfoDTO.getGname());
+        goods.setPurchasePrice(goodsInfoDTO.getPurchasePrice());
+        goods.setInventory(goodsInfoDTO.getInventory());
+        goods.setInventoryThreshold(goodsInfoDTO.getInventoryThreshold());
+        goods.setSellPrice(goodsInfoDTO.getSellPrice());
+        goods.setGBrand(goodsInfoDTO.getGbrand());
+        goods.setGCategory(goodsInfoDTO.getGcategory());
+        goods.setGSpecs(goodsInfoDTO.getGspecs());
+        goods.setGOrigin(goodsInfoDTO.getGorigin());
+        goods.setGType(goodsInfoDTO.getGtype());
+        goods.setSupplierIdList(ListUtil.list2String(goodsInfoDTO.getSupplierIdList()));
+        goods.setSupplierPriceList(ListUtil.list2String(goodsInfoDTO.getSupplierPriceList()));
+        goods.setCreateTime(date);
+        goods.setUpdateTime(date);
+        goods.setIsDeleted(DeletedType.UN_DELETED.getCode());
+        int insert = goodsMapper.insert(goods);
+        Integer Gid = goods.getGId();
+
+        return inventoryMapper.insert(
                         Inventory.builder()
-                                .gId(goodsInfoDTO.getGid())
+                                .gId(Gid)
                                 .gName(goodsInfoDTO.getGname())
                                 .gCategory(goodsInfoDTO.getGcategory())
                                 .inboundNum(goodsInfoDTO.getInventory())
                                 .inboundTime(date)
-                                .supplier(null)
+                                .supplier(ListUtil.list2String(goodsInfoDTO.getSupplierIdList()))
                                 .outboundNum(0)
                                 .outboundTime(date)
                                 .purpose("录入商品信息")
