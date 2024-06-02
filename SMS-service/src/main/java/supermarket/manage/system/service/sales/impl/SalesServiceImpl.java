@@ -78,8 +78,8 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
         Integer Iid = inventory.getId();
         //商品销售金额
         Double money1 =  Double.parseDouble(goods.getSellPrice()) * sales.getSaleNum();
-        //商品支出金额
-        Double money2 = Double.parseDouble(goods.getPurchasePrice()) * sales.getSaleNum();
+//        //商品支出金额
+//        Double money2 = Double.parseDouble(goods.getPurchasePrice()) * sales.getSaleNum();
 
         Sales sales1 = new Sales();
         sales1.setGId(sales.getGId());
@@ -110,16 +110,16 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
 
                 .build())>0
                 //计入支出
-                && financeMapper.insert(Finance.builder()
-                .recordTime(new Date())
-                .fType(1)
-                .amount(money2)
-                .remark("商品"+goods.getGName()+"的进货金额")
-                .createTime(new Date())
-                .updateTime(new Date())
-                .sId(sid)
-                .isDeleted(0)
-                .build())>0
+//                && financeMapper.insert(Finance.builder()
+//                .recordTime(new Date())
+//                .fType(1)
+//                .amount(money2)
+//                .remark("商品"+goods.getGName()+"的进货金额")
+//                .createTime(new Date())
+//                .updateTime(new Date())
+//                .sId(sid)
+//                .isDeleted(0)
+//                .build())>0
                 &&inventoryMapper.updateById(Inventory.builder()
                 .id(Iid)
                 .outboundNum(sales.getSaleNum())
@@ -154,29 +154,28 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
         //商品收入金额
         Double money1 =  Double.parseDouble(goods.getSellPrice()) * salesInfoDTO.getSaleNum();
         //商品支出金额
-        Double money2 = Double.parseDouble(goods.getPurchasePrice()) * salesInfoDTO.getSaleNum();
+//        Double money2 = Double.parseDouble(goods.getPurchasePrice()) * salesInfoDTO.getSaleNum();
         if(listallbysid==null){
             return false;
         }
         for (Finance f: listallbysid) {
             System.out.println(f.getFId());
-            if(f.getFType()==1){
+            if(f.getFType()==2){
                 //支出
-
                 int i = financeMapper.updateById(Finance.builder()
                         .fId(f.getFId())
                         .amount(money1)
                         .updateTime(new Date())
-                        .remark("商品"+goods.getGName()+"的进货金额")
                         .build());
             }else {
+                System.out.println("..");
                 //收入
-                int i = financeMapper.updateById(Finance.builder()
-                        .fId(f.getFId())
-                        .amount(money2)
-                        .updateTime(new Date())
-                        .remark("商品"+goods.getGName()+"的销售金额")
-                        .build());
+//                int i = financeMapper.updateById(Finance.builder()
+//                        .fId(f.getFId())
+//                        .amount(money2)
+//                        .updateTime(new Date())
+//                        .remark("商品"+goods.getGName()+"的销售金额")
+//                        .build());
             }
         }
 

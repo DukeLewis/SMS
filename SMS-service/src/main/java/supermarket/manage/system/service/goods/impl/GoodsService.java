@@ -25,6 +25,7 @@ import supermarket.manage.system.model.dto.PageQueryDTO;
 import supermarket.manage.system.model.dto.SupplierPageQueryDTO;
 import supermarket.manage.system.model.entity.QuerySupplierListOfGoodsEntity;
 import supermarket.manage.system.model.vo.PageResult;
+import supermarket.manage.system.repository.mysql.mapper.FinanceMapper;
 import supermarket.manage.system.repository.mysql.mapper.GoodsMapper;
 import supermarket.manage.system.repository.mysql.mapper.InventoryMapper;
 import supermarket.manage.system.repository.mysql.mapper.SupplierMapper;
@@ -53,6 +54,9 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
     @Resource
     private InventoryMapper inventoryMapper;
 
+    @Resource
+    private FinanceMapper financeMapper;
+
     //todo 考虑是否录入商品信息同时需要新增入库信息
     @Override
     @InfoLog(infoType = InfoType.ADD, item = "商品", infoItemIdExpression = "#goodsInfoDTO.gid")
@@ -77,7 +81,8 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
         goods.setIsDeleted(DeletedType.UN_DELETED.getCode());
         int insert = goodsMapper.insert(goods);
         Integer Gid = goods.getGId();
-
+        //商品销售金额
+        Double money1 =  Double.parseDouble(goodsInfoDTO.getPurchasePrice()) * goodsInfoDTO.getInventory();
         return inventoryMapper.insert(
                         Inventory.builder()
                                 .gId(Gid)
@@ -92,7 +97,21 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods>
                                 .createTime(date)
                                 .updateTime(date)
                                 .isDeleted(DeletedType.UN_DELETED.getCode()).build()
-                ) > 0;
+                ) > 0
+                &&financeMapper.insert(Finance.builder()
+                        .remark("商品"+goodsInfoDTO.getGname()+"的进货价格")
+                        .fType(1)
+                        .recordTime(new Date())
+                        .amount(money1)
+                        .createTime(new Date())
+                        .updateTime(new Date())
+                        .sId(-1)
+                        .isDeleted(0)
+                        .build()
+                         )>0
+
+
+                ;
     }
 
     //todo 该处不可更改库存
