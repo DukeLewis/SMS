@@ -136,7 +136,7 @@ create table inventory
     supplier      varchar(30) null comment '供应商',
     outbound_num  int(10)     null comment '出库数量',
     outbound_time datetime    null comment '出库时间',
-    purpose       varchar(50) null comment '出库用途',
+    purpose       varchar(50) null comment '入库来源',
     update_time   datetime    null comment '更新时间',
     create_time   datetime    null comment '创建时间',
     is_deleted    tinyint(5)  null comment '逻辑删除字段'
