@@ -55,6 +55,8 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
     @Resource
     private FinanceService financeService;
 
+    @Resource
+    private InventoryMapper inventoryMapper;
     @Getter
     @Setter
     public static class GoodsAndInventoryModel {
@@ -96,19 +98,31 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
             if (null != model) {
                 int gid = Integer.parseInt(productIdList.get(i));
                 int number = Integer.parseInt(productNumberList.get(i));
-                inventoryList.add(Inventory.builder()
-                                .gId(gid)
-                                .inboundNum(number)
-                                .inboundTime(restockInfoDTO.getArriveTime())
-                                .supplier(supplierList.get(i))
-                                .purpose("进货")
-                                .gName(model.getGName())
-                                .gCategory(model.getGCategory())
-                                .createTime(date)
-                                .updateTime(date)
-                                .isDeleted(0)
-                                .build()
-                );
+                Inventory inventory = inventoryMapper.selectByGID(gid);
+                Integer Iid = inventory.getId();
+                Integer res = inventoryMapper.updateById(Inventory.builder()
+                        .id(Iid)
+                        .inboundNum(number+inventory.getInboundNum())
+                        .inboundTime(restockInfoDTO.getArriveTime())
+                        .outboundTime(inventory.getOutboundTime())
+                        .supplier(inventory.getSupplier()+"、"+supplierList.get(i))
+                        .purpose(inventory.getPurpose()+"、进货")
+                        .gCategory(inventory.getGCategory())
+                        .build());
+                //                inventoryList.add(Inventory.builder()
+//                                .gId(gid)
+//                                .inboundNum(number)
+//                                .inboundTime(restockInfoDTO.getArriveTime())
+//                                .supplier(supplierList.get(i))
+//                                .purpose("进货")
+//                                .gName(model.getGName())
+//                                .gCategory(model.getGCategory())
+//                                .createTime(date)
+//                                .updateTime(date)
+//                                .isDeleted(0)
+//                                .build()
+//                );
+
             }
         }
         boolean fin = financeService.save(Finance.builder()
@@ -121,7 +135,7 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
                 .isDeleted(0)
                 .build()
         );
-        boolean inventoryBatch = inventoryService.saveBatch(inventoryList);
+//        boolean inventoryBatch = inventoryService.saveBatch(inventoryList);
         return save(Restock.builder()
                 .productIdList(ListUtil.list2String(restockInfoDTO.getProductIdList()))
                 .supplierList(ListUtil.list2String(restockInfoDTO.getSupplierList()))
@@ -132,7 +146,8 @@ public class RestockService extends ServiceImpl<RestockMapper, Restock>
                 .createTime(new Date())
                 .updateTime(new Date())
                 .isDeleted(0).build())
-                && goodUpdateBatch && inventoryBatch && fin;
+                && goodUpdateBatch  && fin;
+//                && goodUpdateBatch && inventoryBatch && fin;
     }
 
     @Override
