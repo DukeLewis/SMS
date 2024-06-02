@@ -160,13 +160,12 @@ public class SalesServiceImpl extends ServiceImpl<SalesMapper, Sales>
         }
         for (Finance f: listallbysid) {
             System.out.println(f.getFId());
-            if(f.getFType()==1){
+            if(f.getFType()==2){
                 //支出
                 int i = financeMapper.updateById(Finance.builder()
                         .fId(f.getFId())
                         .amount(money1)
                         .updateTime(new Date())
-                        .remark("商品"+goods.getGName()+"的进货金额")
                         .build());
             }else {
                 System.out.println("..");
