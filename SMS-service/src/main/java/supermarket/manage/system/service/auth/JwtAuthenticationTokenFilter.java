@@ -35,7 +35,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         //清除上下文（清除认证信息）
         SecurityContextHolder.clearContext();
         HttpServletRequest req = (HttpServletRequest) request;
-        String token = req.getHeader("token");
+        log.info("请求路径：" + req.getRequestURI());
+        String token = req.getHeader("X-Token");
         logger.info("验证jwt");
         Claims claims = null;
         try {
